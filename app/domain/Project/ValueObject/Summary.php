@@ -15,10 +15,10 @@ final class Summary implements StringValue
     public function __construct(private string $summary)
     {
         $this->summary = $summary;
-        $this->validation($this->summary);
+        $this->validate($this->summary);
     }
 
-    public function validation(string $value): void
+    public function validate(string $value): void
     {
         if (mb_strlen($value) > self::MAX_LEN) {
             throw new InvalidArgumentException('The maximum number of characters is ' . self::MAX_LEN);

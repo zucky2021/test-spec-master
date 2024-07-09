@@ -15,10 +15,10 @@ final class Name implements StringValue
     public function __construct(private string $name)
     {
         $this->name = $name;
-        $this->validation($this->name);
+        $this->validate($this->name);
     }
 
-    public function validation(string $value): void
+    public function validate(string $value): void
     {
         if (mb_strlen($value) > self::MAX_LEN) {
             throw new InvalidArgumentException('The maximum number of characters is ' . self::MAX_LEN);
