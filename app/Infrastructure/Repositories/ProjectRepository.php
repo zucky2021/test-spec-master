@@ -13,7 +13,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
 {
     public function findAll(): array
     {
-        $projects = DB::table(self::TABLE_NAME)
+        $projects = DB::table(ProjectRepositoryInterface::TABLE_NAME)
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($project) {

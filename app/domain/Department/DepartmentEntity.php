@@ -29,4 +29,17 @@ final class DepartmentEntity
     {
         return $this->name;
     }
+
+    /**
+     * Property to array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $retArr = get_object_vars($this);
+        $retArr['name'] = $this->getName()->value();
+
+        return $retArr;
+    }
 }

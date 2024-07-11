@@ -10,14 +10,13 @@ use DateTimeImmutable;
  */
 final class ProjectFactory
 {
-    public static function create($project): ProjectEntity
+    public static function create(array $project): ProjectEntity
     {
         return new ProjectEntity(
             isset($project['id']) ? (int) $project['id'] : null,
             (int) $project['department_id'],
             new Name($project['name']),
-            new Summary($project['summary']),
-            new DateTimeImmutable($project)
+            new Summary($project['summary'])
         );
     }
 }

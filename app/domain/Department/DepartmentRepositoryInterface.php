@@ -2,14 +2,17 @@
 
 namespace App\Domain\Department;
 
+/**
+ * Interface with external(DB)
+ */
 interface DepartmentRepositoryInterface
 {
-    const TABLE_NAME = 'departments';
+    public const TABLE_NAME = 'departments';
 
     /**
      * 全ての部署を取得
      *
-     * @return array
+     * @return DepartmentEntity[]
      */
     public function findAll(): array;
 }

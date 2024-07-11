@@ -17,10 +17,5 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             ProjectSeeder::class,
         ]);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }

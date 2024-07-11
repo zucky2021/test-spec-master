@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Domain\Department\DepartmentRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\UseCases\Department\DepartmentFindAction;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,9 +20,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(DepartmentFindAction $departmentFindAction): Response
     {
-        return Inertia::render('Auth/Register');
+        $departmentsEntities = $departmentFindAction->findAll();
+        $departments = array_map(function ($department) {
+            return $department->toArray();
+        }, $departmentsEntities);
+
+        return Inertia::render('Auth/Register', [
+            'departments' => $departments,
+        ]);
     }
 
     /**
@@ -31,12 +40,14 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'department_id' => 'nullable|integer|exists:' . DepartmentRepositoryInterface::TABLE_NAME . ',id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
+            'department_id' => $request->department_id,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
