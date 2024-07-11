@@ -5,7 +5,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Departments } from "@/types/department";
+import { Departments } from "@/types/Department";
 
 interface Props {
     departments: Departments;

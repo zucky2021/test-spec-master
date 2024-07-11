@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
     id: number;
     department_id: number;
     name: string;

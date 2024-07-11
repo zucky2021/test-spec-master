@@ -12,7 +12,8 @@
         "noEmit": true,
         "paths": {
             "@/*": ["./resources/js/*"],
-            "ziggy-js": ["./vendor/tightenco/ziggy"]
+            "@scss/*": ["./resources/scss/*"],
+            "ziggy-js": ["./vendor/tightenco/ziggy"],
         }
     },
     "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]

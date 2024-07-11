@@ -4,7 +4,6 @@ namespace App\Domain\Project;
 
 use App\Domain\Project\ValueObject\Name;
 use App\Domain\Project\ValueObject\Summary;
-use DateTimeImmutable;
 
 /**
  * プロジェクトentity
@@ -14,7 +13,7 @@ final class ProjectEntity
     private ?int $id;
     private int $department_id;
     private Name $name;
-    private ?Summary $summary;
+    private Summary $summary;
 
     public function __construct(
         ?int $id,
@@ -46,5 +45,19 @@ final class ProjectEntity
     public function getSummary(): Summary
     {
         return $this->summary;
+    }
+
+    /**
+     * Property to array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $retArr = get_object_vars($this);
+        $retArr['name'] = $this->getName()->value();
+        $retArr['summary'] = $this->getSummary()->value();
+
+        return $retArr;
     }
 }
