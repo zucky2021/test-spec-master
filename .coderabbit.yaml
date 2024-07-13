@@ -1,0 +1,51 @@
+language: "ja"
+early_access: false
+reviews:
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: true
+  review_status: true
+  collapse_walkthrough: false
+  path_instructions:
+    - path: "**/*.{ts,tsx,scss,php}"
+      instructions: |
+        "Use 4 spaces for indentation.
+        Follow the Boy Scout Rule: Leave the code cleaner than you found it.
+        Follow YAGNI (You Aren't Gonna Need It): Don't implement functionality until it's needed.
+        Follow DRY (Don't Repeat Yourself): Avoid duplicating code by extracting reusable logic into functions.
+        Follow KISS (Keep It Simple, Stupid): Write simple, straightforward code.
+        Ensure compliance with Clean Architecture and Domain-Driven Design (DDD).
+        Adhere to SOLID principles.
+        Detect and propose corrections for typos."
+    - path: "**/*.ts"
+      instructions: |
+        "Ensure compliance with the Google JavaScript Style Guide and highlight any deviations."
+    - path: "**/*.tsx"
+      instructions: |
+        "Follow React best practices when writing code.
+        Use camelCase for property names and apply PropTypes where necessary.
+        Follow the official React guidelines for hook usage.
+        Avoid inline styles."
+    - path: "**/*.scss"
+      instructions: |
+        "Use BEM naming conventions for CSS selectors, and use kebab-case (lowercase and hyphens) for word separators.
+        Use lowercase for color codes."
+    - path: "**/*.php"
+      instructions: |
+        "Write code in compliance with PSR-12."
+    - path: "tests/**/*"
+      instructions: |
+        "Evaluate whether the test code adheres to Mocha's best practices.
+        Ensure that test descriptions are detailed enough to clarify the purpose of each test."
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+    drafts: false
+    base_branches:
+      - "dev"
+      - "feat/.*"
+      - "hotfix/.*"
+chat:
+  auto_reply: true
