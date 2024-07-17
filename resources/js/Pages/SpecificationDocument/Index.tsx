@@ -1,15 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
-import { Project } from "@/types/Project";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
-import "@scss/pages/project/index.scss";
+import { SpecificationDocument } from "@/types/SpecificationDocument";
+import "@scss/pages/specification_document/index.scss";
 
 type Props = PageProps & {
-    projects: Project[];
+    specificationDocuments: SpecificationDocument[];
 };
 
-const Index: React.FC<Props> = ({ auth, projects }) => {
+const Index: React.FC<Props> = ({ auth, specificationDocuments }) => {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -19,14 +19,14 @@ const Index: React.FC<Props> = ({ auth, projects }) => {
                 </h2>
             }
         >
-            <Head title="Projects" />
+            <Head title="Specification documents" />
 
             <ul>
-                {projects.map((project) => (
-                    <li key={project.id}>
-                        <Link href={`/project/${project.id}/spec-doc`}>
-                            <h3>{project.name}</h3>
-                            <small>{project.summary}</small>
+                {specificationDocuments.map((specDoc) => (
+                    <li key={specDoc.id}>
+                        <Link href={`/project/${specDoc.id}/spec-doc`}>
+                            <h3>{specDoc.title}</h3>
+                            <small>{specDoc.summary}</small>
                         </Link>
                     </li>
                 ))}
