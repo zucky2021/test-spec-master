@@ -6,7 +6,7 @@ import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
 import { PageProps } from "@/types";
-import { Departments } from "@/types/department";
+import { Department } from "@/types/Department";
 
 const UpdateProfileInformation = ({
     mustVerifyEmail,
@@ -17,13 +17,13 @@ const UpdateProfileInformation = ({
     mustVerifyEmail: boolean;
     status?: string;
     className?: string;
-    departments: Departments
+    departments: Department[];
 }) => {
     const user = usePage<PageProps>().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
-            departmentId: user.department_id,
+            departmentId: user.departmentId,
             name: user.name,
             email: user.email,
         });
@@ -50,8 +50,18 @@ const UpdateProfileInformation = ({
                 <div className="mt-4">
                     <InputLabel htmlFor="department_id" value="Department" />
 
-                    <select id="department_id" name="department_id">
-                        <option value={0}>select</option>
+                    <select
+                        id="department_id"
+                        name="department_id"
+                        value={user.departmentId}
+                        onChange={(e) =>
+                            setData(
+                                "departmentId",
+                                e.target.value ? Number(e.target.value) : ""
+                            )
+                        }
+                    >
+                        <option value="">select</option>
                         {departments.map((department) => (
                             <option key={department.id} value={department.id}>
                                 {department.name}

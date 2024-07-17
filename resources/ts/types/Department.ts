@@ -1,6 +1,4 @@
-export interface Department {
+export type Department = {
     id: number;
     name: string;
 }
-
-export type Departments = Department[];

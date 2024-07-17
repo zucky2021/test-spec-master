@@ -5,15 +5,15 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Departments } from "@/types/Department";
+import { Department } from "@/types/Department";
 
 interface Props {
-    departments: Departments;
+    departments: Department[];
 }
 
 const Register: React.FC<Props> = ({ departments }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
-        department_id: "" as number | string,
+        departmentId: "" as number | string,
         name: "",
         email: "",
         password: "",
@@ -43,10 +43,10 @@ const Register: React.FC<Props> = ({ departments }) => {
                     <select
                         id="department_id"
                         name="department_id"
-                        value={data.department_id ?? ""}
+                        value={data.departmentId ?? ""}
                         onChange={(e) =>
                             setData(
-                                "department_id",
+                                "departmentId",
                                 e.target.value ? Number(e.target.value) : ""
                             )
                         }
@@ -61,7 +61,7 @@ const Register: React.FC<Props> = ({ departments }) => {
                     </select>
 
                     <InputError
-                        message={errors.department_id}
+                        message={errors.departmentId}
                         className="mt-2"
                     />
                 </div>

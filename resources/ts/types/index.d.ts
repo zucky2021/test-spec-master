@@ -1,6 +1,6 @@
 export type User = {
     id: number;
-    department_id: number;
+    departmentId: number | string;
     name: string;
     email: string;
     email_verified_at: string;
