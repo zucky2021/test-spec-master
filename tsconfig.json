@@ -11,10 +11,14 @@
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
         "paths": {
-            "@/*": ["./resources/js/*"],
+            "@/*": ["./resources/ts/*"],
             "@scss/*": ["./resources/scss/*"],
-            "ziggy-js": ["./vendor/tightenco/ziggy"],
+            "ziggy-js": ["./vendor/tightenco/ziggy"]
         }
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
+    "include": [
+        "resources/ts/**/*.ts",
+        "resources/ts/**/*.tsx",
+        "resources/ts/**/*.d.ts"
+    ]
 }
