@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Domain\Department\DepartmentRepositoryInterface;
+use App\Domain\User\ValueObject\Email;
+use App\Domain\User\ValueObject\Name;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\UseCases\Department\DepartmentFindAction;
@@ -41,8 +43,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'department_id' => 'nullable|integer|exists:' . DepartmentRepositoryInterface::TABLE_NAME . ',id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'name' => 'required|string|max:' . Name::MAX_LEN,
+            'email' => 'required|string|lowercase|email|max:' . Email::MAX_LEN . '|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

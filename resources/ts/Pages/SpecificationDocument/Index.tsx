@@ -32,7 +32,7 @@ const Index: React.FC<Props> = ({ auth, specificationDocuments }) => {
                         </li>
                     ))
                 ) : (
-                    <li>Specification document not exist</li>
+                    <li>Specification document does not exist.</li>
                 )}
             </ul>
         </AuthenticatedLayout>

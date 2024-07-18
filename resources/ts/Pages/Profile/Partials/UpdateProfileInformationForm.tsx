@@ -23,7 +23,7 @@ const UpdateProfileInformation = ({
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
-            departmentId: user.departmentId,
+            departmentId: user.department_id,
             name: user.name,
             email: user.email,
         });
@@ -53,7 +53,7 @@ const UpdateProfileInformation = ({
                     <select
                         id="department_id"
                         name="department_id"
-                        value={user.departmentId}
+                        value={user.department_id}
                         onChange={(e) =>
                             setData(
                                 "departmentId",
