@@ -43,32 +43,32 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
-    {
-        //
-    }
+    // public function show(Project $project)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project)
-    {
-        //
-    }
+    // public function edit(Project $project)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
-    {
-        //
-    }
+    // public function update(Request $request, Project $project)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
-    {
-        //
-    }
+    // public function destroy(Project $project)
+    // {
+    //     //
+    // }
 }

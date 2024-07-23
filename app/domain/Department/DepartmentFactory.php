@@ -9,6 +9,12 @@ use App\Domain\Department\ValueObject\Name;
  */
 final class DepartmentFactory
 {
+    /**
+     * Generating domain objects from arrays
+     *
+     * @param array<string, mixed> $data
+     * @return DepartmentEntity
+     */
     public static function create(array $data): DepartmentEntity
     {
         return new DepartmentEntity(

@@ -10,7 +10,7 @@ interface StringValue
     /**
      * Validate the value object property.
      *
-     * @param int $value
+     * @param string $value
      * @return void
      */
     public function validate(string $value): void;

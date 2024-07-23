@@ -33,13 +33,13 @@ final class DepartmentEntity
     /**
      * Property to array
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {
-        $retArr = get_object_vars($this);
-        $retArr['name'] = $this->getName()->value();
-
-        return $retArr;
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName()->value(),
+        ];
     }
 }
