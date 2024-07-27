@@ -6,13 +6,16 @@ use App\Models\Project;
 use App\UseCases\Project\ProjectFindAction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return Response
      */
-    public function index(ProjectFindAction $projectFindAction)
+    public function index(ProjectFindAction $projectFindAction): Response
     {
         $projectEntities = $projectFindAction->findAll();
         $projects        = array_map(function ($project) {
@@ -27,18 +30,18 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
