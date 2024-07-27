@@ -19,7 +19,7 @@ class ProjectController extends Controller
             return $project->toArray();
         }, $projectEntities);
 
-        $array1 = array();
+        $array2 = [];
 
         return Inertia::render('Project/Index', [
             'projects' => $projects,
