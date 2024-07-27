@@ -14,13 +14,12 @@ class ProjectController extends Controller
      */
     public function index(ProjectFindAction $projectFindAction)
     {
-        // FIXME:既存の処理を除外できているかテスト
-        $arr = array();
-
         $projectEntities = $projectFindAction->findAll();
-        $projects = array_map(function ($project) {
+        $projects        = array_map(function ($project) {
             return $project->toArray();
         }, $projectEntities);
+
+        $arr = array();
 
         return Inertia::render('Project/Index', [
             'projects' => $projects,
