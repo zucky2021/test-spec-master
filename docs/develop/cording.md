@@ -7,3 +7,6 @@
 - [YAMLファイル](/.coderabbit.yaml)を参照
 - 設定内容の詳細は[こちらのGuide > Configure CodeRabbit](https://docs.coderabbit.ai/guides/configure-coderabbit)より
   - [CodeRabbit Configuration Schema](https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json?_gl=1*1k95v4n*_gcl_au*MTMxNTM0MDYuMTcyMDcxMzA3Ng..)
+
+## pre-commitを実行すること
+- pre-commit設定ファイルの格納箇所は"./git/hooks/pre-commit"
