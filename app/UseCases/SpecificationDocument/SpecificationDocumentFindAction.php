@@ -7,7 +7,7 @@ use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
 
 final class SpecificationDocumentFindAction
 {
-    private $repository;
+    private SpecificationDocumentRepositoryInterface $repository;
 
     public function __construct(SpecificationDocumentRepositoryInterface $repository)
     {
@@ -18,7 +18,7 @@ final class SpecificationDocumentFindAction
      * プロジェクトIDから仕様書を取得
      *
      * @param int $projectId
-     * @return array
+     * @return SpecificationDocumentEntity[]
      */
     public function findAllByProjectId(int $projectId): array
     {

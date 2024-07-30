@@ -11,30 +11,30 @@ use DateTimeImmutable;
  */
 final class SpecificationDocumentEntity
 {
-    private int $id;
+    private ?int $id;
     private int $projectId;
     private int $userId;
     private Title $title;
     private Summary $summary;
-    private DateTimeImmutable $createdAt;
+    private DateTimeImmutable $updatedAt;
 
     public function __construct(
-        int $id,
+        ?int $id,
         int $projectId,
         int $userId,
         Title $title,
         Summary $summary,
-        DateTimeImmutable $createdAt
+        DateTimeImmutable $updatedAt,
     ) {
-        $this->id = $id;
+        $this->id        = $id;
         $this->projectId = $projectId;
-        $this->userId = $userId;
-        $this->title = $title;
-        $this->summary = $summary;
-        $this->createdAt = $createdAt;
+        $this->userId    = $userId;
+        $this->title     = $title;
+        $this->summary   = $summary;
+        $this->updatedAt = $updatedAt;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -59,17 +59,25 @@ final class SpecificationDocumentEntity
         return $this->summary;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->updatedAt;
     }
 
+    /**
+     * Viewに渡すために配列に変換
+     *
+     * @return array<string, int|null|string>
+     */
     public function toArray(): array
     {
-        $retArr = get_object_vars($this);
-        $retArr['title'] = $this->getTitle()->value();
-        $retArr['summary'] = $this->getSummary()->value();
-
-        return $retArr;
+        return [
+            'id'        => $this->id,
+            'projectId' => $this->projectId,
+            'userId'    => $this->userId,
+            'title'     => $this->title->value(),
+            'summary'   => $this->summary->value(),
+            'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
+        ];
     }
 }

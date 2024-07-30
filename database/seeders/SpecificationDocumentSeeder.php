@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use DateTimeImmutable;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SpecificationDocumentSeeder extends Seeder
 {
@@ -17,29 +20,38 @@ class SpecificationDocumentSeeder extends Seeder
     {
         $values = [
             [
-                'id' => 1,
                 'project_id' => 5,
-                'user_id' => 1,
-                'title' => 'EKI-0',
-                'summary' => 'Sample',
-                'created_at' => 'now',
+                'user_id'    => 1,
+                'title'      => 'EKI-0',
+                'summary'    => 'https://backlog.com/ja/',
             ],
         ];
 
         $insertData = [];
         foreach ($values as $val) {
-            $entity = SpecificationDocumentFactory::create($val);
+            $dto = new SpecificationDocumentDto(
+                id: null,
+                projectId: (int) $val['project_id'],
+                userId: $val['user_id'],
+                title: $val['title'],
+                summary: $val['summary'],
+                updatedAt: new DateTimeImmutable('now'),
+            );
+            $entity       = SpecificationDocumentFactory::create($dto);
             $insertData[] = [
-                'id' => $entity->getId(),
                 'project_id' => $entity->getProjectId(),
-                'user_id' => $entity->getUserId(),
-                'title' => $entity->getTitle()->value(),
-                'summary' => $entity->getSummary()->value(),
+                'user_id'    => $entity->getUserId(),
+                'title'      => $entity->getTitle()->value(),
+                'summary'    => $entity->getSummary()->value(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
         }
 
-        DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)->insert($insertData);
+        try {
+            DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)->insert($insertData);
+        } catch (Exception $e) {
+            Log::error('Failed to insert: ' . $e->getMessage());
+        }
     }
 }

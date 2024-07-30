@@ -15,7 +15,7 @@ const Index: React.FC<Props> = ({ auth, specificationDocuments }) => {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Projects
+                    Specification documents
                 </h2>
             }
         >

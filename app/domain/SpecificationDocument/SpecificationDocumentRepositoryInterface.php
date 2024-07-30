@@ -13,7 +13,7 @@ interface SpecificationDocumentRepositoryInterface
      * プロジェクトIDから仕様書を取得
      *
      * @param int $projectId
-     * @return array
+     * @return SpecificationDocumentEntity[]
      */
     public function findAllByProjectId(int $projectId): array;
 }

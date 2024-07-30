@@ -10,7 +10,7 @@ erDiagram
     specification_document_sheets ||--o{ specification_document_items: "1つのシートは複数の項目を持つ"
     specification_document_items ||--o{ specification_document_items: "1つの項目は複数の項目を持つ"
     users ||--o{ user_specification_documents: "1人の会員は複数の仕様書を対応できる"
-    specification_documents ||--o{ user_specification_documents: "1つの仕様書は複数の対応者を持つ"
+    specification_document_sheets ||--o{ user_specification_documents: "1つのシートは複数の対応者を持つ"
 
     users {
         bigint id PK
@@ -78,6 +78,7 @@ erDiagram
     user_agents {
         bigint id PK
         varchar(255) name
+        int order_num "並び順"
         timestamp created_at "作成日時"
     }
     admins {
