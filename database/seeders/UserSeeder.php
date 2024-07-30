@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Domain\User\UserDto;
 use App\Domain\User\UserFactory;
 use App\Domain\User\UserRepositoryInterface;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserSeeder extends Seeder
 {
@@ -18,28 +20,38 @@ class UserSeeder extends Seeder
     {
         $values = [
             [
-                'id' => 1,
                 'department_id' => 5,
-                'name' => 'h.suzuki',
-                'email' => 'h.suzuki@example.com',
-                'password' => Hash::make('password'),
+                'name'          => 'h.suzuki',
+                'email'         => 'h.suzuki@example.com',
+                'password'      => Hash::make('password'),
             ],
         ];
 
         $insertData = [];
         foreach ($values as $val) {
-            $entity = UserFactory::create($val);
+            $dto = new UserDto(
+                id: null,
+                departmentId: $val['department_id'],
+                name: $val['name'],
+                email: $val['email'],
+                password: $val['password'],
+            );
+            $entity       = UserFactory::create($dto);
             $insertData[] = [
-                'id' => $entity->getId(),
+                'id'            => $entity->getId(),
                 'department_id' => $entity->getDepartmentId(),
-                'name' => $entity->getName()->value(),
-                'email' => $entity->getEmail()->value(),
-                'password' => $entity->getPassword(),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'name'          => $entity->getName()->value(),
+                'email'         => $entity->getEmail()->value(),
+                'password'      => $entity->getPassword(),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ];
         }
 
-        DB::table(UserRepositoryInterface::TABLE_NAME)->insert($insertData);
+        try {
+            DB::table(UserRepositoryInterface::TABLE_NAME)->insert($insertData);
+        } catch (Exception $e) {
+            Log::error('Failed to insert: ' . $e->getMessage());
+        }
     }
 }

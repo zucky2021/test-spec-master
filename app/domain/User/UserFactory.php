@@ -10,14 +10,14 @@ use App\Domain\User\ValueObject\Name;
  */
 final class UserFactory
 {
-    public static function create(array $data): UserEntity
+    public static function create(UserDto $dto): UserEntity
     {
         return new UserEntity(
-            isset($data['id']) ? (int)$data['id'] : null,
-            isset($data['department_id']) ? (int)$data['department_id'] : null,
-            new Name($data['name']),
-            new Email($data['email']),
-            $data['password']
+            $dto->id,
+            $dto->departmentId,
+            new Name($dto->name),
+            new Email($dto->email),
+            $dto->password,
         );
     }
 }
