@@ -9,17 +9,11 @@ use App\Domain\Department\ValueObject\Name;
  */
 final class DepartmentFactory
 {
-    /**
-     * Generating domain objects from arrays
-     *
-     * @param array<string, mixed> $data
-     * @return DepartmentEntity
-     */
-    public static function create(array $data): DepartmentEntity
+    public static function create(DepartmentDto $dto): DepartmentEntity
     {
         return new DepartmentEntity(
-            isset($data['id']) ? (int) $data['id'] : null,
-            new Name($data['name'])
+            $dto->id,
+            new Name($dto->name),
         );
     }
 }

@@ -14,9 +14,9 @@ final class DepartmentEntity
 
     public function __construct(
         ?int $id,
-        Name $name
+        Name $name,
     ) {
-        $this->id = $id;
+        $this->id   = $id;
         $this->name = $name;
     }
 
@@ -33,13 +33,13 @@ final class DepartmentEntity
     /**
      * Property to array
      *
-     * @return array<string, mixed>
+     * @return array<string, int|null|string>
      */
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
-            'name' => $this->getName()->value(),
+            'id'   => $this->id,
+            'name' => $this->name->value(),
         ];
     }
 }

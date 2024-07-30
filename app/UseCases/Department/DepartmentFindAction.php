@@ -10,7 +10,7 @@ use App\Domain\Department\DepartmentRepositoryInterface;
  */
 final class DepartmentFindAction
 {
-    private $repository;
+    private DepartmentRepositoryInterface $repository;
 
     public function __construct(DepartmentRepositoryInterface $repository)
     {

@@ -2,20 +2,31 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Domain\Department\DepartmentDto;
+use App\Domain\Department\DepartmentEntity;
 use App\Domain\Department\DepartmentFactory;
 use App\Domain\Department\DepartmentRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 final class DepartmentRepository implements DepartmentRepositoryInterface
 {
     public function findAll(): array
     {
-        $departments = DB::table(DepartmentRepositoryInterface::TABLE_NAME)
+        /** @var DepartmentEntity[] */
+        $entities = DB::table(DepartmentRepositoryInterface::TABLE_NAME)
             ->get()
-            ->map(function ($department) {
-                return DepartmentFactory::create((array) $department);
-            });
+            ->map(function ($value) {
+                /** @var stdClass $value */
+                $dto = new DepartmentDto(
+                    id: $value->id,
+                    name: $value->name,
+                );
 
-        return $departments->toArray();
+                return DepartmentFactory::create($dto);
+            })
+            ->toArray();
+
+        return $entities;
     }
 }
