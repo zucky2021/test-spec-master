@@ -10,7 +10,7 @@ use App\Domain\Project\ProjectRepositoryInterface;
  */
 final class ProjectFindAction
 {
-    private $repository;
+    private ProjectRepositoryInterface $repository;
 
     public function __construct(ProjectRepositoryInterface $repository)
     {

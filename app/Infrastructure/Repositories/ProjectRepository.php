@@ -2,9 +2,12 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Domain\Project\ProjectDto;
+use App\Domain\Project\ProjectEntity;
 use App\Domain\Project\ProjectFactory;
 use App\Domain\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 /**
  * Project DB repository
@@ -13,13 +16,23 @@ final class ProjectRepository implements ProjectRepositoryInterface
 {
     public function findAll(): array
     {
-        $projects = DB::table(ProjectRepositoryInterface::TABLE_NAME)
+        /** @var ProjectEntity[] */
+        $entities = DB::table(ProjectRepositoryInterface::TABLE_NAME)
             ->whereNull('deleted_at')
             ->get()
-            ->map(function ($project) {
-                return ProjectFactory::create((array) $project);
-            });
+            ->map(function ($value) {
+                /** @var stdClass $value */
+                $dto = new ProjectDto(
+                    id: $value->id,
+                    departmentId: $value->department_id,
+                    name: $value->name,
+                    summary: $value->summary,
+                );
 
-        return $projects->toArray();
+                return ProjectFactory::create($dto);
+            })
+            ->toArray();
+
+        return $entities;
     }
 }

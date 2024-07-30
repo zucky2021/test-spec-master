@@ -11,20 +11,20 @@ use App\Domain\Project\ValueObject\Summary;
 final class ProjectEntity
 {
     private ?int $id;
-    private int $department_id;
+    private int $departmentId;
     private Name $name;
     private Summary $summary;
 
     public function __construct(
         ?int $id,
-        int $department_id,
+        int $departmentId,
         Name $name,
         Summary $summary,
     ) {
-        $this->id = $id;
-        $this->department_id = $department_id;
-        $this->name = $name;
-        $this->summary = $summary;
+        $this->id           = $id;
+        $this->departmentId = $departmentId;
+        $this->name         = $name;
+        $this->summary      = $summary;
     }
 
     public function getId(): ?int
@@ -34,7 +34,7 @@ final class ProjectEntity
 
     public function getDepartmentId(): int
     {
-        return $this->department_id;
+        return $this->departmentId;
     }
 
     public function getName(): Name
@@ -50,14 +50,15 @@ final class ProjectEntity
     /**
      * Property to array
      *
-     * @return array
+     * @return array<string, int|null|string>
      */
     public function toArray(): array
     {
-        $retArr = get_object_vars($this);
-        $retArr['name'] = $this->getName()->value();
-        $retArr['summary'] = $this->getSummary()->value();
-
-        return $retArr;
+        return [
+            'id'           => $this->id,
+            'departmentId' => $this->departmentId,
+            'name'         => $this->name->value(),
+            'summary'      => $this->summary->value(),
+        ];
     }
 }
