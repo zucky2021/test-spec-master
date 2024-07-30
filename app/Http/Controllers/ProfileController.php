@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use App\UseCases\Department\DepartmentFindAction;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -20,14 +21,14 @@ class ProfileController extends Controller
     public function edit(Request $request, DepartmentFindAction $departmentFindAction): Response
     {
         $departmentEntities = $departmentFindAction->findAll();
-        $departments = array_map(function ($entity) {
+        $departments        = array_map(function ($entity) {
             return $entity->toArray();
         }, $departmentEntities);
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'departments' => $departments,
+            'status'          => session('status'),
+            'departments'     => $departments,
         ]);
     }
 
@@ -36,13 +37,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        assert($user instanceof User);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit');
     }
@@ -57,6 +61,7 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        assert($user instanceof User);
 
         Auth::logout();
 
