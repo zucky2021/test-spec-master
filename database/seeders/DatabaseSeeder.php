@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             UserSeeder::class,
             SpecificationDocumentSeeder::class,
+            ExecutionEnvironmentSeeder::class,
         ]);
     }
 }

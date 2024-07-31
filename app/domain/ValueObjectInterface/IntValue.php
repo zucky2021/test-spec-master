@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Domain\ValueObjectInterface;
+
 /**
  * Int type value object interface
  */
