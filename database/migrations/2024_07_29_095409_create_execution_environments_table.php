@@ -10,13 +10,14 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user_agents', function (Blueprint $table) {
+        Schema::create('execution_environments', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique()->comment('UA名');
-            $table->unsignedTinyInteger('order_num')->index()->comment('並び順');
+            $table->string('name')->unique()->comment('実施環境名');
+            $table->unsignedSmallInteger('order_num')->default(1)->unique()->comment('並び順');
+            $table->boolean('is_display')->default(true)->comment('表示フラグ');
             $table->timestamps();
 
-            $table->comment('ユーザーエージェント管理テーブル');
+            $table->comment('実施環境管理テーブル');
         });
     }
 

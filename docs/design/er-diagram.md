@@ -6,7 +6,7 @@ erDiagram
     departments ||--o{ projects: "１つの課は複数のプロジェクトを持つ"
     projects ||--o{ specification_documents: "1つのプロジェクトは複数のテスト仕様書を持つ"
     specification_documents ||--o{ specification_document_sheets: "1つの仕様書は複数のシートを持つ"
-    user_agents ||--o{ specification_document_sheets: "一つのUAは複数のシートも持つ"
+    execution_environments ||--o{ specification_document_sheets: "一つの実施環境は複数のシートも持つ"
     specification_document_sheets ||--o{ specification_document_items: "1つのシートは複数の項目を持つ"
     specification_document_items ||--o{ specification_document_items: "1つの項目は複数の項目を持つ"
     users ||--o{ user_specification_documents: "1人の会員は複数の仕様書を対応できる"
@@ -51,10 +51,11 @@ erDiagram
     specification_document_sheets {
         bigint id PK
         bigint spec_doc_id FK "specification_documents.id"
-        bigint user_agent_id FK "user_agents.id"
+        bigint exec_env_id FK "execution_environments.id"
         int status_id "0: Pending, 1: In progress, 2: Completed, 3: NG"
-        timestamp created_at "作成日時"
-        timestamp updated_at "更新日時"
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
     }
     specification_document_items {
         bigint id PK
@@ -75,11 +76,13 @@ erDiagram
         timestamp updated_at "更新日時"
         timestamp deleted_at "削除日時"
     }
-    user_agents {
+    execution_environments {
         bigint id PK
-        varchar(255) name
+        varchar(255) name "実施環境名"
         int order_num "並び順"
-        timestamp created_at "作成日時"
+        bool is_display "表示フラグ"
+        timestamp created_at
+        timestamp updated_at
     }
     admins {
         bigint id PK
