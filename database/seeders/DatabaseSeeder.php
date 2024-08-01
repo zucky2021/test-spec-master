@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SpecificationDocumentSeeder::class,
             ExecutionEnvironmentSeeder::class,
+            SpecDocSheetSeeder::class,
         ]);
     }
 }
