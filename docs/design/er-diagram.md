@@ -52,21 +52,19 @@ erDiagram
         bigint id PK
         bigint spec_doc_id FK "specification_documents.id"
         bigint exec_env_id FK "execution_environments.id"
-        int status_id "0: Pending, 1: In progress, 2: Completed, 3: NG"
+        int status_id "0=Pending, 1=In progress, 2=Completed, 3=NG"
         timestamp created_at
         timestamp updated_at
-        timestamp deleted_at
     }
     specification_document_items {
         bigint id PK
         bigint spec_doc_sheet_id FK "specification_document_sheets.id"
-        bigint parent_item_id FK "specification_document_items.id"
-        text body "本文"
+        text target_area "テスト対象箇所"
+        text confirmation_details "確認内容"
         text remark "備考"
-        bool has_check
-        tinyint status_id "0: Pending, 1: OK, 2: NG"
-        timestamp created_at "作成日時"
-        timestamp updated_at "更新日時"
+        tinyint status_id "0=Pending, 1=OK, 2=NG"
+        timestamp created_at
+        timestamp updated_at
     }
     user_specification_documents {
         bigint id PK
