@@ -14,12 +14,11 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('spec_doc_id')->nullable()->comment('specification_documents.id');
             $table->unsignedBigInteger('exec_env_id')->nullable()->comment('execution_environments.id');
-            $table->unsignedTinyInteger('status_id')->comment('0=Pending, 1=In progress, 2=Completed, 3=NG');
+            $table->unsignedTinyInteger('status_id')->default(0)->comment('0=Pending, 1=In progress, 2=Completed, 3=NG');
             $table->timestamps();
-            $table->softDeletes();
 
-            $table->foreign('spec_doc_id')->references('id')->on('specification_documents')->onDelete('set null');
-            $table->foreign('exec_env_id')->references('id')->on('execution_environments')->onDelete('set null');
+            $table->foreign('spec_doc_id')->references('id')->on('specification_documents')->onDelete('cascade');
+            $table->foreign('exec_env_id')->references('id')->on('execution_environments')->onDelete('cascade');
 
             $table->unique(['spec_doc_id', 'exec_env_id']);
 
