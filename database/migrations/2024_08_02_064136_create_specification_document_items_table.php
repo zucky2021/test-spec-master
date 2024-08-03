@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('spec_doc_sheet_id')->index()->comment('specification_document_sheets');
             $table->string('target_area')->comment('対象箇所');
-            $table->string('check_details')->comment('確認内容');
+            $table->string('check_detail')->comment('確認内容');
             $table->string('remark')->nullable()->comment('備考');
             $table->unsignedTinyInteger('status_id')->default(0)->comment('0=Pending, 1=OK, 2=NG');
             $table->timestamps();
