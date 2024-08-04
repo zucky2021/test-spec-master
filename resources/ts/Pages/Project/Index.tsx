@@ -24,7 +24,7 @@ const Index: React.FC<Props> = ({ auth, projects }) => {
             <ul>
                 {projects.map((project) => (
                     <li key={project.id}>
-                        <Link href={`/project/${project.id}/spec-doc`}>
+                        <Link href={`/projects/${project.id}/spec-docs`}>
                             <h3>{project.name}</h3>
                             <small>{project.summary}</small>
                         </Link>

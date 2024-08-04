@@ -39,4 +39,11 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
 
         return $entities;
     }
+
+    public function exists(int $specDocId): bool
+    {
+        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+            ->where('id', $specDocId)
+            ->exists();
+    }
 }

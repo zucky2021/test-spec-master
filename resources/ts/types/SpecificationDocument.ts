@@ -1,7 +1,7 @@
 export type SpecificationDocument = {
     id: number;
-    project_id: number;
+    projectId: number;
     title: string;
     summary: string;
-    created_at: Date;
+    createdAt: Date;
 }

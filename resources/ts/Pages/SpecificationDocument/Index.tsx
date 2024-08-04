@@ -25,7 +25,7 @@ const Index: React.FC<Props> = ({ auth, specificationDocuments }) => {
                 {specificationDocuments.length > 0 ? (
                     specificationDocuments.map((specDoc) => (
                         <li key={specDoc.id}>
-                            <Link href={`/project/${specDoc.id}/spec-doc`}>
+                            <Link href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}>
                                 <h3>{specDoc.title}</h3>
                                 <small>{specDoc.summary}</small>
                             </Link>

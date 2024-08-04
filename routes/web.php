@@ -5,6 +5,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpecDocSheetController;
 use App\Http\Controllers\SpecificationDocumentController;
 use App\Http\Middleware\ValidateProjectId;
+use App\Http\Middleware\ValidateSpecificationDocumentId;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,11 +32,15 @@ Route::middleware('auth')->group(function () {
         Route::prefix('{projectId}/spec-docs')->middleware(ValidateProjectId::class)->group(function () {
             Route::get('/', [SpecificationDocumentController::class, 'index'])->name('specDocs.index');
             Route::get('/create', [SpecificationDocumentController::class, 'create'])->name('specDocs.create');
-            Route::get('/{specDocId}', [SpecificationDocumentController::class, 'show'])->name('specDocs.show');
-            Route::get('/{specDocId}/edit', [SpecificationDocumentController::class, 'edit'])->name('specDocs.edit');
+            Route::get('/{specDocId}', [SpecificationDocumentController::class, 'show'])
+                ->middleware(ValidateSpecificationDocumentId::class)
+                ->name('specDocs.show');
+            Route::get('/{specDocId}/edit', [SpecificationDocumentController::class, 'edit'])
+                ->middleware(ValidateSpecificationDocumentId::class)
+                ->name('specDocs.edit');
 
             // シート
-            Route::prefix('{specDocId}/sheets')->group(function () {
+            Route::prefix('{specDocId}/sheets')->middleware(ValidateSpecificationDocumentId::class)->group(function () {
                 Route::get('/', [SpecDocSheetController::class, 'index'])->name('specDocSheets.index');
                 Route::get('/create', [SpecDocSheetController::class, 'create'])->name('specDocSheets.create');
                 Route::get('/{specDocSheetId}', [SpecDocSheetController::class, 'show'])->name('specDocSheets.show');

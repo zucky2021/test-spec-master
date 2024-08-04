@@ -24,4 +24,9 @@ final class SpecificationDocumentFindAction
     {
         return $this->repository->findAllByProjectId($projectId);
     }
+
+    public function exists(int $specDocId): bool
+    {
+        return $this->repository->exists($specDocId);
+    }
 }

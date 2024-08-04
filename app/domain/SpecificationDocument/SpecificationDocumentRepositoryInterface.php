@@ -16,4 +16,12 @@ interface SpecificationDocumentRepositoryInterface
      * @return SpecificationDocumentEntity[]
      */
     public function findAllByProjectId(int $projectId): array;
+
+    /**
+     * PKの存在確認
+     *
+     * @param int $specDocId
+     * @return bool
+     */
+    public function exists(int $specDocId): bool;
 }
