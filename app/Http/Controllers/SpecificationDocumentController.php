@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,9 +15,12 @@ class SpecificationDocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $projectId, SpecificationDocumentFindAction $specificationDocumentFindAction): Response
+    public function index(Request $request, SpecificationDocumentFindAction $specificationDocumentFindAction): Response
     {
-        $specDocEntities        = $specificationDocumentFindAction->findAllByProjectId((int) $projectId);
+        /** @var int 検証済プロジェクトID */
+        $projectId = $request->input('projectId');
+
+        $specDocEntities        = $specificationDocumentFindAction->findAllByProjectId($projectId);
         $specificationDocuments = array_map(function ($specDoc) {
             return $specDoc->toArray();
         }, $specDocEntities);

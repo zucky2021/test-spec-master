@@ -15,4 +15,12 @@ interface ProjectRepositoryInterface
      * @return ProjectEntity[]
      */
     public function findAll(): array;
+
+    /**
+     * PKの存在を検証
+     *
+     * @param int $projectId
+     * @return bool
+     */
+    public function exists(int $projectId): bool;
 }

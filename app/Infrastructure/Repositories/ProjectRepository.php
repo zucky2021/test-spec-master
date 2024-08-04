@@ -35,4 +35,11 @@ final class ProjectRepository implements ProjectRepositoryInterface
 
         return $entities;
     }
+
+    public function exists(int $projectId): bool
+    {
+        return DB::table(ProjectRepositoryInterface::TABLE_NAME)
+            ->where('id', $projectId)
+            ->exists();
+    }
 }

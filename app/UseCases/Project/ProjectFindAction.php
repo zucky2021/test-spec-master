@@ -26,4 +26,9 @@ final class ProjectFindAction
     {
         return $this->repository->findAll();
     }
+
+    public function exists(int $projectId): bool
+    {
+        return $this->repository->exists($projectId);
+    }
 }
