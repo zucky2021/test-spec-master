@@ -20,6 +20,7 @@ final class SpecDocSheetEntity
         $this->id        = $id;
         $this->specDocId = $specDocId;
         $this->execEnvId = $execEnvId;
+        $this->statusId  = $statusId;
         $this->updatedAt = $updatedAt;
     }
 
