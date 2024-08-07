@@ -4,6 +4,7 @@ namespace App\Domain\SpecificationDocument;
 
 use App\Domain\SpecificationDocument\ValueObject\Summary;
 use App\Domain\SpecificationDocument\ValueObject\Title;
+use DateTimeImmutable;
 
 final class SpecificationDocumentFactory
 {
@@ -11,11 +12,11 @@ final class SpecificationDocumentFactory
     {
         return new SpecificationDocumentEntity(
             $dto->id,
-            $dto->projectId,
-            $dto->userId,
+            $dto->project_id,
+            $dto->user_id,
             new Title($dto->title),
             new Summary($dto->summary),
-            $dto->updatedAt,
+            new DateTimeImmutable($dto->updated_at),
         );
     }
 }

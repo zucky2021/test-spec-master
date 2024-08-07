@@ -2,7 +2,7 @@
 
 namespace App\UseCases\SpecificationDocument;
 
-use App\Domain\SpecificationDocument\SpecificationDocumentEntity;
+use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
 
 final class SpecificationDocumentFindAction
@@ -14,19 +14,24 @@ final class SpecificationDocumentFindAction
         $this->repository = $repository;
     }
 
+    public function findById(int $id): SpecificationDocumentDto
+    {
+        return $this->repository->findById($id);
+    }
+
+    public function exists(int $id): bool
+    {
+        return $this->repository->exists($id);
+    }
+
     /**
      * プロジェクトIDから仕様書を取得
      *
      * @param int $projectId
-     * @return SpecificationDocumentEntity[]
+     * @return SpecificationDocumentDto[]
      */
     public function findAllByProjectId(int $projectId): array
     {
         return $this->repository->findAllByProjectId($projectId);
-    }
-
-    public function exists(int $specDocId): bool
-    {
-        return $this->repository->exists($specDocId);
     }
 }

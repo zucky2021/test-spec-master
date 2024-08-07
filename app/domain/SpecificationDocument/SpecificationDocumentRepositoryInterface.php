@@ -10,18 +10,26 @@ interface SpecificationDocumentRepositoryInterface
     public const TABLE_NAME = 'specification_documents';
 
     /**
+     * PKから仕様書entityを取得
+     *
+     * @param int $id
+     * @return \App\Domain\SpecificationDocument\SpecificationDocumentDto
+     */
+    public function findById(int $id): SpecificationDocumentDto;
+
+    /**
      * プロジェクトIDから仕様書を取得
      *
      * @param int $projectId
-     * @return SpecificationDocumentEntity[]
+     * @return \App\Domain\SpecificationDocument\SpecificationDocumentDto[]
      */
     public function findAllByProjectId(int $projectId): array;
 
     /**
      * PKの存在確認
      *
-     * @param int $specDocId
+     * @param int $id
      * @return bool
      */
-    public function exists(int $specDocId): bool;
+    public function exists(int $id): bool;
 }

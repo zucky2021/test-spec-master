@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Project\ProjectFactory;
+use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
+use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,17 +18,26 @@ class SpecificationDocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, SpecificationDocumentFindAction $specificationDocumentFindAction): Response
-    {
+    public function index(
+        Request $request,
+        ProjectFindAction $projectFindAction,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+    ): Response {
         /** @var int 検証済プロジェクトID */
         $projectId = $request->input('projectId');
 
-        $specDocEntities        = $specificationDocumentFindAction->findAllByProjectId($projectId);
-        $specificationDocuments = array_map(function ($specDoc) {
-            return $specDoc->toArray();
-        }, $specDocEntities);
+        $projectDto    = $projectFindAction->findById($projectId);
+        $projectEntity = !empty($projectDto) ? ProjectFactory::create($projectDto) : null;
+
+        $specDocDtoArr          = $specificationDocumentFindAction->findAllByProjectId($projectId);
+        $specificationDocuments = array_map(function ($dto) {
+            $entity = SpecificationDocumentFactory::create($dto);
+
+            return $entity->toArray();
+        }, $specDocDtoArr);
 
         return Inertia::render('SpecificationDocument/Index', [
+            'project'                => $projectEntity?->toArray(),
             'specificationDocuments' => $specificationDocuments,
         ]);
     }

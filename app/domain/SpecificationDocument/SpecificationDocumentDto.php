@@ -2,33 +2,24 @@
 
 namespace App\Domain\SpecificationDocument;
 
-use DateTimeImmutable;
-
 /**
  * 仕様書Data Transfer Object(データの受け渡し専用クラス)
  */
 final class SpecificationDocumentDto
 {
-    public ?int $id;
-    public int $projectId;
-    public int $userId;
-    public string $title;
-    public string $summary;
-    public DateTimeImmutable $updatedAt;
-
     public function __construct(
-        ?int $id,
-        int $projectId,
-        int $userId,
-        string $title,
-        string $summary,
-        DateTimeImmutable $updatedAt,
+        public ?int $id,
+        public int $project_id,
+        public int $user_id,
+        public string $title,
+        public string $summary,
+        public string $updated_at,
     ) {
-        $this->id        = $id;
-        $this->projectId = $projectId;
-        $this->userId    = $userId;
-        $this->title     = $title;
-        $this->summary   = $summary;
-        $this->updatedAt = $updatedAt;
+        $this->id         = $id;
+        $this->project_id = $project_id;
+        $this->user_id    = $user_id;
+        $this->title      = $title;
+        $this->summary    = $summary;
+        $this->updated_at = $updated_at;
     }
 }

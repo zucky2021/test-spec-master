@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SpecDocSheetController;
+use App\Http\Controllers\SpecDocSheet\IndexController as SpecDocSheetIndexController;
 use App\Http\Controllers\SpecificationDocumentController;
 use App\Http\Middleware\ValidateProjectId;
 use App\Http\Middleware\ValidateSpecificationDocumentId;
@@ -41,10 +41,10 @@ Route::middleware('auth')->group(function () {
 
             // シート
             Route::prefix('{specDocId}/sheets')->middleware(ValidateSpecificationDocumentId::class)->group(function () {
-                Route::get('/', [SpecDocSheetController::class, 'index'])->name('specDocSheets.index');
-                Route::get('/create', [SpecDocSheetController::class, 'create'])->name('specDocSheets.create');
-                Route::get('/{specDocSheetId}', [SpecDocSheetController::class, 'show'])->name('specDocSheets.show');
-                Route::get('/{specDocSheetId}/edit', [SpecDocSheetController::class, 'edit'])->name('specDocSheets.edit');
+                Route::get('/', [SpecDocSheetIndexController::class, 'index'])->name('specDocSheets.index');
+                Route::get('/create', [SpecDocSheetIndexController::class, 'create'])->name('specDocSheets.create');
+                Route::get('/{specDocSheetId}', [SpecDocSheetIndexController::class, 'show'])->name('specDocSheets.show');
+                Route::get('/{specDocSheetId}/edit', [SpecDocSheetIndexController::class, 'edit'])->name('specDocSheets.edit');
             });
         });
     });

@@ -3,41 +3,49 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
-use App\Domain\SpecificationDocument\SpecificationDocumentEntity;
-use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
-use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
-use stdClass;
 
 /**
  * 仕様書DB永続化及び取得
  */
 final class SpecificationDocumentRepository implements SpecificationDocumentRepositoryInterface
 {
+    public function findById(int $id): SpecificationDocumentDto
+    {
+        /** @var SpecificationDocumentDto */
+        $model = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+            ->where('id', $id)
+            ->first();
+
+        return new SpecificationDocumentDto(
+            id: $model->id,
+            project_id: $model->project_id,
+            user_id: $model->user_id,
+            title: $model->title,
+            summary: $model->summary,
+            updated_at: $model->updated_at,
+        );
+    }
     public function findAllByProjectId(int $projectId): array
     {
-        /** @var SpecificationDocumentEntity[] */
-        $entities = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        /** @var SpecificationDocumentDto[] */
+        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
             ->where('project_id', $projectId)
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($value) {
-                /** @var stdClass $value */
-                $dto = new SpecificationDocumentDto(
+                /** @var SpecificationDocumentDto $value */
+                return new SpecificationDocumentDto(
                     id: $value->id,
-                    projectId: $value->project_id,
-                    userId: $value->user_id,
+                    project_id: $value->project_id,
+                    user_id: $value->user_id,
                     title: $value->title,
                     summary: $value->summary,
-                    updatedAt: new DateTimeImmutable($value->updated_at),
+                    updated_at: $value->updated_at,
                 );
-
-                return SpecificationDocumentFactory::create($dto);
             })
             ->toArray();
-
-        return $entities;
     }
 
     public function exists(int $specDocId): bool

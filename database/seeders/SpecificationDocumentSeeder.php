@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
-use DateTimeImmutable;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -31,11 +30,11 @@ class SpecificationDocumentSeeder extends Seeder
         foreach ($values as $val) {
             $dto = new SpecificationDocumentDto(
                 id: null,
-                projectId: (int) $val['project_id'],
-                userId: $val['user_id'],
+                project_id: (int) $val['project_id'],
+                user_id: $val['user_id'],
                 title: $val['title'],
                 summary: $val['summary'],
-                updatedAt: new DateTimeImmutable('now'),
+                updated_at: 'now',
             );
             $entity       = SpecificationDocumentFactory::create($dto);
             $insertData[] = [
