@@ -9,6 +9,8 @@ interface ProjectRepositoryInterface
 {
     public const TABLE_NAME = 'projects';
 
+    public function findById(int $id): ?ProjectDto;
+
     /**
      * 全てのプロジェクトを取得
      *

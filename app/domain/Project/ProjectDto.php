@@ -7,20 +7,15 @@ namespace App\Domain\Project;
  */
 final class ProjectDto
 {
-    public ?int $id;
-    public int $departmentId;
-    public string $name;
-    public string $summary;
-
     public function __construct(
-        ?int $id,
-        int $departmentId,
-        string $name,
-        string $summary,
+        public ?int $id,
+        public int $department_id,
+        public string $name,
+        public string $summary,
     ) {
-        $this->id           = $id;
-        $this->departmentId = $departmentId;
-        $this->name         = $name;
-        $this->summary      = $summary;
+        $this->id            = $id;
+        $this->department_id = $department_id;
+        $this->name          = $name;
+        $this->summary       = $summary;
     }
 }

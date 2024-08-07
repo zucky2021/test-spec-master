@@ -4,12 +4,14 @@ import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import "@scss/pages/specification_document/index.scss";
+import { SpecificationDocument } from "@/types/SpecificationDocument";
 
 type Props = PageProps & {
+    specDoc: SpecificationDocument;
     specDocSheets: SpecDocSheet[];
 };
 
-const Index: React.FC<Props> = ({ auth, specDocSheets }) => {
+const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
     return (
         <AuthenticatedLayout
             user={auth.user}
