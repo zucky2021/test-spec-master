@@ -2,6 +2,7 @@
 
 namespace App\Domain\SpecDocSheet;
 
+use App\Domain\ExecutionEnvironment\ValueObject\Name;
 use App\Domain\SpecDocSheet\ValueObject\StatusId;
 use DateTimeImmutable;
 
@@ -16,12 +17,14 @@ final class SpecDocSheetEntity
         private int $execEnvId,
         private StatusId $statusId,
         private DateTimeImmutable $updatedAt,
+        private ?Name $execEnvName,
     ) {
-        $this->id        = $id;
-        $this->specDocId = $specDocId;
-        $this->execEnvId = $execEnvId;
-        $this->statusId  = $statusId;
-        $this->updatedAt = $updatedAt;
+        $this->id          = $id;
+        $this->specDocId   = $specDocId;
+        $this->execEnvId   = $execEnvId;
+        $this->statusId    = $statusId;
+        $this->updatedAt   = $updatedAt;
+        $this->execEnvName = $execEnvName;
     }
 
     public function getId(): ?int
@@ -57,11 +60,12 @@ final class SpecDocSheetEntity
     public function toArray(): array
     {
         return [
-            'id'        => $this->id,
-            'specDocId' => $this->specDocId,
-            'execEnvId' => $this->execEnvId,
-            'statusId'  => $this->statusId->value(),
-            'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
+            'id'          => $this->id,
+            'specDocId'   => $this->specDocId,
+            'execEnvId'   => $this->execEnvId,
+            'statusId'    => $this->statusId->value(),
+            'updatedAt'   => $this->updatedAt->format('Y-m-d H:i:s'),
+            'execEnvName' => $this->execEnvName?->value(),
         ];
     }
 }

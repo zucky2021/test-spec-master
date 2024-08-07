@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Domain\ExecutionEnvironment\ExecutionEnvironmentRepositoryInterface;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetEntity;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
@@ -28,6 +29,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
             execEnvId: $model->exec_env_id,
             statusId: $model->status_id,
             updatedAt: new DateTimeImmutable($model->updated_at),
+            execEnvName: null,
         );
 
         return SpecDocSheetFactory::create($dto);
@@ -36,8 +38,10 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
     public function findAllBySpecDocId(int $specDocId): array
     {
         /** @var SpecDocSheetEntity[] */
-        $entities = DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
-            ->where('spec_doc_id', $specDocId)
+        $entities = DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME . ' as sds')
+            ->join(ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ' as ee', 'sds.exec_env_id', '=', 'ee.id')
+            ->where('sds.spec_doc_id', $specDocId)
+            ->select('sds.*', 'ee.name as exec_env_name')
             ->get()
             ->map(function ($value) {
                 /** @var stdClass $value */
@@ -47,6 +51,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
                     execEnvId: $value->exec_env_id,
                     statusId: $value->status_id,
                     updatedAt: new DateTimeImmutable($value->updated_at),
+                    execEnvName: $value->exec_env_name,
                 );
 
                 return SpecDocSheetFactory::create($dto);

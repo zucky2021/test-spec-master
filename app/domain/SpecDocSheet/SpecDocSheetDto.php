@@ -15,11 +15,13 @@ final class SpecDocSheetDto
         public int $execEnvId,
         public int $statusId,
         public DateTimeImmutable $updatedAt,
+        public ?string $execEnvName,
     ) {
-        $this->id        = $id;
-        $this->specDocId = $specDocId;
-        $this->execEnvId = $execEnvId;
-        $this->statusId  = $statusId;
-        $this->updatedAt = $updatedAt;
+        $this->id          = $id;
+        $this->specDocId   = $specDocId;
+        $this->execEnvId   = $execEnvId;
+        $this->statusId    = $statusId;
+        $this->updatedAt   = $updatedAt;
+        $this->execEnvName = $execEnvName;
     }
 }

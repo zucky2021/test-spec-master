@@ -15,7 +15,7 @@ const Index: React.FC<Props> = ({ auth, specDocSheets }) => {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Specification document sheet
+                    Specification document sheet list
                 </h2>
             }
         >
@@ -26,7 +26,7 @@ const Index: React.FC<Props> = ({ auth, specDocSheets }) => {
                     specDocSheets.map((specDocSheet) => (
                         <li key={specDocSheet.id}>
                             <Link href={`/project/${specDocSheet.specDocId}/spec-doc/${specDocSheet.id}`}>
-                                <h3>{specDocSheet.execEnvId}</h3>
+                                <h3>{specDocSheet.execEnvName}</h3>
                             </Link>
                         </li>
                     ))

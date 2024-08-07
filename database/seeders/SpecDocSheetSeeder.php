@@ -34,6 +34,7 @@ class SpecDocSheetSeeder extends Seeder
                 execEnvId: $val['exec_env_id'],
                 statusId: array_key_first(StatusId::STATUSES),
                 updatedAt: new DateTimeImmutable(),
+                execEnvName: null,
             );
             $entity       = SpecDocSheetFactory::create($dto);
             $insertData[] = [

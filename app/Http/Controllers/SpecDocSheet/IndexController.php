@@ -1,23 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SpecDocSheet;
 
+use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
+use App\Http\Controllers\Controller;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
+use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class SpecDocSheetController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index(Request $request, SpecDocSheetFindAction $specDocSheetFindAction): Response
-    {
+    public function index(
+        Request $request,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+        SpecDocSheetFindAction $specDocSheetFindAction,
+    ): Response {
         /** @var int 検証済仕様書ID */
         $specDocId = $request->input('specDocId');
+
+        $specDocDto = $specificationDocumentFindAction->findById($specDocId);
 
         $specDocSheetEntities = $specDocSheetFindAction->findAllBySpecDocId($specDocId);
         $specDocSheets        = array_map(function ($specDocSheet) {
@@ -25,6 +33,7 @@ class SpecDocSheetController extends Controller
         }, $specDocSheetEntities);
 
         return Inertia::render('SpecDocSheet/Index', [
+            'specDoc'       => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'specDocSheets' => $specDocSheets,
         ]);
     }

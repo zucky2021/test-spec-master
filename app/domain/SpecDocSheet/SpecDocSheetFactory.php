@@ -2,6 +2,7 @@
 
 namespace App\Domain\SpecDocSheet;
 
+use App\Domain\ExecutionEnvironment\ValueObject\Name;
 use App\Domain\SpecDocSheet\ValueObject\StatusId;
 
 final class SpecDocSheetFactory
@@ -14,6 +15,7 @@ final class SpecDocSheetFactory
             $dto->execEnvId,
             new StatusId($dto->statusId),
             $dto->updatedAt,
+            !empty($dto->execEnvName) ? new Name($dto->execEnvName) : null,
         );
     }
 }
