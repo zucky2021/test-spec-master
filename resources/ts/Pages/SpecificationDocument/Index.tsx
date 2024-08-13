@@ -1,15 +1,21 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import { PageProps } from "@/types";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import "@scss/pages/specification_document/index.scss";
+import { Project } from "@/types/Project";
+import { Flash } from "@/types/Flash";
 
 type Props = PageProps & {
+    project: Project;
     specificationDocuments: SpecificationDocument[];
+    flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, specificationDocuments }) => {
+const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
+    const { flash } = usePage<Props>().props;
+
     return (
         <AuthenticatedLayout
             user={auth.user}

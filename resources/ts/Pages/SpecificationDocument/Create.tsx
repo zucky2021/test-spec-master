@@ -1,21 +1,24 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import { PageProps } from "@/types";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { SpecificationDocument } from "@/types/SpecificationDocument";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
+import { Flash } from "@/types/Flash";
 
 type Props = PageProps & {
     project: Project;
-    specificationDocuments: SpecificationDocument[];
+    flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
+const Index: React.FC<Props> = ({ auth, project }) => {
+
     const { data, setData, post, processing, errors } = useForm({
         title: "",
         summary: "",
     });
+
+    const { flash } = usePage<Props>().props
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,7 +36,12 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
         >
             <Head title="Create specification document" />
 
-            <section className="spec-doc">
+            <section className="spec-doc-form">
+                {flash.error && (
+                    <p className="spec-doc-form__flash">
+                        {flash.error}
+                    </p>
+                )}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label

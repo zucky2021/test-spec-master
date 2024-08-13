@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Project\ProjectFactory;
+use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
+use App\Http\Requests\CreateSpecificationDocumentRequest;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
+use App\UseCases\SpecificationDocument\SpecificationDocumentStoreAction;
+use DateTimeImmutable;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,7 +23,12 @@ use Inertia\Response;
 class SpecificationDocumentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * テスト仕様書一覧表示
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\UseCases\Project\ProjectFindAction $projectFindAction
+     * @param \App\UseCases\SpecificationDocument\SpecificationDocumentFindAction $specificationDocumentFindAction
+     * @return \Inertia\Response
      */
     public function index(
         Request $request,
@@ -43,10 +55,55 @@ class SpecificationDocumentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 仕様書作成画面
      */
-    // public function show(Project $project)
-    // {
-    //     //
-    // }
+    public function create(Request $request, ProjectFindAction $projectFindAction): Response
+    {
+        /** @var int 検証済プロジェクトID */
+        $projectId = $request->input('projectId');
+
+        $projectDto    = $projectFindAction->findById($projectId);
+        $projectEntity = !empty($projectDto) ? ProjectFactory::create($projectDto) : null;
+
+        return Inertia::render('SpecificationDocument/Create', [
+            'project' => $projectEntity?->toArray(),
+        ]);
+    }
+
+    /**
+     * 仕様書保存
+     */
+    public function store(
+        CreateSpecificationDocumentRequest $request,
+        SpecificationDocumentStoreAction $specificationDocumentStoreAction,
+    ): RedirectResponse {
+        /** @var int */
+        $projectId = $request->input('projectId');
+        /** @var int */
+        $userId = $request->user()?->id;
+        /** @var string */
+        $title = $request->validated('title');
+        /** @var string */
+        $summary = $request->validated('summary');
+
+        $dto = new SpecificationDocumentDto(
+            id: null,
+            projectId: $projectId,
+            userId: $userId,
+            title: $title,
+            summary: $summary,
+            updatedAt: (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+        );
+
+        try {
+            $specificationDocumentStoreAction->store($dto);
+        } catch (Exception $e) {
+            Log::error('Failed to create spec doc:' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+
+            return redirect()->back()->with('error', 'Please, reload.');
+        }
+
+        return redirect()->route('specDocs.index', ['projectId' => $projectId])
+            ->with('success', 'Specification document created success.');
+    }
 }
