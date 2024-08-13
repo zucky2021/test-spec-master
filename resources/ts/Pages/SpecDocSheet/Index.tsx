@@ -23,11 +23,16 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
         >
             <Head title="Specification document sheet list" />
 
-            <section className="specDoc">
-                <div className="">
+            <section className="spec-doc-sheet">
+                <div className="spec-doc-sheet__head">
                     <h3>{specDoc.title}</h3>
                     <h4>{specDoc.summary}</h4>
                 </div>
+                { auth.user.id === specDoc.userId && (
+                    <Link href={route("specDocs.edit", { projectId: specDoc.projectId, specDocId: specDoc.id })}>
+                        Edit
+                    </Link>
+                )}
 
             </section>
 

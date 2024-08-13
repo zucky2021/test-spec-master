@@ -5,23 +5,25 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
+import { SpecificationDocument } from "@/types/SpecificationDocument";
 
 type Props = PageProps & {
     project: Project;
+    specDoc: SpecificationDocument;
     flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project }) => {
-    const { data, setData, post, processing, errors } = useForm({
-        title: "",
-        summary: "",
+const Index: React.FC<Props> = ({ auth, project, specDoc }) => {
+    const { data, setData, put, processing, errors } = useForm({
+        title: specDoc.title,
+        summary: specDoc.summary,
     });
 
     const { flash } = usePage<Props>().props;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route("specDocs.store", { projectId: project.id }));
+        put(route("specDocs.update", { projectId: project.id, specDocId: specDoc.id }));
     };
 
     return (
@@ -29,7 +31,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Specification documents
+                    Edit specification documents
                 </h2>
             }
         >
@@ -39,6 +41,13 @@ const Index: React.FC<Props> = ({ auth, project }) => {
                 {flash.error && (
                     <p className="spec-doc-form__flash">{flash.error}</p>
                 )}
+                {flash.success && (
+                    <p className="spec-doc-form__flash">{flash.success}</p>
+                )}
+
+                <time className="spec-doc-form__updated-at">
+                    Updated at: {specDoc.updatedAt}
+                </time>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label
@@ -92,7 +101,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
                             className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded {processing ? 'Processing...' : 'Create'}`}
                             disabled={processing}
                         >
-                            {processing ? "Processing..." : "Create"}
+                            {processing ? "Processing..." : "Update"}
                         </button>
                     </div>
                 </form>

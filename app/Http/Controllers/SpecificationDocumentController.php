@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Domain\Project\ProjectFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
-use App\Http\Requests\CreateSpecificationDocumentRequest;
+use App\Http\Requests\SpecificationDocumentRequest;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentStoreAction;
+use App\UseCases\SpecificationDocument\SpecificationDocumentUpdateAction;
 use DateTimeImmutable;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -74,7 +75,7 @@ class SpecificationDocumentController extends Controller
      * 仕様書保存
      */
     public function store(
-        CreateSpecificationDocumentRequest $request,
+        SpecificationDocumentRequest $request,
         SpecificationDocumentStoreAction $specificationDocumentStoreAction,
     ): RedirectResponse {
         /** @var int */
@@ -105,5 +106,66 @@ class SpecificationDocumentController extends Controller
 
         return redirect()->route('specDocs.index', ['projectId' => $projectId])
             ->with('success', 'Specification document created success.');
+    }
+
+    /**
+     * 仕様書編集画面
+     */
+    public function edit(
+        Request $request,
+        ProjectFindAction $projectFindAction,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+    ): Response {
+        /** @var int */
+        $projectId = $request->input('projectId');
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+
+        $projectDto    = $projectFindAction->findById($projectId);
+        $projectEntity = !empty($projectDto) ? ProjectFactory::create($projectDto) : null;
+
+        $specDocDto = $specificationDocumentFindAction->findById($specDocId);
+
+        return Inertia::render('SpecificationDocument/Edit', [
+            'project' => $projectEntity?->toArray(),
+            'specDoc' => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+        ]);
+    }
+
+    /**
+     * 更新
+     * @param \App\Http\Requests\SpecificationDocumentRequest $request
+     * @param \App\UseCases\SpecificationDocument\SpecificationDocumentFindAction $specificationDocumentFindAction
+     * @param \App\UseCases\SpecificationDocument\SpecificationDocumentUpdateAction $specificationDocumentUpdateAction
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(
+        SpecificationDocumentRequest $request,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+        SpecificationDocumentUpdateAction $specificationDocumentUpdateAction,
+    ): RedirectResponse {
+        /** @var int */
+        $projectId = $request->input('projectId');
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+        /** @var string */
+        $title = $request->validated('title');
+        /** @var string */
+        $summary = $request->validated('summary');
+
+        $dto          = $specificationDocumentFindAction->findById($specDocId);
+        $dto->title   = $title;
+        $dto->summary = $summary;
+
+        try {
+            $specificationDocumentUpdateAction->update($dto);
+        } catch (Exception $e) {
+            Log::error('Failed to update spec doc:' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+
+            return redirect()->back()->with('error', 'Please, reload.');
+        }
+
+        return redirect()->route('specDocs.edit', ['projectId' => $projectId, 'specDocId' => $specDocId])
+            ->with('success', 'Specification document updated success.');
     }
 }

@@ -74,4 +74,17 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
                 'updated_at' => $now,
             ]);
     }
+
+    public function update(SpecificationDocumentDto $dto): void
+    {
+        $entity = SpecificationDocumentFactory::create($dto);
+
+        DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+            ->where('id', $entity->getId())
+            ->update([
+                'title'      => $entity->getTitle()->value(),
+                'summary'    => $entity->getSummary()->value(),
+                'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            ]);
+    }
 }

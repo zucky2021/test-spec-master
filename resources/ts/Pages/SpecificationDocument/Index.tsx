@@ -32,11 +32,7 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
                     Create specification document
                 </Link>
 
-                {flash.success && (
-                    <p>
-                        {flash.success}
-                    </p>
-                )}
+                {flash.success && <p>{flash.success}</p>}
 
                 <ul>
                     {specificationDocuments.length > 0 ? (

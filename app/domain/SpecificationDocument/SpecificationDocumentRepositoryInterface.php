@@ -40,4 +40,12 @@ interface SpecificationDocumentRepositoryInterface
      * @return int 新規PK
      */
     public function store(SpecificationDocumentDto $dto): int;
+
+    /**
+     * 更新
+     *
+     * @param \App\Domain\SpecificationDocument\SpecificationDocumentDto $dto
+     * @return void
+     */
+    public function update(SpecificationDocumentDto $dto): void;
 }

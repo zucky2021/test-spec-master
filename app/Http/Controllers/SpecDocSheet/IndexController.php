@@ -13,7 +13,7 @@ use Inertia\Response;
 class IndexController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * シート一覧(仕様書詳細)画面
      *
      * @return Response
      */
