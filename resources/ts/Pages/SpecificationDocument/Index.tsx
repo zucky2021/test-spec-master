@@ -27,20 +27,34 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
         >
             <Head title="Specification documents" />
 
-            <ul>
-                {specificationDocuments.length > 0 ? (
-                    specificationDocuments.map((specDoc) => (
-                        <li key={specDoc.id}>
-                            <Link href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}>
-                                <h3>{specDoc.title}</h3>
-                                <small>{specDoc.summary}</small>
-                            </Link>
-                        </li>
-                    ))
-                ) : (
-                    <li>Specification document does not exist.</li>
+            <section className="spec-doc-form">
+                <Link href={`/projects/${project.id}/spec-docs/create`}>
+                    Create specification document
+                </Link>
+
+                {flash.success && (
+                    <p>
+                        {flash.success}
+                    </p>
                 )}
-            </ul>
+
+                <ul>
+                    {specificationDocuments.length > 0 ? (
+                        specificationDocuments.map((specDoc) => (
+                            <li key={specDoc.id}>
+                                <Link
+                                    href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
+                                >
+                                    <h3>{specDoc.title}</h3>
+                                    <small>{specDoc.summary}</small>
+                                </Link>
+                            </li>
+                        ))
+                    ) : (
+                        <li>Specification document does not exist.</li>
+                    )}
+                </ul>
+            </section>
         </AuthenticatedLayout>
     );
 };

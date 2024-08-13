@@ -32,4 +32,12 @@ interface SpecificationDocumentRepositoryInterface
      * @return bool
      */
     public function exists(int $id): bool;
+
+    /**
+     * 新規登録
+     *
+     * @param \App\Domain\SpecificationDocument\SpecificationDocumentDto $dto
+     * @return int 新規PK
+     */
+    public function store(SpecificationDocumentDto $dto): int;
 }

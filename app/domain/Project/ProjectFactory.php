@@ -14,7 +14,7 @@ final class ProjectFactory
     {
         return new ProjectEntity(
             $dto->id,
-            $dto->department_id,
+            $dto->departmentId,
             new Name($dto->name),
             new Summary($dto->summary),
         );

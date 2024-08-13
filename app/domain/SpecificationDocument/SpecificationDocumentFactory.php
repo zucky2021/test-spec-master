@@ -12,11 +12,11 @@ final class SpecificationDocumentFactory
     {
         return new SpecificationDocumentEntity(
             $dto->id,
-            $dto->project_id,
-            $dto->user_id,
+            $dto->projectId,
+            $dto->userId,
             new Title($dto->title),
             new Summary($dto->summary),
-            new DateTimeImmutable($dto->updated_at),
+            new DateTimeImmutable($dto->updatedAt),
         );
     }
 }

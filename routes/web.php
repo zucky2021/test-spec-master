@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('{projectId}/spec-docs')->middleware(ValidateProjectId::class)->group(function () {
             Route::get('/', [SpecificationDocumentController::class, 'index'])->name('specDocs.index');
             Route::get('/create', [SpecificationDocumentController::class, 'create'])->name('specDocs.create');
+            Route::post('/', [SpecificationDocumentController::class, 'store'])->name('specDocs.store');
             Route::get('/{specDocId}', [SpecificationDocumentController::class, 'show'])
                 ->middleware(ValidateSpecificationDocumentId::class)
                 ->name('specDocs.show');

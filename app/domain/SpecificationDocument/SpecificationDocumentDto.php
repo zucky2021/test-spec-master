@@ -9,17 +9,17 @@ final class SpecificationDocumentDto
 {
     public function __construct(
         public ?int $id,
-        public int $project_id,
-        public int $user_id,
+        public int $projectId,
+        public int $userId,
         public string $title,
         public string $summary,
-        public string $updated_at,
+        public string $updatedAt,
     ) {
-        $this->id         = $id;
-        $this->project_id = $project_id;
-        $this->user_id    = $user_id;
-        $this->title      = $title;
-        $this->summary    = $summary;
-        $this->updated_at = $updated_at;
+        $this->id        = $id;
+        $this->projectId = $projectId;
+        $this->userId    = $userId;
+        $this->title     = $title;
+        $this->summary   = $summary;
+        $this->updatedAt = $updatedAt;
     }
 }

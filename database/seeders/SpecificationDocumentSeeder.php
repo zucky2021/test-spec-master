@@ -30,11 +30,11 @@ class SpecificationDocumentSeeder extends Seeder
         foreach ($values as $val) {
             $dto = new SpecificationDocumentDto(
                 id: null,
-                project_id: (int) $val['project_id'],
-                user_id: $val['user_id'],
+                projectId: (int) $val['project_id'],
+                userId: $val['user_id'],
                 title: $val['title'],
                 summary: $val['summary'],
-                updated_at: 'now',
+                updatedAt: now(),
             );
             $entity       = SpecificationDocumentFactory::create($dto);
             $insertData[] = [

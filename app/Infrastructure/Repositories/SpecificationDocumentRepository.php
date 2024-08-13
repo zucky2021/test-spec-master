@@ -3,8 +3,11 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
+use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
+use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 /**
  * 仕様書DB永続化及び取得
@@ -13,18 +16,18 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
 {
     public function findById(int $id): SpecificationDocumentDto
     {
-        /** @var SpecificationDocumentDto */
+        /** @var stdClass */
         $model = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
             ->where('id', $id)
             ->first();
 
         return new SpecificationDocumentDto(
             id: $model->id,
-            project_id: $model->project_id,
-            user_id: $model->user_id,
+            projectId: $model->project_id,
+            userId: $model->user_id,
             title: $model->title,
             summary: $model->summary,
-            updated_at: $model->updated_at,
+            updatedAt: $model->updated_at,
         );
     }
     public function findAllByProjectId(int $projectId): array
@@ -35,14 +38,14 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($value) {
-                /** @var SpecificationDocumentDto $value */
+                /** @var stdClass $value */
                 return new SpecificationDocumentDto(
                     id: $value->id,
-                    project_id: $value->project_id,
-                    user_id: $value->user_id,
+                    projectId: $value->project_id,
+                    userId: $value->user_id,
                     title: $value->title,
                     summary: $value->summary,
-                    updated_at: $value->updated_at,
+                    updatedAt: $value->updated_at,
                 );
             })
             ->toArray();
@@ -53,5 +56,22 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
         return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
             ->where('id', $specDocId)
             ->exists();
+    }
+
+    public function store(SpecificationDocumentDto $dto): int
+    {
+        $entity = SpecificationDocumentFactory::create($dto);
+
+        $now = (new DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+            ->insertGetId([
+                'project_id' => $entity->getProjectId(),
+                'user_id'    => $entity->getUserId(),
+                'title'      => $entity->getTitle()->value(),
+                'summary'    => $entity->getSummary()->value(),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
     }
 }

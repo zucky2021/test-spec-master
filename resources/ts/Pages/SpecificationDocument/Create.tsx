@@ -56,6 +56,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
                             id="title"
                             value={data.title}
                             onChange={e => setData("title", e.target.value)}
+                            placeholder="EKI-xx"
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         />
                         {errors.title && (
@@ -77,6 +78,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
                             id="summary"
                             value={data.summary}
                             onChange={(e) => setData("summary", e.target.value)}
+                            placeholder="https://backlog.com/ja/"
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             rows={5}
                         ></textarea>
@@ -90,10 +92,10 @@ const Index: React.FC<Props> = ({ auth, project }) => {
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                            className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded {processing ? 'Processing...' : 'Create'}`}
                             disabled={processing}
                         >
-                            Create
+                            {processing ? 'Processing...' : 'Create'}
                         </button>
                     </div>
                 </form>

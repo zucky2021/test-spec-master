@@ -21,7 +21,15 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                 </h2>
             }
         >
-            <Head title="Specification document sheet" />
+            <Head title="Specification document sheet list" />
+
+            <section className="specDoc">
+                <div className="">
+                    <h3>{specDoc.title}</h3>
+                    <h4>{specDoc.summary}</h4>
+                </div>
+
+            </section>
 
             <ul>
                 {specDocSheets.length > 0 ? (

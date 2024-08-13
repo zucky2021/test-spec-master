@@ -7,6 +7,7 @@ use App\Domain\Project\ProjectEntity;
 use App\Domain\Project\ProjectFactory;
 use App\Domain\Project\ProjectRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 /**
  * Project DB repository
@@ -15,7 +16,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
 {
     public function findById(int $id): ?ProjectDto
     {
-        /** @var ProjectDto|null */
+        /** @var stdClass|null */
         $model = DB::table(ProjectRepositoryInterface::TABLE_NAME)
             ->where('id', $id)
             ->first();
@@ -26,7 +27,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
 
         return new ProjectDto(
             id: $model->id,
-            department_id: $model->department_id,
+            departmentId: $model->department_id,
             name: $model->name,
             summary: $model->summary,
         );
@@ -38,10 +39,10 @@ final class ProjectRepository implements ProjectRepositoryInterface
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($value) {
-                /** @var ProjectDto $value */
+                /** @var stdClass $value */
                 $dto = new ProjectDto(
                     id: $value->id,
-                    department_id: $value->department_id,
+                    departmentId: $value->department_id,
                     name: $value->name,
                     summary: $value->summary,
                 );

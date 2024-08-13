@@ -66,7 +66,7 @@ class ProjectSeeder extends Seeder
         foreach ($values as $val) {
             $dto = new ProjectDto(
                 id: null,
-                department_id: $val['department_id'],
+                departmentId: $val['department_id'],
                 name: $val['name'],
                 summary: $val['summary'],
             );
