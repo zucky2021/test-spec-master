@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
     public function create(DepartmentFindAction $departmentFindAction): Response
     {
         $departmentsEntities = $departmentFindAction->findAll();
-        $departments = array_map(function ($department) {
+        $departments         = array_map(function ($department) {
             return $department->toArray();
         }, $departmentsEntities);
 
@@ -43,16 +43,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'department_id' => 'nullable|integer|exists:' . DepartmentRepositoryInterface::TABLE_NAME . ',id',
-            'name' => 'required|string|max:' . Name::MAX_LEN,
-            'email' => 'required|string|lowercase|email|max:' . Email::MAX_LEN . '|unique:' . User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name'          => 'required|string|max:' . Name::MAX_LEN,
+            'email'         => 'required|string|lowercase|email|max:' . Email::MAX_LEN . '|unique:' . User::class,
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        /** @var string */
+        $password = $request->password;
 
         $user = User::create([
             'department_id' => $request->department_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'password'      => Hash::make($password),
         ]);
 
         event(new Registered($user));
