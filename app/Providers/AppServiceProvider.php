@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Domain\Department\DepartmentRepositoryInterface;
+use App\Domain\ExecutionEnvironment\ExecutionEnvironmentRepositoryInterface;
 use App\Domain\Project\ProjectRepositoryInterface;
 use App\Domain\SpecDocSheet\SpecDocSheetRepositoryInterface;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
 use App\Infrastructure\Repositories\DepartmentRepository;
+use App\Infrastructure\Repositories\ExecutionEnvironmentRepository;
 use App\Infrastructure\Repositories\ProjectRepository;
 use App\Infrastructure\Repositories\SpecDocSheetRepository;
 use App\Infrastructure\Repositories\SpecificationDocumentRepository;
@@ -22,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
 
         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+
+        $this->app->bind(ExecutionEnvironmentRepositoryInterface::class, ExecutionEnvironmentRepository::class);
 
         $this->app->bind(SpecificationDocumentRepositoryInterface::class, SpecificationDocumentRepository::class);
 

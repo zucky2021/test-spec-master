@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\ExecutionEnvironment\ExecutionEnvironmentFactory;
 use App\Domain\Project\ProjectFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecificationDocumentRequest;
+use App\UseCases\ExecutionEnvironment\ExecutionEnvironmentFindAction;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentStoreAction;
@@ -115,6 +117,7 @@ class SpecificationDocumentController extends Controller
         Request $request,
         ProjectFindAction $projectFindAction,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
+        ExecutionEnvironmentFindAction $executionEnvironmentFindAction,
     ): Response {
         /** @var int */
         $projectId = $request->input('projectId');
@@ -126,14 +129,23 @@ class SpecificationDocumentController extends Controller
 
         $specDocDto = $specificationDocumentFindAction->findById($specDocId);
 
+        $execEnvDtoArr = $executionEnvironmentFindAction->findAll();
+        $execEnvArr    = array_map(function ($dto) {
+            $entity = ExecutionEnvironmentFactory::create($dto);
+
+            return $entity->toArray();
+        }, $execEnvDtoArr);
+
         return Inertia::render('SpecificationDocument/Edit', [
-            'project' => $projectEntity?->toArray(),
-            'specDoc' => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+            'project'               => $projectEntity?->toArray(),
+            'specificationDocument' => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+            'executionEnvironments' => $execEnvArr,
         ]);
     }
 
     /**
      * 更新
+     *
      * @param \App\Http\Requests\SpecificationDocumentRequest $request
      * @param \App\UseCases\SpecificationDocument\SpecificationDocumentFindAction $specificationDocumentFindAction
      * @param \App\UseCases\SpecificationDocument\SpecificationDocumentUpdateAction $specificationDocumentUpdateAction

@@ -1,29 +1,31 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import { PageProps } from "@/types";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
+import { ExecutionEnvironment } from "@/types/ExecutionEnvronment";
 
 type Props = PageProps & {
     project: Project;
-    specDoc: SpecificationDocument;
+    specificationDocument: SpecificationDocument;
+    executionEnvironments: ExecutionEnvironment[];
     flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specDoc }) => {
+const Index: React.FC<Props> = ({ auth, project, specificationDocument, executionEnvironments }) => {
     const { data, setData, put, processing, errors } = useForm({
-        title: specDoc.title,
-        summary: specDoc.summary,
+        title: specificationDocument.title,
+        summary: specificationDocument.summary,
     });
 
     const { flash } = usePage<Props>().props;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put(route("specDocs.update", { projectId: project.id, specDocId: specDoc.id }));
+        put(route("specDocs.update", { projectId: project.id, specDocId: specificationDocument.id }));
     };
 
     return (
@@ -45,8 +47,12 @@ const Index: React.FC<Props> = ({ auth, project, specDoc }) => {
                     <p className="spec-doc-form__flash">{flash.success}</p>
                 )}
 
+                <Link href={route("specDocSheets.index", { projectId: project.id, specDocId: specificationDocument.id })}>
+                    シート一覧へ
+                </Link>
+
                 <time className="spec-doc-form__updated-at">
-                    Updated at: {specDoc.updatedAt}
+                    Updated at: {specificationDocument.updatedAt}
                 </time>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">

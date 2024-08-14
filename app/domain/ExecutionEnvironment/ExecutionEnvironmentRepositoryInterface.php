@@ -12,7 +12,7 @@ interface ExecutionEnvironmentRepositoryInterface
     /**
      * 全ての実施環境を取得
      *
-     * @return ExecutionEnvironmentEntity[]
+     * @return ExecutionEnvironmentDto[]
      */
     public function findAll(): array;
 }
