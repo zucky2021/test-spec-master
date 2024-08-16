@@ -3,6 +3,6 @@ export type SpecDocSheet = {
     specDocId: number;
     execEnvId: number;
     statusId: number;
-    updatedAt: Date;
+    updatedAt: string;
     execEnvName: string;
 }

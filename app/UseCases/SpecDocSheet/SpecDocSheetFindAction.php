@@ -2,7 +2,7 @@
 
 namespace App\UseCases\SpecDocSheet;
 
-use App\Domain\SpecDocSheet\SpecDocSheetEntity;
+use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetRepositoryInterface;
 
 final class SpecDocSheetFindAction
@@ -14,11 +14,16 @@ final class SpecDocSheetFindAction
         $this->repository = $repository;
     }
 
+    public function exists(int $id): bool
+    {
+        return $this->repository->exists($id);
+    }
+
     /**
      * 仕様書IDからシートを取得
      *
      * @param int $specDocId
-     * @return SpecDocSheetEntity[]
+     * @return SpecDocSheetDto[]
      */
     public function findAllBySpecDocId(int $specDocId): array
     {

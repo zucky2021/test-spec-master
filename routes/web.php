@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SpecDocSheet\IndexController as SpecDocSheetIndexController;
+use App\Http\Controllers\SpecDocSheetController;
 use App\Http\Controllers\SpecificationDocumentController;
 use App\Http\Middleware\ValidateProjectId;
+use App\Http\Middleware\ValidateSpecDocSheetId;
 use App\Http\Middleware\ValidateSpecificationDocumentId;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,10 +42,13 @@ Route::middleware('auth')->group(function () {
 
             // シート
             Route::prefix('{specDocId}/sheets')->middleware(ValidateSpecificationDocumentId::class)->group(function () {
-                Route::get('/', [SpecDocSheetIndexController::class, 'index'])->name('specDocSheets.index');
-                Route::get('/create', [SpecDocSheetIndexController::class, 'create'])->name('specDocSheets.create');
-                Route::get('/{specDocSheetId}', [SpecDocSheetIndexController::class, 'show'])->name('specDocSheets.show');
-                Route::get('/{specDocSheetId}/edit', [SpecDocSheetIndexController::class, 'edit'])->name('specDocSheets.edit');
+                Route::get('/', [SpecDocSheetController::class, 'index'])->name('specDocSheets.index');
+                Route::post('/', [SpecDocSheetController::class, 'store'])->name('specDocSheets.store');
+                Route::prefix('{specDocSheetId}')->middleware(ValidateSpecDocSheetId::class)->group(function () {
+                    Route::get('/', [SpecDocSheetController::class, 'show'])->name('specDocSheets.show');
+                    Route::delete('/', [SpecDocSheetController::class, 'destroy'])->name('specDocSheets.destroy');
+                    Route::get('/edit', [SpecDocSheetController::class, 'edit'])->name('specDocSheets.edit');
+                });
             });
         });
     });

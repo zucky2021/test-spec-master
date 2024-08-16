@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Domain\ExecutionEnvironment\ExecutionEnvironmentFactory;
 use App\Domain\Project\ProjectFactory;
+use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecificationDocumentRequest;
 use App\UseCases\ExecutionEnvironment\ExecutionEnvironmentFindAction;
 use App\UseCases\Project\ProjectFindAction;
+use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentStoreAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentUpdateAction;
@@ -118,6 +120,7 @@ class SpecificationDocumentController extends Controller
         ProjectFindAction $projectFindAction,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
         ExecutionEnvironmentFindAction $executionEnvironmentFindAction,
+        SpecDocSheetFindAction $specDocSheetFindAction,
     ): Response {
         /** @var int */
         $projectId = $request->input('projectId');
@@ -136,10 +139,19 @@ class SpecificationDocumentController extends Controller
             return $entity->toArray();
         }, $execEnvDtoArr);
 
+        $specDocSheetDtoArr = $specDocSheetFindAction->findAllBySpecDocId($specDocId);
+        $specDocSheets      = array_map(function ($dto) {
+            $entity = SpecDocSheetFactory::create($dto);
+
+            return $entity->toArray();
+        }, $specDocSheetDtoArr);
+
+
         return Inertia::render('SpecificationDocument/Edit', [
             'project'               => $projectEntity?->toArray(),
             'specificationDocument' => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'executionEnvironments' => $execEnvArr,
+            'specDocSheets'         => $specDocSheets,
         ]);
     }
 

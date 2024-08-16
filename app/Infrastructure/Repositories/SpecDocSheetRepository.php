@@ -16,6 +16,13 @@ use stdClass;
  */
 final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
 {
+    public function exists(int $id): bool
+    {
+        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+            ->where('id', $id)
+            ->exists();
+    }
+
     public function findAllById(int $specDocSheetId): SpecDocSheetEntity
     {
         /** @var stdClass */
@@ -28,7 +35,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
             specDocId: $model->spec_doc_id,
             execEnvId: $model->exec_env_id,
             statusId: $model->status_id,
-            updatedAt: new DateTimeImmutable($model->updated_at),
+            updatedAt: $model->updated_at,
             execEnvName: null,
         );
 
@@ -37,27 +44,44 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
 
     public function findAllBySpecDocId(int $specDocId): array
     {
-        /** @var SpecDocSheetEntity[] */
-        $entities = DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME . ' as sds')
+        /** @var SpecDocSheetDto[] */
+        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME . ' as sds')
             ->join(ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ' as ee', 'sds.exec_env_id', '=', 'ee.id')
             ->where('sds.spec_doc_id', $specDocId)
             ->select('sds.*', 'ee.name as exec_env_name')
             ->get()
             ->map(function ($value) {
                 /** @var stdClass $value */
-                $dto = new SpecDocSheetDto(
+                return new SpecDocSheetDto(
                     id: $value->id,
                     specDocId: $value->spec_doc_id,
                     execEnvId: $value->exec_env_id,
                     statusId: $value->status_id,
-                    updatedAt: new DateTimeImmutable($value->updated_at),
+                    updatedAt: $value->updated_at,
                     execEnvName: $value->exec_env_name,
                 );
-
-                return SpecDocSheetFactory::create($dto);
             })
             ->toArray();
+    }
 
-        return $entities;
+    public function store(SpecDocSheetDto $dto): int
+    {
+        $entity = SpecDocSheetFactory::create($dto);
+        $now    = (new DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+            ->insertGetId([
+                'spec_doc_id' => $entity->getSpecDocId(),
+                'exec_env_id' => $entity->getExecEnvId(),
+                'created_at'  => $now,
+                'updated_at'  => $now,
+            ]);
+    }
+
+    public function deleteById(int $id): void
+    {
+        DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+            ->where('id', $id)
+            ->delete();
     }
 }

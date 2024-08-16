@@ -6,16 +6,25 @@ import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
-import { ExecutionEnvironment } from "@/types/ExecutionEnvronment";
+import { ExecutionEnvironment } from "@/types/ExecutionEnvironment";
+import { SpecDocSheet } from "@/types/SpecDocSheet";
+import SpecDocSheetManager from "@/Components/SpecificationDocument/SpecDocSheetManager";
 
 type Props = PageProps & {
     project: Project;
     specificationDocument: SpecificationDocument;
     executionEnvironments: ExecutionEnvironment[];
+    specDocSheets: SpecDocSheet[];
     flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specificationDocument, executionEnvironments }) => {
+const Index: React.FC<Props> = ({
+    auth,
+    project,
+    specificationDocument,
+    executionEnvironments,
+    specDocSheets,
+}) => {
     const { data, setData, put, processing, errors } = useForm({
         title: specificationDocument.title,
         summary: specificationDocument.summary,
@@ -25,7 +34,12 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocument, executio
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put(route("specDocs.update", { projectId: project.id, specDocId: specificationDocument.id }));
+        put(
+            route("specDocs.update", {
+                projectId: project.id,
+                specDocId: specificationDocument.id,
+            })
+        );
     };
 
     return (
@@ -47,7 +61,12 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocument, executio
                     <p className="spec-doc-form__flash">{flash.success}</p>
                 )}
 
-                <Link href={route("specDocSheets.index", { projectId: project.id, specDocId: specificationDocument.id })}>
+                <Link
+                    href={route("specDocSheets.index", {
+                        projectId: project.id,
+                        specDocId: specificationDocument.id,
+                    })}
+                >
                     シート一覧へ
                 </Link>
 
@@ -112,6 +131,12 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocument, executio
                     </div>
                 </form>
             </section>
+
+            <SpecDocSheetManager
+                specificationDocument={specificationDocument}
+                executionEnvironments={executionEnvironments}
+                specDocSheets={specDocSheets}
+            />
         </AuthenticatedLayout>
     );
 };
