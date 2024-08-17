@@ -6,7 +6,6 @@ use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecDocSheet\SpecDocSheetRepositoryInterface;
 use App\Domain\SpecDocSheet\ValueObject\StatusId;
-use DateTimeImmutable;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +32,7 @@ class SpecDocSheetSeeder extends Seeder
                 specDocId: $val['spec_doc_id'],
                 execEnvId: $val['exec_env_id'],
                 statusId: array_key_first(StatusId::STATUSES),
-                updatedAt: new DateTimeImmutable(),
+                updatedAt: 'now',
                 execEnvName: null,
             );
             $entity       = SpecDocSheetFactory::create($dto);
