@@ -57,7 +57,6 @@ class SpecDocSheetController extends Controller
         /** @var int */
         $execEnvId = $request->validated('exec_env_id');
 
-
         $dto = new SpecDocSheetDto(
             id: null,
             specDocId: $specDocId,
@@ -70,12 +69,16 @@ class SpecDocSheetController extends Controller
         } catch (Exception $e) {
             Log::error('Failed to create spec doc:' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
-            return response()->json(['error' => 'Failed to create spec doc sheet'], 500);
+            return response()->json(
+                ['message' => 'Failed to create spec doc sheet.',
+                ],
+                500,
+            );
         }
 
         return response()->json([
-            'success'        => 'Success create spec doc sheet',
-            'SpecDocSheetId' => $newSheetId,
+            'message'           => 'Success create spec doc sheet.',
+            'newSpecDocSheetId' => $newSheetId,
         ], 200);
     }
 
@@ -99,12 +102,12 @@ class SpecDocSheetController extends Controller
             Log::error('Failed to delete spec doc:' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
             return response()->json([
-                'error' => 'Delete create spec doc sheet',
+                'message' => 'Failed to delete spec soc sheet.',
             ], 500);
         }
 
         return response()->json([
-            'success' => 'Success create spec doc sheet',
+            'message' => 'Success delete spec doc sheet.',
         ], 200);
     }
 }
