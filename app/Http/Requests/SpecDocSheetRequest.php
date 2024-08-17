@@ -23,7 +23,11 @@ class SpecDocSheetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'exec_env_id' => 'required|integer|exists:' . ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ',id',
+            'exec_env_id' => [
+                'required',
+                'integer',
+                'exists:' . ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ',id',
+            ],
         ];
     }
 }

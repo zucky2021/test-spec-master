@@ -26,6 +26,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_agents');
+        Schema::dropIfExists('execution_environments');
     }
 };

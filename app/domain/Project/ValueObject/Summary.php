@@ -14,8 +14,8 @@ final class Summary implements StringValue
 
     public function __construct(private string $summary)
     {
-        $this->summary = $summary;
         $this->validate($this->summary);
+        $this->summary = $summary;
     }
 
     public function validate(string $value): void

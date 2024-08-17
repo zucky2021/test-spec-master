@@ -19,8 +19,8 @@ final class StatusId implements IntValue
 
     public function __construct(private int $value)
     {
-        $this->value = $value;
         $this->validate($this->value);
+        $this->value = $value;
     }
 
     public function validate(int $value): void

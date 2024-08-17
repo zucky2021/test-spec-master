@@ -15,8 +15,8 @@ final class Email implements StringValue
 
     public function __construct(string $value)
     {
-        $this->value = $value;
         $this->validate($this->value);
+        $this->value = $value;
     }
 
     public function validate(string $value): void

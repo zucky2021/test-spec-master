@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Domain\Department\DepartmentRepositoryInterface;
 use App\Models\User;
-use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +18,7 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         if (empty($this->user())) {
-            throw new Exception();
+            throw new AuthenticationException('User is not authenticated.');
         }
         /** @var int */
         $userId = $this->user()->id;

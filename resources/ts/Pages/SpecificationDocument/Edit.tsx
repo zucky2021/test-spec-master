@@ -26,8 +26,8 @@ const Index: React.FC<Props> = ({
     specDocSheets,
 }) => {
     const { data, setData, put, processing, errors } = useForm({
-        title: specificationDocument.title,
-        summary: specificationDocument.summary,
+        title: specificationDocument?.title || "",
+        summary: specificationDocument?.summary || "",
     });
 
     const { flash } = usePage<Props>().props;
@@ -70,7 +70,7 @@ const Index: React.FC<Props> = ({
                     シート一覧へ
                 </Link>
 
-                <time className="spec-doc-form__updated-at">
+                <time className="spec-doc-form__updated-at" dateTime={specificationDocument.updatedAt}>
                     Updated at: {specificationDocument.updatedAt}
                 </time>
                 <form onSubmit={handleSubmit}>
@@ -123,7 +123,7 @@ const Index: React.FC<Props> = ({
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded {processing ? 'Processing...' : 'Create'}`}
+                            className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded ${processing ? 'Processing...' : 'Create'}`}
                             disabled={processing}
                         >
                             {processing ? "Processing..." : "Update"}

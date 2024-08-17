@@ -14,8 +14,8 @@ final class Name implements StringValue
 
     public function __construct(private string $name)
     {
-        $this->name = $name;
         $this->validate($this->name);
+        $this->name = $name;
     }
 
     public function validate(string $value): void

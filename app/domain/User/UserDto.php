@@ -7,18 +7,12 @@ namespace App\Domain\User;
  */
 final class UserDto
 {
-    public ?int $id;
-    public ?int $departmentId;
-    public string $name;
-    public string $email;
-    public string $password;
-
     public function __construct(
-        ?int $id,
-        ?int $departmentId,
-        string $name,
-        string $email,
-        string $password,
+        public ?int $id,
+        public ?int $departmentId,
+        public string $name,
+        public string $email,
+        public string $password,
     ) {
         $this->id           = $id;
         $this->departmentId = $departmentId;
