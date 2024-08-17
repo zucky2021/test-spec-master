@@ -46,7 +46,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
                     projectId: specificationDocument.projectId,
                     specDocId: specificationDocument.id,
                 }),
-                { exec_env_id: envId }
+                data
             );
             const { message, newSpecDocSheetId } = response.data;
 
@@ -80,8 +80,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
         }
     }, [data.exec_env_id]);
 
-    const handleCopySheet = (sheetId: number) => {
-    };
+    const handleCopySheet = (sheetId: number) => {};
 
     const handleRemoveSheet = async (sheetId: number) => {
         try {
@@ -93,7 +92,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
                 })
             );
 
-            setSheets(sheets.filter((sheet) => sheet.id !== sheetId))
+            setSheets(sheets.filter((sheet) => sheet.id !== sheetId));
             alert(response.data.message);
         } catch (error) {
             console.error("Failed to delete sheet: ", error);
