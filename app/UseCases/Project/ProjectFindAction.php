@@ -3,7 +3,6 @@
 namespace App\UseCases\Project;
 
 use App\Domain\Project\ProjectDto;
-use App\Domain\Project\ProjectEntity;
 use App\Domain\Project\ProjectRepositoryInterface;
 
 /**
@@ -26,7 +25,7 @@ final class ProjectFindAction
     /**
      * プロジェクトを取得
      *
-     * @return ProjectEntity[]
+     * @return ProjectDto[]
      */
     public function findAll(): array
     {

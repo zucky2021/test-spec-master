@@ -10,16 +10,11 @@ use App\Domain\Project\ValueObject\Summary;
  */
 final class ProjectEntity
 {
-    private ?int $id;
-    private int $departmentId;
-    private Name $name;
-    private Summary $summary;
-
     public function __construct(
-        ?int $id,
-        int $departmentId,
-        Name $name,
-        Summary $summary,
+        private ?int $id,
+        private int $departmentId,
+        private Name $name,
+        private Summary $summary,
     ) {
         $this->id           = $id;
         $this->departmentId = $departmentId;

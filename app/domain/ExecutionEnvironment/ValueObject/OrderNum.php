@@ -12,7 +12,7 @@ final class OrderNum implements IntValue
 {
     public function __construct(private int $value)
     {
-        $this->validate($this->value);
+        $this->validate($value);
         $this->value = $value;
     }
 

@@ -14,7 +14,7 @@ interface ProjectRepositoryInterface
     /**
      * 全てのプロジェクトを取得
      *
-     * @return ProjectEntity[]
+     * @return ProjectDto[]
      */
     public function findAll(): array;
 

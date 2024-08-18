@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domain\Department\ValueObject;
+
 use App\Domain\ValueObjectInterface\StringValue;
 use InvalidArgumentException;
 
@@ -8,10 +9,10 @@ final class Name implements StringValue
 {
     public const MAX_LEN = 100;
 
-    public function __construct(private string $name)
+    public function __construct(private string $value)
     {
-        $this->validate($this->name);
-        $this->name = $name;
+        $this->validate($value);
+        $this->value = $value;
     }
 
     public function validate(string $value): void
@@ -23,6 +24,6 @@ final class Name implements StringValue
 
     public function value(): string
     {
-        return $this->name;
+        return $this->value;
     }
 }

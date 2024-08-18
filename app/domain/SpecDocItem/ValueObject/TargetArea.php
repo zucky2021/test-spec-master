@@ -14,7 +14,7 @@ final class TargetArea implements StringValue
 
     public function __construct(private string $value)
     {
-        $this->validate($this->value);
+        $this->validate($value);
         $this->value = $value;
     }
 

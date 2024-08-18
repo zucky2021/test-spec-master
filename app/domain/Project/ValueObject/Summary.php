@@ -12,10 +12,10 @@ final class Summary implements StringValue
 {
     public const MAX_LEN = 1000;
 
-    public function __construct(private string $summary)
+    public function __construct(private string $value)
     {
-        $this->validate($this->summary);
-        $this->summary = $summary;
+        $this->validate($value);
+        $this->value = $value;
     }
 
     public function validate(string $value): void
@@ -27,6 +27,6 @@ final class Summary implements StringValue
 
     public function value(): string
     {
-        return $this->summary;
+        return $this->value;
     }
 }

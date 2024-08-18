@@ -14,7 +14,7 @@ final class Remark implements StringValue
 
     public function __construct(private string $value)
     {
-        $this->validate($this->value);
+        $this->validate($value);
         $this->value = $value;
     }
 
@@ -23,7 +23,7 @@ final class Remark implements StringValue
         if (mb_strlen($value) > self::MAX_LEN) {
             throw new InvalidArgumentException(
                 sprintf(
-                    '%s must be less than %d characters, got %d.',
+                    '%s must be %d or less characters, got %d.',
                     __CLASS__,
                     self::MAX_LEN,
                     mb_strlen($value),
