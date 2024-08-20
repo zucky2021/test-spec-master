@@ -10,7 +10,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: laravel
         ports:
           - 3306:3306
@@ -19,27 +19,36 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+        volumes:
+          - /var/lib/mysql
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: 8.3
           tools: composer
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+      - name: Install dependencies
+        run: composer install
 
-      - name: Create environment file
+      - name: Copy .env.example to .env
         run: cp .env.example .env
 
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Run migrations
-        run: php artisan migrate --force
+      - name: Start Laravel Sail
+        run: |
+          vendor/bin/sail up -d
+          vendor/bin/sail artisan migrate --seed
 
       - name: Run tests
-        run: ./vendor/bin/phpunit --testdox
+        run: vendor/bin/sail phpunit
+
+      - name: Stop Laravel Sail
+        if: always()
+        run: vendor/bin/sail down
