@@ -44,7 +44,6 @@ jobs:
       - name: Set permissions for storage and cache
         run: |
           chmod -R 775 storage bootstrap/cache
-          chown -R www-data:www-data storage bootstrap/cache
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
