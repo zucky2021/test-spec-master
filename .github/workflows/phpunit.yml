@@ -51,15 +51,6 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Wait for MySQL to be ready
-        run: |
-          until nc -z -v -w30 mysql 3306
-          do
-            echo "Waiting for MySQL connection..."
-            sleep 1
-          done
-          echo "MySQL is ready!"
-
       - name: Start Laravel Sail
         run: |
           vendor/bin/sail up -d
