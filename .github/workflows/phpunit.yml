@@ -48,6 +48,9 @@ jobs:
       - name: Copy .env.example to .env
         run: cp .env.example .env
 
+      - name: Override .env variables
+        run: echo "DB_PASSWORD=password" >> .env
+
       - name: Generate application key
         run: php artisan key:generate
 
