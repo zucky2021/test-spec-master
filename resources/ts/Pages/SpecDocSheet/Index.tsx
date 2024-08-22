@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
+import ReactMarkdown from 'react-markdown';
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
@@ -26,7 +27,7 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
             <section className="spec-doc-sheet">
                 <div className="spec-doc-sheet__head">
                     <h3>{specDoc.title}</h3>
-                    <h4>{specDoc.summary}</h4>
+                    <ReactMarkdown>{specDoc.summary}</ReactMarkdown>
                 </div>
                 { auth.user.id === specDoc.userId && (
                     <Link href={route("specDocs.edit", { projectId: specDoc.projectId, specDocId: specDoc.id })}>
