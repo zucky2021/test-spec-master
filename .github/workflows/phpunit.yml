@@ -9,9 +9,9 @@ jobs:
     services:
       mysql:
         image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laravel
+        # env:
+        #   MYSQL_ROOT_PASSWORD: password
+        #   MYSQL_DATABASE: laravel
         ports:
           - 3307:3306
         options: >-
@@ -68,7 +68,7 @@ jobs:
       - name: Start Laravel Sail and run migrations
         run: |
           vendor/bin/sail up -d
-          vendor/bin/sail artisan migrate --seed
+        #   vendor/bin/sail artisan migrate --seed
 
       - name: Run tests
         run: vendor/bin/sail phpunit
