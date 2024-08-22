@@ -39,36 +39,16 @@ jobs:
           tools: composer
 
       - name: Install dependencies
-        run: composer install
-
-      - name: Set permissions for storage and cache
-        run: chmod -R 775 storage bootstrap/cache
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-install=dist
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
 
-      - name: Override .env variables
-        run: |
-          echo "DB_PASSWORD=password" >> .env
-          echo "DB_HOST=mysql" >> .env
-          echo "DB_USERNAME=sail" >> .env
-          echo "DB_DATABASE=laravel" >> .env
+      - name: Start Laravel Sail
+        run: vendor/bin/sail up -d
 
       - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping -h"mysql" --silent; do
-            echo 'Waiting for MySQL to be ready...'
-            sleep 5
-          done
-          echo 'MySQL is ready!'
-
-      - name: Start Laravel Sail and run migrations
-        run: |
-          vendor/bin/sail up -d
-        #   vendor/bin/sail artisan migrate --seed
+        run: vendor/bin/sail artisan key:generate
 
       - name: Run tests
         run: vendor/bin/sail phpunit
