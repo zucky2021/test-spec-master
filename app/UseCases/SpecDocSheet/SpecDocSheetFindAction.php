@@ -19,6 +19,11 @@ final class SpecDocSheetFindAction
         return $this->repository->exists($id);
     }
 
+    public function findById(int $id): SpecDocSheetDto
+    {
+        return $this->repository->findById($id);
+    }
+
     /**
      * 仕様書IDからシートを取得
      *

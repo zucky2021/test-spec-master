@@ -14,6 +14,14 @@ interface SpecDocSheetRepositoryInterface
     /**
      * PKからシートを取得
      *
+     * @param integer $id
+     * @return SpecDocSheetDto
+     */
+    public function findById(int $id): SpecDocSheetDto;
+
+    /**
+     * PKから全てのシートを取得
+     *
      * @param int $specDocSheetId
      * @return SpecDocSheetEntity
      */

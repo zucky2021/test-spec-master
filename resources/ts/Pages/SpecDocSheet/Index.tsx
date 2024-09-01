@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
@@ -35,7 +36,9 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
 
                 <div className="spec-doc-sheet__head">
                     <h3>{specDoc.title}</h3>
-                    <ReactMarkdown>{specDoc.summary}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
+                        {specDoc.summary}
+                    </ReactMarkdown>
                 </div>
                 {auth.user.id === specDoc.userId && (
                     <Link

@@ -70,7 +70,8 @@ class SpecDocSheetController extends Controller
             Log::error('Failed to create spec doc:' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
             return response()->json(
-                ['message' => 'Failed to create spec doc sheet.',
+                [
+                    'message' => 'Failed to create spec doc sheet.',
                 ],
                 500,
             );
@@ -80,6 +81,33 @@ class SpecDocSheetController extends Controller
             'message'           => 'Success create spec doc sheet.',
             'newSpecDocSheetId' => $newSheetId,
         ], 200);
+    }
+
+    /**
+     * シート編集画面
+     *
+     * @param Request $request
+     * @param SpecificationDocumentFindAction $specificationDocumentFindAction
+     * @param SpecDocSheetFindAction $specDocSheetFindAction
+     * @return Response
+     */
+    public function edit(
+        Request $request,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+        SpecDocSheetFindAction $specDocSheetFindAction,
+    ): Response {
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+        /** @var int */
+        $specDocSheetId = $request->input('specDocSheetId');
+
+        $specDocDto      = $specificationDocumentFindAction->findById($specDocId);
+        $specDocSheetDto = $specDocSheetFindAction->findById($specDocSheetId);
+
+        return Inertia::render('SpecDocSheet/Edit', [
+            'specDoc'      => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+            'specDocSheet' => SpecDocSheetFactory::create($specDocSheetDto)->toArray(),
+        ]);
     }
 
     /**

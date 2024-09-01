@@ -15,7 +15,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
     public function findById(int $id): ?ProjectDto
     {
         /** @var stdClass|null */
-        $model = DB::table(ProjectRepositoryInterface::TABLE_NAME)
+        $model = DB::table(self::TABLE_NAME)
             ->where('id', $id)
             ->first();
 

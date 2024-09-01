@@ -116,15 +116,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
             <ul>
                 {sheets.map((sheet) => (
                     <li key={sheet.execEnvId}>
-                        <Link
-                            href={route("specDocSheets.edit", {
-                                projectId: specificationDocument.projectId,
-                                specDocId: specificationDocument.id,
-                                specDocSheetId: sheet.id,
-                            })}
-                        >
-                            {sheet.execEnvName}
-                        </Link>
+                        {sheet.execEnvName}
 
                         <Dropdown>
                             <Dropdown.Trigger>
@@ -140,11 +132,22 @@ const SpecDocSheetManager: React.FC<Props> = ({
                                 </button>
                             </Dropdown.Trigger>
                             <Dropdown.Content>
+                                <Link
+                                    href={route("specDocSheets.edit", {
+                                        projectId:
+                                            specificationDocument.projectId,
+                                        specDocId: specificationDocument.id,
+                                        specDocSheetId: sheet.id,
+                                    })}
+                                    className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
+                                >
+                                    Edit
+                                </Link>
                                 <button
                                     className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
                                     // onClick={() => setEditing(true)}
                                 >
-                                    Edit
+                                    Edit env
                                 </button>
                                 <button
                                     className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"

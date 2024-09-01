@@ -18,15 +18,34 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
 {
     public function exists(int $id): bool
     {
-        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->where('id', $id)
             ->exists();
+    }
+
+    public function findById(int $id): SpecDocSheetDto
+    {
+        /** @var stdClass */
+        $model = DB::table(self::TABLE_NAME . ' as sds')
+            ->join(ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ' as ee', 'sds.exec_env_id', '=', 'ee.id')
+            ->where('sds.id', $id)
+            ->select('sds.*', 'ee.name as exec_env_name')
+            ->first();
+
+        return new SpecDocSheetDto(
+            id: $model->id,
+            specDocId: $model->spec_doc_id,
+            execEnvId: $model->exec_env_id,
+            statusId: $model->status_id,
+            updatedAt: $model->updated_at,
+            execEnvName: $model->exec_env_name,
+        );
     }
 
     public function findAllById(int $specDocSheetId): SpecDocSheetEntity
     {
         /** @var stdClass */
-        $model = DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+        $model = DB::table(self::TABLE_NAME)
             ->where('id', $specDocSheetId)
             ->first();
 
@@ -45,7 +64,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
     public function findAllBySpecDocId(int $specDocId): array
     {
         /** @var SpecDocSheetDto[] */
-        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME . ' as sds')
+        return DB::table(self::TABLE_NAME . ' as sds')
             ->join(ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ' as ee', 'sds.exec_env_id', '=', 'ee.id')
             ->where('sds.spec_doc_id', $specDocId)
             ->select('sds.*', 'ee.name as exec_env_name')
@@ -69,7 +88,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
         $entity = SpecDocSheetFactory::create($dto);
         $now    = (new DateTimeImmutable())->format('Y-m-d H:i:s');
 
-        return DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->insertGetId([
                 'spec_doc_id' => $entity->getSpecDocId(),
                 'exec_env_id' => $entity->getExecEnvId(),
@@ -80,7 +99,7 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
 
     public function deleteById(int $id): void
     {
-        DB::table(SpecDocSheetRepositoryInterface::TABLE_NAME)
+        DB::table(self::TABLE_NAME)
             ->where('id', $id)
             ->delete();
     }
