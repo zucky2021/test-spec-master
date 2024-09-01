@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\SpecDocItem\SpecDocItemFactory;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecDocSheetRequest;
+use App\UseCases\SpecDocItem\SpecDocItemFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetDeleteAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetStoreAction;
@@ -95,18 +97,26 @@ class SpecDocSheetController extends Controller
         Request $request,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
         SpecDocSheetFindAction $specDocSheetFindAction,
+        SpecDocItemFindAction $specDocItemFindAction,
     ): Response {
+        // FIXME:Create request class
         /** @var int */
         $specDocId = $request->input('specDocId');
         /** @var int */
         $specDocSheetId = $request->input('specDocSheetId');
 
-        $specDocDto      = $specificationDocumentFindAction->findById($specDocId);
-        $specDocSheetDto = $specDocSheetFindAction->findById($specDocSheetId);
+        $specDocDto        = $specificationDocumentFindAction->findById($specDocId);
+        $specDocSheetDto   = $specDocSheetFindAction->findById($specDocSheetId);
+        $specDocItemDtoArr = $specDocItemFindAction->findAllBySpecDocSheetId($specDocSheetId);
+
+        $specDocItems = array_map(function ($dto) {
+            return SpecDocItemFactory::create($dto)->toArray();
+        }, $specDocItemDtoArr);
 
         return Inertia::render('SpecDocSheet/Edit', [
             'specDoc'      => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'specDocSheet' => SpecDocSheetFactory::create($specDocSheetDto)->toArray(),
+            'specDocItems' => $specDocItems,
         ]);
     }
 
