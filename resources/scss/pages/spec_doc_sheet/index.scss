@@ -1,0 +1,16 @@
+.spec-doc-sheet {
+    width: 90%;
+    margin: 0 auto;
+    &__backBtn {
+        margin: 1rem;
+    }
+    &__editBtn {
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 1rem;
+        margin: 1rem auto;
+        padding: 1rem 3rem;
+        display: block;
+        width: fit-content;
+    }
+}
