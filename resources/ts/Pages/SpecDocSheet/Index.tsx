@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
-import "@scss/pages/specification_document/index.scss";
+import "@scss/pages/spec_doc_sheet/index.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 
 type Props = PageProps & {
@@ -30,6 +30,7 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                     href={route("specDocs.index", {
                         projectId: specDoc.projectId,
                     })}
+                    className="spec-doc-sheet__backBtn"
                 >
                     Back to specification document list
                 </Link>
@@ -46,6 +47,7 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                             projectId: specDoc.projectId,
                             specDocId: specDoc.id,
                         })}
+                        className="spec-doc-sheet__editBtn"
                     >
                         Edit
                     </Link>
