@@ -43,5 +43,7 @@ interface SpecDocSheetRepositoryInterface
      */
     public function store(SpecDocSheetDto $dto): int;
 
+    public function update(SpecDocSheetDto $dto): void;
+
     public function deleteById(int $id): void;
 }

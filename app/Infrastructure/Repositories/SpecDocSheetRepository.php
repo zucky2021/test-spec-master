@@ -97,6 +97,16 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
             ]);
     }
 
+    public function update(SpecDocSheetDto $dto): void
+    {
+        $entity = SpecDocSheetFactory::create($dto);
+        DB::table(self::TABLE_NAME)
+            ->where('id', $entity->getId())
+            ->update([
+                'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            ]);
+    }
+
     public function deleteById(int $id): void
     {
         DB::table(self::TABLE_NAME)
