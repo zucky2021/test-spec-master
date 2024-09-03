@@ -3,7 +3,7 @@ import React, { FormEventHandler } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import "@scss/pages/spec_doc_item/edit.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
@@ -92,27 +92,15 @@ const Edit: React.FC<Props> = ({
             <Head title="Specification document sheet edit" />
 
             <section className="spec-doc-item-edit">
-                {flash.success && (
-                    <div className="spec-doc-item-edit__alert-success">
-                        <Transition
-                            show={recentlySuccessful}
-                            enter="transition ease-in-out"
-                            enterFrom="opacity-0"
-                            leave="transition ease-in-out"
-                            leaveTo="opacity-0"
-                        >
-                            <p className="text-sm text-gray-600">
-                                {flash.success}
-                            </p>
-                        </Transition>
-                    </div>
-                )}
-                {flash.error && (
-                    <div className="spec-doc-item-edit__alert-error">
-                        {flash.error}
-                    </div>
-                )}
-
+                <Link
+                    href={route("specDocs.edit", {
+                        projectId: specDoc.projectId,
+                        specDocId: specDoc.id,
+                    })}
+                    className="back-link"
+                >
+                    Back to sheet list page
+                </Link>
                 <div className="spec-doc-item-edit__description">
                     <h3>{specDoc.title}</h3>
                     <h4>{specDocSheet.execEnvName}</h4>
@@ -131,6 +119,12 @@ const Edit: React.FC<Props> = ({
                 </div>
 
                 <form onSubmit={submit}>
+                    {flash.error && (
+                        <div className="spec-doc-item-edit__alert-error">
+                            {flash.error}
+                        </div>
+                    )}
+
                     <ul className="spec-doc-item-edit__inputList">
                         <li>
                             <div>Target area</div>
@@ -249,6 +243,19 @@ const Edit: React.FC<Props> = ({
                         <PrimaryButton disabled={processing}>
                             Save
                         </PrimaryButton>
+                        {flash.success && (
+                            <Transition
+                                show={recentlySuccessful}
+                                enter="transition ease-in-out"
+                                enterFrom="opacity-0"
+                                leave="transition ease-in-out"
+                                leaveTo="opacity-0"
+                            >
+                                <p className="text-sm text-gray-600">
+                                    {flash.success}
+                                </p>
+                            </Transition>
+                        )}
                     </div>
                 </form>
             </section>
