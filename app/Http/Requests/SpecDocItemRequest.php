@@ -26,7 +26,7 @@ class SpecDocItemRequest extends FormRequest
     {
         return [
             'items'               => 'array',
-            'items.*.targetArea'  => 'nullable|string|max:' . TargetArea::MAX_LEN,
+            'items.*.targetArea'  => 'required|string|max:' . TargetArea::MAX_LEN,
             'items.*.checkDetail' => 'required|string|max:' . CheckDetail::MAX_LEN,
             'items.*.remark'      => 'nullable|string|max:' . Remark::MAX_LEN,
         ];

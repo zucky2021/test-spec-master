@@ -99,7 +99,6 @@ class SpecDocSheetController extends Controller
         SpecDocSheetFindAction $specDocSheetFindAction,
         SpecDocItemFindAction $specDocItemFindAction,
     ): Response {
-        // FIXME:Create request class
         /** @var int */
         $specDocId = $request->input('specDocId');
         /** @var int */
