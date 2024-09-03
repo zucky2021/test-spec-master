@@ -11,7 +11,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SpecDocSheetSeeder extends Seeder
+class SpecDocItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
