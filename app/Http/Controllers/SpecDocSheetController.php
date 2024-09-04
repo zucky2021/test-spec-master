@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\SpecDocItem\SpecDocItemFactory;
+use App\Domain\SpecDocItem\ValueObject\StatusId;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
@@ -49,8 +50,35 @@ class SpecDocSheetController extends Controller
         ]);
     }
 
+    public function show(
+        Request $request,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+        SpecDocSheetFindAction $specDocSheetFindAction,
+        SpecDocItemFindAction $specDocItemFindAction,
+    ): Response {
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+        /** @var int */
+        $specDocSheetId = $request->input('specDocSheetId');
+
+        $specDocDto = $specificationDocumentFindAction->findById($specDocId);
+
+        $specDocSheetDto = $specDocSheetFindAction->findById($specDocSheetId);
+
+        $specDocItemDtoArr = $specDocItemFindAction->findAllBySpecDocSheetId($specDocSheetId);
+        $specDocItems      = array_map(function ($dto) {
+            return SpecDocItemFactory::create($dto)->toArray();
+        }, $specDocItemDtoArr);
+
+        return Inertia::render('SpecDocSheet/Show', [
+            'specDoc'      => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+            'specDocSheet' => SpecDocSheetFactory::create($specDocSheetDto)->toArray(),
+            'specDocItems' => $specDocItems,
+            'statuses'     => StatusId::STATUSES,
+        ]);
+    }
+
     public function store(
-        // Request $request,
         SpecDocSheetRequest $request,
         SpecDocSheetStoreAction $specDocSheetStoreAction,
     ): JsonResponse {

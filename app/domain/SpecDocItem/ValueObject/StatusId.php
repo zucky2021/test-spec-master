@@ -12,7 +12,7 @@ final class StatusId implements IntValue
 {
     public const STATUSES = [
         0 => 'Pending',
-        1 => 'Completed',
+        1 => 'OK',
         2 => 'NG',
     ];
 

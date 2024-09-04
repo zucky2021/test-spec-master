@@ -37,7 +37,10 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
 
                 <div className="spec-doc-sheet__head">
                     <h3>{specDoc.title}</h3>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        className="markdown"
+                    >
                         {specDoc.summary}
                     </ReactMarkdown>
                 </div>
@@ -59,7 +62,11 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                     specDocSheets.map((specDocSheet) => (
                         <li key={specDocSheet.id}>
                             <Link
-                                href={`/project/${specDocSheet.specDocId}/spec-doc/${specDocSheet.id}`}
+                                href={route("specDocSheets.show", {
+                                    projectId: specDoc.projectId,
+                                    specDocId: specDoc.id,
+                                    specDocSheetId: specDocSheet.id,
+                                })}
                             >
                                 <h3>{specDocSheet.execEnvName}</h3>
                             </Link>

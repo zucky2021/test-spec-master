@@ -14,22 +14,28 @@ use stdClass;
  */
 final class SpecDocItemRepository implements SpecDocItemRepositoryInterface
 {
-    // public function exists(int $id): bool
-    // {
-    //     return DB::table(self::TABLE_NAME)
-    //         ->where('id', $id)
-    //         ->exists();
-    // }
+    public function exists(int $id): bool
+    {
+        return DB::table(self::TABLE_NAME)
+            ->where('id', $id)
+            ->exists();
+    }
 
-    // public function findById(int $id): SpecDocItemDto
-    // {
-    //     /** @var stdClass */
-    //     $model = DB::table(self::TABLE_NAME . ' as sds')
-    //         ->first();
+    public function findById(int $id): SpecDocItemDto
+    {
+        /** @var stdClass */
+        $model = DB::table(self::TABLE_NAME . ' as sds')
+            ->first();
 
-    //     return new SpecDocItemDto(
-    //     );
-    // }
+        return new SpecDocItemDto(
+            id: $model->id,
+            specDocSheetId: $model->spec_doc_sheet_id,
+            targetArea: $model->target_area,
+            checkDetail: $model->check_detail,
+            remark: $model->remark,
+            statusId: $model->status_id,
+        );
+    }
 
     public function findAllBySpecDocSheetId(int $specDocSheetId): array
     {
@@ -67,6 +73,18 @@ final class SpecDocItemRepository implements SpecDocItemRepositoryInterface
         }
         DB::table(self::TABLE_NAME)
             ->insert($inserts);
+    }
+
+    public function update(SpecDocItemDto $dto): void
+    {
+        $entity = SpecDocItemFactory::create($dto);
+
+        DB::table(self::TABLE_NAME)
+            ->where('id', $entity->getId())
+            ->update([
+                'status_id'  => $entity->getStatusId()->value(),
+                'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            ]);
     }
 
     public function deleteAllBySheetId(int $specDocSheetId): void

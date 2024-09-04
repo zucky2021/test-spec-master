@@ -6,6 +6,7 @@ use App\Http\Controllers\SpecDocItemController;
 use App\Http\Controllers\SpecDocSheetController;
 use App\Http\Controllers\SpecificationDocumentController;
 use App\Http\Middleware\ValidateProjectId;
+use App\Http\Middleware\ValidateSpecDocItemId;
 use App\Http\Middleware\ValidateSpecDocSheetId;
 use App\Http\Middleware\ValidateSpecificationDocumentId;
 use Illuminate\Foundation\Application;
@@ -47,9 +48,13 @@ Route::middleware('auth')->group(function () {
                 Route::post('/', [SpecDocSheetController::class, 'store'])->name('specDocSheets.store');
                 Route::prefix('{specDocSheetId}')->middleware(ValidateSpecDocSheetId::class)->group(function () {
                     Route::get('/', [SpecDocSheetController::class, 'show'])->name('specDocSheets.show');
-                    Route::put('/', [SpecDocItemController::class, 'update'])->name('specDocItem.update');
+                    Route::put('/', [SpecDocItemController::class, 'store'])->name('specDocItems.store');
                     Route::delete('/', [SpecDocSheetController::class, 'destroy'])->name('specDocSheets.destroy');
                     Route::get('/edit', [SpecDocSheetController::class, 'edit'])->name('specDocSheets.edit');
+
+                    Route::prefix('{specDocItemId}')->middleware(ValidateSpecDocItemId::class)->group(function () {
+                        Route::patch('/', [SpecDocItemController::class, 'update'])->name('specDocItems.update');
+                    });
                 });
             });
         });

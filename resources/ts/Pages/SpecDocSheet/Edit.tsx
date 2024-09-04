@@ -70,7 +70,7 @@ const Edit: React.FC<Props> = ({
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         put(
-            route("specDocItem.update", {
+            route("specDocItems.store", {
                 projectId: specDoc.projectId,
                 specDocId: specDoc.id,
                 specDocSheetId: specDocSheet.id,

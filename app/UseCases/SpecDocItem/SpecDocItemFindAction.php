@@ -14,15 +14,15 @@ final class SpecDocItemFindAction
         $this->repository = $repository;
     }
 
-    // public function exists(int $id): bool
-    // {
-    //     return $this->repository->exists($id);
-    // }
+    public function exists(int $id): bool
+    {
+        return $this->repository->exists($id);
+    }
 
-    // public function findById(int $id): SpecDocItemDto
-    // {
-    //     return $this->repository->findById($id);
-    // }
+    public function findById(int $id): SpecDocItemDto
+    {
+        return $this->repository->findById($id);
+    }
 
     /**
      * シートIDから全ての項目を取得

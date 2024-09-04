@@ -9,6 +9,10 @@ interface SpecDocItemRepositoryInterface
 {
     public const TABLE_NAME = 'specification_document_items';
 
+    public function exists(int $id): bool;
+
+    public function findById(int $id): SpecDocItemDto;
+
     /**
      * シートIDから全ての項目を取得
      *
@@ -24,6 +28,8 @@ interface SpecDocItemRepositoryInterface
      * @return void
      */
     public function store(array $dtoArr): void;
+
+    public function update(SpecDocItemDto $dto): void;
 
     /**
      * シートIdから全ての項目を削除

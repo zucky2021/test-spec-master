@@ -6,24 +6,20 @@ use App\Domain\SpecDocItem\SpecDocItemDto;
 use App\Domain\SpecDocItem\ValueObject\StatusId;
 use App\Http\Requests\SpecDocItemRequest;
 use App\UseCases\SpecDocItem\SpecDocItemDeleteAction;
+use App\UseCases\SpecDocItem\SpecDocItemFindAction;
 use App\UseCases\SpecDocItem\SpecDocItemStoreAction;
+use App\UseCases\SpecDocItem\SpecDocItemUpdateAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetUpdateAction;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SpecDocItemController extends Controller
 {
-    /**
-     * 実施画面
-     */
-    // public function index(): void
-    // {
-    //     //
-    // }
-
     /**
      * 更新(削除＆新規作成)処理
      *
@@ -34,16 +30,13 @@ class SpecDocItemController extends Controller
      * @param \App\UseCases\SpecDocItem\SpecDocItemStoreAction $specDocItemStoreAction
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(
+    public function store(
         SpecDocItemRequest $request,
         SpecDocSheetFindAction $specDocSheetFindAction,
         SpecDocSheetUpdateAction $specDocSheetUpdateAction,
         SpecDocItemDeleteAction $specDocItemDeleteAction,
         SpecDocItemStoreAction $specDocItemStoreAction,
     ): RedirectResponse {
-        $projectId = $request->input('projectId');
-        /** @var int */
-        $specDocId = $request->input('specDocId');
         /** @var int */
         $specDocSheetId = $request->input('specDocSheetId');
 
@@ -87,5 +80,40 @@ class SpecDocItemController extends Controller
         return redirect()->back()->with([
             'success' => 'Success save.',
         ]);
+    }
+
+    /**
+     * 単一更新処理
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\UseCases\SpecDocItem\SpecDocItemFindAction $specDocItemFindAction
+     * @param \App\UseCases\SpecDocItem\SpecDocItemUpdateAction $specDocItemUpdateAction
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(
+        Request $request,
+        SpecDocItemFindAction $specDocItemFindAction,
+        SpecDocItemUpdateAction $specDocItemUpdateAction,
+    ): JsonResponse {
+        /** @var int */
+        $specDocItemId = $request->input('specDocItemId');
+
+        $specDocItemDto = $specDocItemFindAction->findById($specDocItemId);
+
+        $newStatusId = ($specDocItemDto->statusId + 1) % count(StatusId::STATUSES);
+
+        $specDocItemDto->statusId = $newStatusId;
+
+        try {
+            $specDocItemUpdateAction->update($specDocItemDto);
+        } catch (Exception $e) {
+            Log::error('Failed to toggle status:' . $e->getMessage());
+
+            return response()->json([], 500);
+        }
+
+        return response()->json([
+            'newStatusId' => $newStatusId,
+        ], 200);
     }
 }
