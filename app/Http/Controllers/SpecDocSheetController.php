@@ -39,9 +39,7 @@ class SpecDocSheetController extends Controller
 
         $specDocSheetDtoArr = $specDocSheetFindAction->findAllBySpecDocId($specDocId);
         $specDocSheets      = array_map(function ($dto) {
-            $entity = SpecDocSheetFactory::create($dto);
-
-            return $entity->toArray();
+            return SpecDocSheetFactory::create($dto)->toArray();
         }, $specDocSheetDtoArr);
 
         return Inertia::render('SpecDocSheet/Index', [
@@ -50,6 +48,15 @@ class SpecDocSheetController extends Controller
         ]);
     }
 
+    /**
+     * テスト実施画面
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\UseCases\SpecificationDocument\SpecificationDocumentFindAction $specificationDocumentFindAction
+     * @param \App\UseCases\SpecDocSheet\SpecDocSheetFindAction $specDocSheetFindAction
+     * @param \App\UseCases\SpecDocItem\SpecDocItemFindAction $specDocItemFindAction
+     * @return \Inertia\Response
+     */
     public function show(
         Request $request,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
@@ -174,5 +181,42 @@ class SpecDocSheetController extends Controller
         return response()->json([
             'message' => 'Success delete spec doc sheet.',
         ], 200);
+    }
+
+    /**
+     * プレビュー画面
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\UseCases\SpecificationDocument\SpecificationDocumentFindAction $specificationDocumentFindAction
+     * @param \App\UseCases\SpecDocSheet\SpecDocSheetFindAction $specDocSheetFindAction
+     * @param \App\UseCases\SpecDocItem\SpecDocItemFindAction $specDocItemFindAction
+     * @return \Inertia\Response
+     */
+    public function preview(
+        Request $request,
+        SpecificationDocumentFindAction $specificationDocumentFindAction,
+        SpecDocSheetFindAction $specDocSheetFindAction,
+        SpecDocItemFindAction $specDocItemFindAction,
+    ): Response {
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+        /** @var int */
+        $specDocSheetId = $request->input('specDocSheetId');
+
+        $specDocDto = $specificationDocumentFindAction->findById($specDocId);
+
+        $specDocSheetDto = $specDocSheetFindAction->findById($specDocSheetId);
+
+        $specDocItemDtoArr = $specDocItemFindAction->findAllBySpecDocSheetId($specDocSheetId);
+        $specDocItems      = array_map(function ($dto) {
+            return SpecDocItemFactory::create($dto)->toArray();
+        }, $specDocItemDtoArr);
+
+        return Inertia::render('SpecDocSheet/Show', [
+            'specDoc'      => SpecificationDocumentFactory::create($specDocDto)->toArray(),
+            'specDocSheet' => SpecDocSheetFactory::create($specDocSheetDto)->toArray(),
+            'specDocItems' => $specDocItems,
+            'statuses'     => StatusId::STATUSES,
+        ]);
     }
 }
