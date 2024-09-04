@@ -41,6 +41,7 @@ final class SpecDocItemRepository implements SpecDocItemRepositoryInterface
     {
         /** @var SpecDocItemDto[] */
         return DB::table(self::TABLE_NAME)
+            ->where('spec_doc_sheet_id', $specDocSheetId)
             ->get()
             ->map(function ($value) {
                 /** @var stdClass $value */

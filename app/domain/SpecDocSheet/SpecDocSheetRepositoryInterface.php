@@ -43,6 +43,12 @@ interface SpecDocSheetRepositoryInterface
      */
     public function store(SpecDocSheetDto $dto): int;
 
+    /**
+     * 更新
+     *
+     * @param \App\Domain\SpecDocSheet\SpecDocSheetDto $dto
+     * @return void
+     */
     public function update(SpecDocSheetDto $dto): void;
 
     public function deleteById(int $id): void;

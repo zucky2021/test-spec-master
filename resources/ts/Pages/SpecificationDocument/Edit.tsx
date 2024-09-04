@@ -8,7 +8,7 @@ import { Flash } from "@/types/Flash";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { ExecutionEnvironment } from "@/types/ExecutionEnvironment";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
-import SpecDocSheetManager from "@/Components/SpecificationDocument/SpecDocSheetManager";
+import SpecDocSheetManager from "./Partials/SpecDocSheetManager";
 
 type Props = PageProps & {
     project: Project;

@@ -4,7 +4,7 @@ import { SpecDocSheet } from "@/types/SpecDocSheet";
 import { ExecutionEnvironment } from "@/types/ExecutionEnvironment";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import Modal from "@/Components/Modal";
-import Dropdown from "../Dropdown";
+import Dropdown from "../../../Components/Dropdown";
 import axios from "axios";
 
 type Props = {

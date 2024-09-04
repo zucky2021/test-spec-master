@@ -67,7 +67,7 @@ const Edit: React.FC<Props> = ({
         setData("items", newItems);
     };
 
-    const submit: FormEventHandler = (e) => {
+    const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         put(
             route("specDocItems.store", {
@@ -101,7 +101,8 @@ const Edit: React.FC<Props> = ({
                 >
                     Back to sheet list page
                 </Link>
-                <div className="spec-doc-item-edit__description">
+
+                <article className="spec-doc-item-edit__description">
                     <h3>{specDoc.title}</h3>
                     <h4>{specDocSheet.execEnvName}</h4>
                     <details>
@@ -116,9 +117,9 @@ const Edit: React.FC<Props> = ({
                     <p>
                         Updated at: <time>{specDocSheet.updatedAt}</time>
                     </p>
-                </div>
+                </article>
 
-                <form onSubmit={submit}>
+                <form onSubmit={handleSubmit}>
                     {flash.error && (
                         <div className="spec-doc-item-edit__alert-error">
                             {flash.error}
