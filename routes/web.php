@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
                     Route::put('/', [SpecDocItemController::class, 'store'])->name('specDocItems.store');
                     Route::delete('/', [SpecDocSheetController::class, 'destroy'])->name('specDocSheets.destroy');
                     Route::get('/edit', [SpecDocSheetController::class, 'edit'])->name('specDocSheets.edit');
+                    Route::get('/preview', [SpecDocSheetController::class, 'preview'])->name('specDocSheets.preview');
 
                     Route::prefix('{specDocItemId}')->middleware(ValidateSpecDocItemId::class)->group(function () {
                         Route::patch('/', [SpecDocItemController::class, 'update'])->name('specDocItems.update');

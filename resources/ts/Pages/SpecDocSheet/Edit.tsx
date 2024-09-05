@@ -85,11 +85,11 @@ const Edit: React.FC<Props> = ({
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Specification document sheet edit
+                    Preview specification document sheet
                 </h2>
             }
         >
-            <Head title="Specification document sheet edit" />
+            <Head title="Preview specification document sheet" />
 
             <section className="spec-doc-item-edit">
                 <Link
@@ -99,7 +99,7 @@ const Edit: React.FC<Props> = ({
                     })}
                     className="back-link"
                 >
-                    Back to sheet list page
+                    Back to specification document edit page
                 </Link>
 
                 <article className="spec-doc-item-edit__description">
@@ -110,6 +110,13 @@ const Edit: React.FC<Props> = ({
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             className="markdown"
+                            components={{
+                                a: ({ href, children }) => (
+                                    <a href={href} target="_blank">
+                                        {children}
+                                    </a>
+                                ),
+                            }}
                         >
                             {specDoc.summary}
                         </ReactMarkdown>
@@ -118,6 +125,19 @@ const Edit: React.FC<Props> = ({
                         Updated at: <time>{specDocSheet.updatedAt}</time>
                     </p>
                 </article>
+
+                <a
+                    href={route("specDocSheets.preview", {
+                        projectId: specDoc.projectId,
+                        specDocId: specDoc.id,
+                        specDocSheetId: specDocSheet.id,
+                    })}
+                    target="_blank"
+                    className="spec-doc-sheet-edit__preview-link"
+                >
+                    Preview
+                    <img src="/img/icon-new-window.png" />
+                </a>
 
                 <form onSubmit={handleSubmit}>
                     {flash.error && (

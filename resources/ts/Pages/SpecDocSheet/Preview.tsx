@@ -28,11 +28,11 @@ const Show: React.FC<Props> = ({
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Execute test
+                    Preview specification document sheet
                 </h2>
             }
         >
-            <Head title="Execute test" />
+            <Head title="Preview specification document sheet" />
 
             <section className="spec-doc-exec">
                 <Link
