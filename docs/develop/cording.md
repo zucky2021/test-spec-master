@@ -1,6 +1,6 @@
 # コーディング仕様
 
-## バージョン管理
+## バージョン管理(Repository)
 - [GitHub - Code](https://github.com/kanbaru-github/test-spec-master)
 
 ## ソースレビューはCodeRabbitを使用
