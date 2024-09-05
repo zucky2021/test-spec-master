@@ -43,6 +43,7 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                     >
                         {specDoc.summary}
                     </ReactMarkdown>
+                    Responsible person: {specDoc.userName}
                 </div>
                 {auth.user.id === specDoc.userId && (
                     <Link

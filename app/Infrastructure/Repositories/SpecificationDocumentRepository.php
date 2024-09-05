@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
+use App\Domain\User\UserRepositoryInterface;
 use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -17,8 +18,10 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
     public function findById(int $id): SpecificationDocumentDto
     {
         /** @var stdClass */
-        $model = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
-            ->where('id', $id)
+        $model = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME . ' as sd')
+            ->leftJoin(UserRepositoryInterface::TABLE_NAME . ' as u', 'sd.user_id', '=', 'u.id')
+            ->where('sd.id', $id)
+            ->select('sd.*', 'u.name as user_name')
             ->first();
 
         return new SpecificationDocumentDto(
@@ -28,6 +31,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
             title: $model->title,
             summary: $model->summary,
             updatedAt: $model->updated_at,
+            userName: $model->user_name,
         );
     }
     public function findAllByProjectId(int $projectId): array
@@ -46,6 +50,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
                     title: $value->title,
                     summary: $value->summary,
                     updatedAt: $value->updated_at,
+                    userName: null,
                 );
             })
             ->toArray();

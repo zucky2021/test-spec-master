@@ -17,6 +17,7 @@ final class SpecificationDocumentFactory
             new Title($dto->title),
             new Summary($dto->summary),
             new DateTimeImmutable($dto->updatedAt),
+            $dto->userName,
         );
     }
 }

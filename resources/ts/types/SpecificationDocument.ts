@@ -5,4 +5,5 @@ export type SpecificationDocument = {
     title: string;
     summary: string;
     updatedAt: string;
+    userName: string|null;
 }

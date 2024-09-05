@@ -14,6 +14,7 @@ final class SpecificationDocumentDto
         public string $title,
         public string $summary,
         public string $updatedAt,
+        public ?string $userName = null,
     ) {
         $this->id        = $id;
         $this->projectId = $projectId;
@@ -21,5 +22,6 @@ final class SpecificationDocumentDto
         $this->title     = $title;
         $this->summary   = $summary;
         $this->updatedAt = $updatedAt;
+        $this->userName  = $userName;
     }
 }

@@ -11,20 +11,14 @@ use DateTimeImmutable;
  */
 final class SpecificationDocumentEntity
 {
-    private ?int $id;
-    private int $projectId;
-    private int $userId;
-    private Title $title;
-    private Summary $summary;
-    private DateTimeImmutable $updatedAt;
-
     public function __construct(
-        ?int $id,
-        int $projectId,
-        int $userId,
-        Title $title,
-        Summary $summary,
-        DateTimeImmutable $updatedAt,
+        private ?int $id,
+        private int $projectId,
+        private int $userId,
+        private Title $title,
+        private Summary $summary,
+        private DateTimeImmutable $updatedAt,
+        private ?string $userName,
     ) {
         $this->id        = $id;
         $this->projectId = $projectId;
@@ -32,6 +26,7 @@ final class SpecificationDocumentEntity
         $this->title     = $title;
         $this->summary   = $summary;
         $this->updatedAt = $updatedAt;
+        $this->userName  = $userName;
     }
 
     public function getId(): ?int
@@ -78,6 +73,7 @@ final class SpecificationDocumentEntity
             'title'     => $this->title->value(),
             'summary'   => $this->summary->value(),
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
+            'userName'  => $this->userName,
         ];
     }
 }
