@@ -4,6 +4,8 @@ namespace App\Domain\Tester;
 
 interface TesterRepositoryInterface
 {
+    public const TABLE_NAME = 'testers';
+
     /**
      * 対象のシートIDからテスターを全て取得
      *
