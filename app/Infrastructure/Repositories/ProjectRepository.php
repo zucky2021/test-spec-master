@@ -33,7 +33,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
     public function findAll(): array
     {
         /** @var ProjectDto[] */
-        return DB::table(ProjectRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($value) {
@@ -50,7 +50,7 @@ final class ProjectRepository implements ProjectRepositoryInterface
 
     public function exists(int $projectId): bool
     {
-        return DB::table(ProjectRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->where('id', $projectId)
             ->exists();
     }
