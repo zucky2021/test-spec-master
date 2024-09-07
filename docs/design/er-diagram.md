@@ -9,8 +9,8 @@ erDiagram
     execution_environments ||--o{ specification_document_sheets: "一つの実施環境は複数のシートも持つ"
     specification_document_sheets ||--o{ specification_document_items: "1つのシートは複数の項目を持つ"
     specification_document_items ||--o{ specification_document_items: "1つの項目は複数の項目を持つ"
-    users ||--o{ user_specification_documents: "1人の会員は複数の仕様書を対応できる"
-    specification_document_sheets ||--o{ user_specification_documents: "1つのシートは複数の対応者を持つ"
+    users ||--o{ testers: "1人の会員は複数のシートを対応できる"
+    specification_document_sheets ||--o{ testers: "1つのシートは複数の対応者を持つ"
 
     users {
         bigint id PK
@@ -66,13 +66,12 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    user_specification_documents {
+    testers {
         bigint id PK
         bigint user_id FK "users.id"
-        bigint spec_doc_id FK "specification_documents.id"
+        bigint spec_doc_sheet_id FK "specification_document_sheets.id"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
-        timestamp deleted_at "削除日時"
     }
     execution_environments {
         bigint id PK
