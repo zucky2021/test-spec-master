@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Domain\Tester;
+
+interface TesterRepositoryInterface
+{
+    /**
+     * 対象のシートIDからテスターを全て取得
+     *
+     * @param int $specDocSheetId
+     * @return TesterDto[]
+     */
+    public function findAllBySpecDocSheetId(int $specDocSheetId): array;
+
+    public function exists(int $id): bool;
+}
