@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ValidateProjectId
 {
-    protected ProjectFindAction $projectFindAction;
+    private ProjectFindAction $projectFindAction;
 
     public function __construct(ProjectFindAction $projectFindAction)
     {

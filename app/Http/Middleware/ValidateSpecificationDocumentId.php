@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ValidateSpecificationDocumentId
 {
-    protected SpecificationDocumentFindAction $specificationDocumentFindAction;
+    private SpecificationDocumentFindAction $specificationDocumentFindAction;
 
     public function __construct(SpecificationDocumentFindAction $specificationDocumentFindAction)
     {
