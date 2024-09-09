@@ -5,10 +5,12 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpecDocItemController;
 use App\Http\Controllers\SpecDocSheetController;
 use App\Http\Controllers\SpecificationDocumentController;
+use App\Http\Controllers\TesterController;
 use App\Http\Middleware\ValidateProjectId;
 use App\Http\Middleware\ValidateSpecDocItemId;
 use App\Http\Middleware\ValidateSpecDocSheetId;
 use App\Http\Middleware\ValidateSpecificationDocumentId;
+use App\Http\Middleware\ValidateTesterId;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,6 +57,14 @@ Route::middleware('auth')->group(function () {
 
                     Route::prefix('{specDocItemId}')->middleware(ValidateSpecDocItemId::class)->group(function () {
                         Route::patch('/', [SpecDocItemController::class, 'update'])->name('specDocItems.update');
+                    });
+
+                    Route::prefix('testers')->group(function () {
+                        Route::get('/', [TesterController::class, 'index'])->name('testers.index');
+                        Route::post('/', [TesterController::class, 'store'])->name('testers.store');
+                        Route::delete('/{testerId}', [TesterController::class, 'destroy'])
+                            ->middleware(ValidateTesterId::class)
+                            ->name('testers.destroy');
                     });
                 });
             });

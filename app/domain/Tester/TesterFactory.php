@@ -13,6 +13,7 @@ final class TesterFactory
             userId: $dto->userId,
             specDocSheetId: $dto->specDocSheetId,
             createdAt: new DateTimeImmutable($dto->createdAt),
+            userName: $dto->userName,
         );
     }
 }

@@ -9,10 +9,12 @@ final class TesterDto
         public ?int $userId,
         public int $specDocSheetId,
         public string $createdAt,
+        public ?string $userName = null,
     ) {
         $this->id             = $id;
         $this->userId         = $userId;
         $this->specDocSheetId = $specDocSheetId;
         $this->createdAt      = $createdAt;
+        $this->userName       = $userName;
     }
 }

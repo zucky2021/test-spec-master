@@ -15,4 +15,8 @@ interface TesterRepositoryInterface
     public function findAllBySpecDocSheetId(int $specDocSheetId): array;
 
     public function exists(int $id): bool;
+
+    public function store(TesterDto $dto): int;
+
+    public function deleteById(int $id): void;
 }

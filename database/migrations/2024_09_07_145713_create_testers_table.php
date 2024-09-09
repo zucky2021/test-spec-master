@@ -19,6 +19,8 @@ return new class () extends Migration {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('spec_doc_sheet_id')->references('id')->on('specification_document_sheets')->onDelete('cascade');
 
+            $table->unique(['user_id', 'spec_doc_sheet_id'], 'unique_user_sheet');
+
             $table->comment('テスター管理テーブル');
         });
     }

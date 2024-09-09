@@ -11,11 +11,13 @@ final class TesterEntity
         private ?int $userId,
         private int $specDocSheetId,
         private DateTimeImmutable $createdAt,
+        private ?string $userName,
     ) {
         $this->id             = $id;
         $this->userId         = $userId;
         $this->specDocSheetId = $specDocSheetId;
         $this->createdAt      = $createdAt;
+        $this->userName       = $userName;
     }
 
     public function getId(): ?int
@@ -50,6 +52,7 @@ final class TesterEntity
             'userId'         => $this->userId,
             'specDocSheetId' => $this->specDocSheetId,
             'createdAt'      => $this->createdAt->format('Y-m-d H:i:s'),
+            'userName'       => $this->userName,
         ];
     }
 }
