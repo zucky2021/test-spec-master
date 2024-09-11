@@ -1,6 +1,6 @@
 import { User } from "@/types";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type TesterProps = {
     authUser: User;
@@ -24,39 +24,43 @@ type AddTesterResponse = {
     };
 };
 
-const Tester: React.FC<TesterProps> = ({ authUser, specDoc, specDocSheetId }) => {
+const Tester: React.FC<TesterProps> = ({
+    authUser,
+    specDoc,
+    specDocSheetId,
+}) => {
     const [testers, setTesters] = useState<Tester[]>([]);
 
-    useEffect(() => {
-        const fetchTesters = async () => {
-            try {
-                const response = await axios.get(
-                    route("testers.index", {
-                        projectId: specDoc.projectId,
-                        specDocId: specDoc.id,
-                        specDocSheetId: specDocSheetId,
-                    })
-                );
-                setTesters(response.data.testers);
+    const fetchTesters = useCallback(async () => {
+        try {
+            const response = await axios.get(
+                route("testers.index", {
+                    projectId: specDoc.projectId,
+                    specDocId: specDoc.id,
+                    specDocSheetId: specDocSheetId,
+                })
+            );
+            setTesters(response.data.testers);
 
+            if (
+                !response.data.testers.some(
+                    (tester: Tester) => tester.userId === authUser.id
+                )
+            ) {
                 if (
-                    !response.data.testers.some(
-                        (tester: Tester) => tester.userId === authUser.id
+                    confirm(
+                        "You are not in the tester list. Do you want to join?"
                     )
                 ) {
-                    if (
-                        confirm(
-                            "You are not in the tester list. Do you want to join?"
-                        )
-                    ) {
-                        await addTester();
-                    }
+                    await addTester();
                 }
-            } catch (error) {
-                console.error("Failed to fetch testers: ", error);
             }
-        };
+        } catch (error) {
+            console.error("Failed to fetch testers: ", error);
+        }
+    }, [specDoc.projectId, specDoc.id, specDocSheetId, authUser.id]);
 
+    useEffect(() => {
         fetchTesters();
     }, []);
 
