@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
@@ -9,6 +9,7 @@ import "@scss/pages/spec_doc_item/show.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { SpecDocItem } from "@/types/SpecDocItem";
 import axios from "axios";
+import Tester from "./Partials/Tester";
 
 type Props = PageProps & {
     specDoc: SpecificationDocument;
@@ -21,13 +22,6 @@ type ToggleStatusResponse = {
     newStatusId: number;
 };
 
-type Tester = {
-    id: number;
-    userId: number|null;
-    userName: string|null;
-    createdAt: string;
-};
-
 const Show: React.FC<Props> = ({
     auth,
     specDoc,
@@ -37,79 +31,6 @@ const Show: React.FC<Props> = ({
 }) => {
     const [items, setItems] = useState<SpecDocItem[]>(specDocItems);
     const [loading, setLoading] = useState<number | null>(null);
-    const [testers, setTesters] = useState<Tester[]>([]);
-
-    useEffect(() => {
-        const fetchTesters = async () => {
-            try {
-                const response = await axios.get(
-                    route("testers.index", {
-                        projectId: specDoc.projectId,
-                        specDocId: specDoc.id,
-                        specDocSheetId: specDocSheet.id,
-                    })
-                );
-                const testers = response.data.testers;
-                setTesters(testers);
-
-                if (
-                    !testers.some(
-                        (tester: Tester) => tester.id === auth.user.id
-                    )
-                ) {
-                    if (
-                        confirm(
-                            "You are not in the tester list. Do you want to join?"
-                        )
-                    ) {
-                        await addTester();
-                    }
-                }
-            } catch (error) {
-                console.error("Failed to fetch testers: ", error);
-            }
-        };
-        fetchTesters();
-    }, []);
-
-    const addTester = async () => {
-        try {
-            const response = await axios.post(
-                route("testers.store", {
-                    projectId: specDoc.projectId,
-                    specDocId: specDoc.id,
-                    specDocSheetId: specDocSheet.id,
-                })
-            );
-
-            const newTester = {
-                id: response.data.newTesterId,
-                userId: auth.user.id,
-                userName: auth.user.name,
-                createdAt: new Date().toISOString()
-            };
-
-            setTesters([...testers, newTester]);
-        } catch (error) {
-            console.error("Failed to add tester: ", error);
-        }
-    };
-
-    const removeTester = async (testerId: number) => {
-        try {
-            await axios.delete(
-                route("testers.destroy", {
-                    projectId: specDoc.projectId,
-                    specDocId: specDoc.id,
-                    specDocSheetId: specDocSheet.id,
-                    testerId: testerId,
-                })
-            );
-            setTesters(testers.filter((tester) => tester.id !== testerId));
-        } catch (error) {
-            console.error("Failed to remove tester: ", error);
-        }
-    };
 
     const toggleStatus = async (index: number, itemId: number) => {
         setLoading(itemId);
@@ -172,25 +93,11 @@ const Show: React.FC<Props> = ({
                     </p>
                 </div>
 
-                {/* 別のコンポーネントに分けた方が良いだろうか */}
-                <article className="tester">
-                    <h3>Tester list</h3>
-                    <ul className="tester__list">
-                        {testers.map((tester) => (
-                            <li key={tester.id}>
-                                <span>{tester.userName}</span>
-                                <time>{tester.createdAt}</time>
-                                {tester.userId === auth.user.id && (
-                                    <button
-                                        onClick={() => removeTester(tester.id)}
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                </article>
+                <Tester
+                    authUser={auth.user}
+                    specDoc={specDoc}
+                    specDocSheetId={specDocSheet.id}
+                />
 
                 <ul className="spec-doc-item-edit__inputList">
                     <li>

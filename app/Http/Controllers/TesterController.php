@@ -8,6 +8,7 @@ use App\Models\User;
 use App\UseCases\Tester\TesterDeleteAction;
 use App\UseCases\Tester\TesterFindAction;
 use App\UseCases\Tester\TesterStoreAction;
+use DateTimeImmutable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -55,25 +56,34 @@ class TesterController extends Controller
 
         /** @var int */
         $specDocSheetId = $request->input('specDocSheetId');
+        $now            = new DateTimeImmutable('now');
 
         $testerDto = new TesterDto(
             id: null,
             userId: $user->id,
             specDocSheetId: $specDocSheetId,
-            createdAt: 'now',
+            createdAt: $now->format('Y-m-d H:i:s'),
         );
 
         try {
             $newTesterId = $testerStoreAction->store($testerDto);
+
+            $newTesterDto = new TesterDto(
+                id: $newTesterId,
+                userId: $user->id,
+                specDocSheetId: $specDocSheetId,
+                createdAt: $now->format('Y-m-d H:i:s'),
+                userName: $user->name,
+            );
+
+            return response()->json([
+                'newTester' => TesterFactory::create($newTesterDto)->toArray(),
+            ], 200);
         } catch (Exception $e) {
             Log::error("Failed to store tester: " . $e->getMessage());
 
             return response()->json([], 400);
         }
-
-        return response()->json([
-            'newTesterId' => $newTesterId,
-        ], 200);
     }
 
     /**
