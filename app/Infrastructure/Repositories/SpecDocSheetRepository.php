@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\ExecutionEnvironment\ExecutionEnvironmentRepositoryInterface;
+use App\Domain\SpecDocItem\SpecDocItemRepositoryInterface;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetEntity;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
@@ -63,19 +64,32 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
 
     public function findAllBySpecDocId(int $specDocId): array
     {
-        /** @var SpecDocSheetDto[] */
-        return DB::table(self::TABLE_NAME . ' as sds')
+        $query = DB::table(self::TABLE_NAME . ' as sds')
             ->join(ExecutionEnvironmentRepositoryInterface::TABLE_NAME . ' as ee', 'sds.exec_env_id', '=', 'ee.id')
+            ->leftJoin(SpecDocItemRepositoryInterface::TABLE_NAME . ' as sdi', 'sds.id', '=', 'sdi.spec_doc_sheet_id')
             ->where('sds.spec_doc_id', $specDocId)
-            ->select('sds.*', 'ee.name as exec_env_name')
-            ->get()
+            ->select(
+                'sds.*',
+                'ee.name as exec_env_name',
+                DB::raw('
+                    CASE
+                        WHEN MIN(sdi.status_id) = 0 THEN 0
+                        WHEN MAX(sdi.status_id) = 2 THEN 2
+                        ELSE 1
+                    END as aggregated_status_id
+                '),
+            )
+            ->groupBy('sds.id');
+
+        /** @var SpecDocSheetDto[] */
+        return $query->get()
             ->map(function ($value) {
                 /** @var stdClass $value */
                 return new SpecDocSheetDto(
                     id: $value->id,
                     specDocId: $value->spec_doc_id,
                     execEnvId: $value->exec_env_id,
-                    statusId: $value->status_id,
+                    statusId: $value->aggregated_status_id,
                     updatedAt: $value->updated_at,
                     execEnvName: $value->exec_env_name,
                 );

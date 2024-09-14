@@ -11,9 +11,10 @@ import { SpecificationDocument } from "@/types/SpecificationDocument";
 type Props = PageProps & {
     specDoc: SpecificationDocument;
     specDocSheets: SpecDocSheet[];
+    sheetStatuses: { [key:number]: string };
 };
 
-const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
+const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets, sheetStatuses }) => {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -70,6 +71,7 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets }) => {
                                 })}
                             >
                                 <h3>{specDocSheet.execEnvName}</h3>
+                                <span>{sheetStatuses[specDocSheet.statusId]}</span>
                             </Link>
                         </li>
                     ))

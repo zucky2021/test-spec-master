@@ -6,6 +6,7 @@ use App\Domain\SpecDocItem\SpecDocItemFactory;
 use App\Domain\SpecDocItem\ValueObject\StatusId;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
+use App\Domain\SpecDocSheet\ValueObject\StatusId as SpecDocSheetStatusId;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecDocSheetRequest;
 use App\UseCases\SpecDocItem\SpecDocItemFindAction;
@@ -45,6 +46,7 @@ class SpecDocSheetController extends Controller
         return Inertia::render('SpecDocSheet/Index', [
             'specDoc'       => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'specDocSheets' => $specDocSheets,
+            'sheetStatuses' => SpecDocSheetStatusId::STATUSES,
         ]);
     }
 

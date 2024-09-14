@@ -24,7 +24,8 @@ final class SpecDocItemRepository implements SpecDocItemRepositoryInterface
     public function findById(int $id): SpecDocItemDto
     {
         /** @var stdClass */
-        $model = DB::table(self::TABLE_NAME . ' as sds')
+        $model = DB::table(self::TABLE_NAME)
+            ->where('id', $id)
             ->first();
 
         return new SpecDocItemDto(
