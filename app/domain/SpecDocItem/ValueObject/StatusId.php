@@ -10,10 +10,13 @@ use InvalidArgumentException;
  */
 final class StatusId implements IntValue
 {
+    public const PENDING  = 0;
+    public const OK       = 1;
+    public const NG       = 2;
     public const STATUSES = [
-        0 => 'Pending',
-        1 => 'OK',
-        2 => 'NG',
+        self::PENDING => 'Pending',
+        self::OK      => 'OK',
+        self::NG      => 'NG',
     ];
 
     public function __construct(private int $value)

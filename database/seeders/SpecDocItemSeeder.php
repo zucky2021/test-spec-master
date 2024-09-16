@@ -39,7 +39,7 @@ class SpecDocItemSeeder extends Seeder
                 targetArea: $val['target_area'],
                 checkDetail: $val['check_detail'],
                 remark: $val['remark'],
-                statusId: array_key_first(StatusId::STATUSES),
+                statusId: StatusId::PENDING,
             );
             $entity       = SpecDocItemFactory::create($dto);
             $insertData[] = [

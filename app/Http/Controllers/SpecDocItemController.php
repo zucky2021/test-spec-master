@@ -52,7 +52,7 @@ class SpecDocItemController extends Controller
                 targetArea: $value['targetArea'],
                 checkDetail: $value['checkDetail'],
                 remark: $value['remark'],
-                statusId: array_key_first(StatusId::STATUSES),
+                statusId: StatusId::PENDING,
             );
         }, $inputItems);
 

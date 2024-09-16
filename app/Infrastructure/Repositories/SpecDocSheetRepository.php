@@ -4,10 +4,12 @@ namespace App\Infrastructure\Repositories;
 
 use App\Domain\ExecutionEnvironment\ExecutionEnvironmentRepositoryInterface;
 use App\Domain\SpecDocItem\SpecDocItemRepositoryInterface;
+use App\Domain\SpecDocItem\ValueObject\StatusId as ItemStatusId;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
 use App\Domain\SpecDocSheet\SpecDocSheetEntity;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecDocSheet\SpecDocSheetRepositoryInterface;
+use App\Domain\SpecDocSheet\ValueObject\StatusId;
 use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -73,9 +75,10 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
                 'ee.name as exec_env_name',
                 DB::raw('
                     CASE
-                        WHEN MIN(sdi.status_id) = 0 THEN 0
-                        WHEN MAX(sdi.status_id) = 2 THEN 2
-                        ELSE 1
+                        WHEN MIN(sdi.status_id) = ' . ItemStatusId::PENDING . ' THEN ' . StatusId::PENDING . '
+                        WHEN MAX(sdi.status_id) = ' . ItemStatusId::NG . ' THEN ' . StatusId::NG . '
+                        WHEN MIN(sdi.status_id) = ' . ItemStatusId::OK . ' AND MAX(sdi.status_id) = ' . ItemStatusId::OK . ' THEN ' . StatusId::COMPLETED . '
+                        ELSE ' . StatusId::IN_PROGRESS . '
                     END as aggregated_status_id
                 '),
             )

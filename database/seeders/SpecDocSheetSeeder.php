@@ -31,7 +31,7 @@ class SpecDocSheetSeeder extends Seeder
                 id: null,
                 specDocId: $val['spec_doc_id'],
                 execEnvId: $val['exec_env_id'],
-                statusId: array_key_first(StatusId::STATUSES),
+                statusId: StatusId::PENDING,
                 updatedAt: 'now',
                 execEnvName: null,
             );
