@@ -1,19 +1,22 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import { PageProps } from "@/types";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
+import Breadcrumbs from "@/Components/Breadcrumbs";
+import { Breadcrumb } from "@/types/Breadcrumb";
 
 type Props = PageProps & {
     project: Project;
     specificationDocuments: SpecificationDocument[];
+    breadcrumbs: Breadcrumb[];
     flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
+const Index: React.FC<Props> = ({ auth, project, specificationDocuments, breadcrumbs }) => {
     const { flash } = usePage<Props>().props;
 
     return (
@@ -26,6 +29,8 @@ const Index: React.FC<Props> = ({ auth, project, specificationDocuments }) => {
             }
         >
             <Head title="Specification documents" />
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <section className="spec-doc-form">
                 <Link href={`/projects/${project.id}/spec-docs/create`}>
