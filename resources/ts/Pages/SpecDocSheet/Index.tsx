@@ -7,14 +7,23 @@ import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import "@scss/pages/spec_doc_sheet/index.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
+import { Breadcrumb } from "@/types/Breadcrumb";
+import Breadcrumbs from "@/Components/Breadcrumbs";
 
 type Props = PageProps & {
     specDoc: SpecificationDocument;
     specDocSheets: SpecDocSheet[];
-    sheetStatuses: { [key:number]: string };
+    sheetStatuses: { [key: number]: string };
+    breadcrumbs: Breadcrumb[];
 };
 
-const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets, sheetStatuses }) => {
+const Index: React.FC<Props> = ({
+    auth,
+    specDoc,
+    specDocSheets,
+    sheetStatuses,
+    breadcrumbs,
+}) => {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -25,6 +34,8 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets, sheetStatuses })
             }
         >
             <Head title="Specification document sheet list" />
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <section className="spec-doc-sheet">
                 <Link
@@ -71,7 +82,9 @@ const Index: React.FC<Props> = ({ auth, specDoc, specDocSheets, sheetStatuses })
                                 })}
                             >
                                 <h3>{specDocSheet.execEnvName}</h3>
-                                <span>{sheetStatuses[specDocSheet.statusId]}</span>
+                                <span>
+                                    {sheetStatuses[specDocSheet.statusId]}
+                                </span>
                             </Link>
                         </li>
                     ))

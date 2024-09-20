@@ -34,8 +34,11 @@ class SpecDocSheetController extends Controller
         Request $request,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
         SpecDocSheetFindAction $specDocSheetFindAction,
+        BreadcrumbFindAction $breadcrumbFindAction,
     ): Response {
-        /** @var int 検証済仕様書ID */
+        /** @var int */
+        $projectId = $request->input('projectId');
+        /** @var int */
         $specDocId = $request->input('specDocId');
 
         $specDocDto = $specificationDocumentFindAction->findById($specDocId);
@@ -45,10 +48,16 @@ class SpecDocSheetController extends Controller
             return SpecDocSheetFactory::create($dto)->toArray();
         }, $specDocSheetDtoArr);
 
+        $breadcrumbDtoArr = $breadcrumbFindAction->generateBreadcrumbs(projectId: $projectId, specDocId: $specDocId);
+        $breadcrumbs      = array_map(function ($dto) {
+            return BreadcrumbFactory::create($dto)->toArray();
+        }, $breadcrumbDtoArr);
+
         return Inertia::render('SpecDocSheet/Index', [
             'specDoc'       => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'specDocSheets' => $specDocSheets,
             'sheetStatuses' => SpecDocSheetStatusId::STATUSES,
+            'breadcrumbs'   => $breadcrumbs,
         ]);
     }
 
@@ -84,8 +93,12 @@ class SpecDocSheetController extends Controller
             return SpecDocItemFactory::create($dto)->toArray();
         }, $specDocItemDtoArr);
 
-        $breadcrumbDtoArr = $breadcrumbFindAction->generateBreadcrumbs(projectId: $projectId, specDocId: $specDocId);
-        $breadcrumbs      = array_map(function ($dto) {
+        $breadcrumbDtoArr = $breadcrumbFindAction->generateBreadcrumbs(
+            projectId: $projectId,
+            specDocId: $specDocId,
+            specDocSheetId: $specDocSheetId,
+        );
+        $breadcrumbs = array_map(function ($dto) {
             return BreadcrumbFactory::create($dto)->toArray();
         }, $breadcrumbDtoArr);
 

@@ -11,37 +11,34 @@ final class BreadcrumbFindAction
      *
      * @param int $projectId
      * @param int|null $specDocId
+     * @param int|null $specDocSheetId
      * @return BreadcrumbDto[]
      */
     public function generateBreadcrumbs(
         int $projectId,
         ?int $specDocId = null,
+        ?int $specDocSheetId = null,
     ): array {
-        /** @var array{ name: string, url: string }[] */
-        $arr = [
-            [
-                'name' => 'Projects',
-                'url'  => route('projects.index'),
-            ],
-        ];
+        $breadcrumbs = [];
 
-        $arr[] = [
-            'name' => 'Specification document list',
-            'url'  => route('specDocs.index', $projectId),
-        ];
+        $arr[] = new BreadcrumbDto(name: 'Project', url: route('projects.index'));
+
+        $arr[] = new BreadcrumbDto(name: 'Specification document list', url: route('specDocs.index', $projectId));
 
         if (!empty($specDocId)) {
-            $arr[] = [
-                'name' => 'Spec doc sheet list',
-                'url'  => route('specDocSheets.index', [$projectId, $specDocId]),
-            ];
+            $arr[] = new BreadcrumbDto(
+                name: 'Spec doc sheet list',
+                url: route('specDocSheets.index', [$projectId, $specDocId]),
+            );
+
+            if (!empty($specDocSheetId)) {
+                $arr[] = new BreadcrumbDto(
+                    name: 'Spec doc Sheet',
+                    url: route('specDocSheets.show', [$projectId, $specDocId, $specDocSheetId]),
+                );
+            }
         }
 
-        return array_map(function ($val) {
-            return new BreadcrumbDto(
-                name: $val['name'],
-                url: $val['url'],
-            );
-        }, $arr);
+        return $arr;
     }
 }
