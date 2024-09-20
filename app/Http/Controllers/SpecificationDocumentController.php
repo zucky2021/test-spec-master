@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Breadcrumb\BreadcrumbFactory;
 use App\Domain\ExecutionEnvironment\ExecutionEnvironmentFactory;
 use App\Domain\Project\ProjectFactory;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecificationDocument\SpecificationDocumentDto;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecificationDocumentRequest;
+use App\UseCases\Breadcrumb\BreadcrumbFindAction;
 use App\UseCases\ExecutionEnvironment\ExecutionEnvironmentFindAction;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
@@ -39,6 +41,7 @@ class SpecificationDocumentController extends Controller
         Request $request,
         ProjectFindAction $projectFindAction,
         SpecificationDocumentFindAction $specificationDocumentFindAction,
+        BreadcrumbFindAction $breadcrumbFindAction,
     ): Response {
         /** @var int 検証済プロジェクトID */
         $projectId = $request->input('projectId');
@@ -48,14 +51,18 @@ class SpecificationDocumentController extends Controller
 
         $specDocDtoArr          = $specificationDocumentFindAction->findAllByProjectId($projectId);
         $specificationDocuments = array_map(function ($dto) {
-            $entity = SpecificationDocumentFactory::create($dto);
-
-            return $entity->toArray();
+            return SpecificationDocumentFactory::create($dto)->toArray();
         }, $specDocDtoArr);
+
+        $breadcrumbDtoArr = $breadcrumbFindAction->generateBreadcrumbs(projectId: $projectId);
+        $breadcrumbs      = array_map(function ($dto) {
+            return BreadcrumbFactory::create($dto)->toArray();
+        }, $breadcrumbDtoArr);
 
         return Inertia::render('SpecificationDocument/Index', [
             'project'                => $projectEntity?->toArray(),
             'specificationDocuments' => $specificationDocuments,
+            'breadcrumbs'            => $breadcrumbs,
         ]);
     }
 
