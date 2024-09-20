@@ -10,12 +10,15 @@ import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { SpecDocItem } from "@/types/SpecDocItem";
 import axios from "axios";
 import Tester from "./Partials/Tester";
+import Breadcrumbs from "@/Components/Breadcrumbs";
+import { Breadcrumb } from "@/types/Breadcrumb";
 
 type Props = PageProps & {
     specDoc: SpecificationDocument;
     specDocSheet: SpecDocSheet;
     specDocItems: SpecDocItem[];
     statuses: { [key: number]: string };
+    breadcrumbs: Breadcrumb[];
 };
 
 type ToggleStatusResponse = {
@@ -28,6 +31,7 @@ const Show: React.FC<Props> = ({
     specDocSheet,
     specDocItems,
     statuses,
+    breadcrumbs,
 }) => {
     const [items, setItems] = useState<SpecDocItem[]>(specDocItems);
     const [loading, setLoading] = useState<number | null>(null);
@@ -64,6 +68,8 @@ const Show: React.FC<Props> = ({
             }
         >
             <Head title="Execute test" />
+
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
 
             <section className="spec-doc-exec">
                 <Link

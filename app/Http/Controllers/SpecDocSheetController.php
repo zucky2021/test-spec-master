@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Breadcrumb\BreadcrumbFactory;
 use App\Domain\SpecDocItem\SpecDocItemFactory;
 use App\Domain\SpecDocItem\ValueObject\StatusId;
 use App\Domain\SpecDocSheet\SpecDocSheetDto;
@@ -9,6 +10,7 @@ use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecDocSheet\ValueObject\StatusId as SpecDocSheetStatusId;
 use App\Domain\SpecificationDocument\SpecificationDocumentFactory;
 use App\Http\Requests\SpecDocSheetRequest;
+use App\UseCases\Breadcrumb\BreadcrumbFindAction;
 use App\UseCases\SpecDocItem\SpecDocItemFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetDeleteAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
@@ -64,7 +66,10 @@ class SpecDocSheetController extends Controller
         SpecificationDocumentFindAction $specificationDocumentFindAction,
         SpecDocSheetFindAction $specDocSheetFindAction,
         SpecDocItemFindAction $specDocItemFindAction,
+        BreadcrumbFindAction $breadcrumbFindAction,
     ): Response {
+        /** @var int */
+        $projectId = $request->input('projectId');
         /** @var int */
         $specDocId = $request->input('specDocId');
         /** @var int */
@@ -79,11 +84,17 @@ class SpecDocSheetController extends Controller
             return SpecDocItemFactory::create($dto)->toArray();
         }, $specDocItemDtoArr);
 
+        $breadcrumbDtoArr = $breadcrumbFindAction->generateBreadcrumbs(projectId: $projectId, specDocId: $specDocId);
+        $breadcrumbs      = array_map(function ($dto) {
+            return BreadcrumbFactory::create($dto)->toArray();
+        }, $breadcrumbDtoArr);
+
         return Inertia::render('SpecDocSheet/Show', [
             'specDoc'      => SpecificationDocumentFactory::create($specDocDto)->toArray(),
             'specDocSheet' => SpecDocSheetFactory::create($specDocSheetDto)->toArray(),
             'specDocItems' => $specDocItems,
             'statuses'     => StatusId::STATUSES,
+            'breadcrumbs'  => $breadcrumbs,
         ]);
     }
 

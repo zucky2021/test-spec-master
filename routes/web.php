@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [SpecificationDocumentController::class, 'create'])->name('specDocs.create');
             Route::post('/', [SpecificationDocumentController::class, 'store'])->name('specDocs.store');
             Route::prefix('{specDocId}')->middleware(ValidateSpecificationDocumentId::class)->group(function () {
-                Route::get('/', [SpecificationDocumentController::class, 'show'])->name('specDocs.show');
                 Route::get('/edit', [SpecificationDocumentController::class, 'edit'])->name('specDocs.edit');
                 Route::put('/update', [SpecificationDocumentController::class, 'update'])->name('specDocs.update');
             });
