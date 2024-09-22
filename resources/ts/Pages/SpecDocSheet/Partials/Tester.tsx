@@ -102,7 +102,7 @@ const Tester: React.FC<TesterProps> = ({
     };
 
     return (
-        <article className="tester">
+        <section className="tester">
             <h3>Tester list</h3>
             <ul className="tester__list">
                 {testers.map((tester) => (
@@ -117,7 +117,7 @@ const Tester: React.FC<TesterProps> = ({
                     </li>
                 ))}
             </ul>
-        </article>
+        </section>
     );
 };
 

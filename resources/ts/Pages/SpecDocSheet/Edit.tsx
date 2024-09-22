@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { FormEventHandler } from "react";
+import React, { FormEventHandler, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
@@ -13,6 +13,7 @@ import { Transition } from "@headlessui/react";
 import { SpecDocItem } from "@/types/SpecDocItem";
 import InputError from "@/Components/InputError";
 import { Flash } from "@/types/Flash";
+import SlideAlert from "@/Components/SlideAlert";
 
 type Props = PageProps & {
     specDoc: SpecificationDocument;
@@ -80,16 +81,38 @@ const Edit: React.FC<Props> = ({
 
     const { flash } = usePage<Props>().props;
 
+    const [isShowAlert, setIsShowAlert] = useState(false);
+
+    const execUrl = route("specDocSheets.show", {
+        projectId: specDoc.projectId,
+        specDocId: specDoc.id,
+        specDocSheetId: specDocSheet.id,
+    });
+
+    const handleShare = () => {
+        navigator.clipboard
+            .writeText(execUrl)
+            .then(() => {
+                setIsShowAlert(true);
+                setTimeout(() => {
+                    setIsShowAlert(false);
+                }, 5000);
+            })
+            .catch((error) => {
+                console.error("Failed to copy the URL: ", error);
+            });
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Preview specification document sheet
+                    Specification document sheet
                 </h2>
             }
         >
-            <Head title="Preview specification document sheet" />
+            <Head title="Specification document sheet" />
 
             <section className="spec-doc-item-edit">
                 <Link
@@ -102,7 +125,7 @@ const Edit: React.FC<Props> = ({
                     Back to specification document edit page
                 </Link>
 
-                <article className="spec-doc-item-edit__description">
+                <section className="spec-doc-item-edit__description">
                     <h3>{specDoc.title}</h3>
                     <h4>{specDocSheet.execEnvName}</h4>
                     <details>
@@ -124,7 +147,7 @@ const Edit: React.FC<Props> = ({
                     <p>
                         Updated at: <time>{specDocSheet.updatedAt}</time>
                     </p>
-                </article>
+                </section>
 
                 <a
                     href={route("specDocSheets.preview", {
@@ -138,6 +161,18 @@ const Edit: React.FC<Props> = ({
                     Preview
                     <img src="/img/icon-new-window.png" />
                 </a>
+
+                <button
+                    className="spec-doc-item-edit__share-btn"
+                    onClick={handleShare}
+                >
+                    Share
+                </button>
+
+                <SlideAlert isShow={isShowAlert}>
+                    <h4>URL copied to clipboard!</h4>
+                    <p>{execUrl}</p>
+                </SlideAlert>
 
                 <form onSubmit={handleSubmit}>
                     {flash.error && (
