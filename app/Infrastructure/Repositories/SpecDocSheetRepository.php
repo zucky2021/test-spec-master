@@ -10,6 +10,7 @@ use App\Domain\SpecDocSheet\SpecDocSheetEntity;
 use App\Domain\SpecDocSheet\SpecDocSheetFactory;
 use App\Domain\SpecDocSheet\SpecDocSheetRepositoryInterface;
 use App\Domain\SpecDocSheet\ValueObject\StatusId;
+use App\Domain\SpecificationDocument\SpecificationDocumentRepositoryInterface;
 use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -98,6 +99,29 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
                 );
             })
             ->toArray();
+    }
+
+    public function findAllByUserId(int $userId): array
+    {
+        $query = '
+            SELECT *
+            FROM ' . self::TABLE_NAME . ' AS sds
+            JOIN ' . SpecificationDocumentRepositoryInterface::TABLE_NAME . ' AS sd
+                ON sds.spec_doc_id = sd.id
+                AND sd.user_id = :userId
+        ';
+
+        $result = DB::select($query, ['userId' => $userId]);
+
+        return array_map(function ($value) {
+            return new SpecDocSheetDto(
+                id: $value->id,
+                specDocId: $value->spec_doc_id,
+                execEnvId: $value->exec_env_id,
+                statusId: $value->status_id,
+                updatedAt: $value->updated_at,
+            );
+        }, $result);
     }
 
     public function store(SpecDocSheetDto $dto): int

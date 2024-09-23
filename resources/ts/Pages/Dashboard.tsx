@@ -2,7 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
-export default function Dashboard({ auth }: PageProps) {
+type Props = PageProps & {
+    createdCnt: number;
+    executedCnt: number;
+}
+
+export default function Dashboard({ auth, createdCnt, executedCnt }: Props) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -17,6 +22,12 @@ export default function Dashboard({ auth }: PageProps) {
                     </div>
                 </div>
             </div>
+
+            <section className="achievement">
+                <h3>Achievement</h3>
+                <p>Created test spec doc sheets: <strong>{createdCnt}</strong></p>
+                <p>Executed test spec doc sheets: <strong>{executedCnt}</strong></p>
+            </section>
         </AuthenticatedLayout>
     );
 }

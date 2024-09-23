@@ -25,6 +25,17 @@ final class TesterFindAction
         return $this->repository->findAllBySpecDocSheetId($specDocSheetId);
     }
 
+    /**
+     * テスターIDから全てのレコードを取得
+     *
+     * @param int $userId
+     * @return TesterDto[]
+     */
+    public function findAllByUserId(int $userId): array
+    {
+        return $this->repository->findAllByUserId($userId);
+    }
+
     public function exists(int $id): bool
     {
         return $this->repository->exists($id);

@@ -36,6 +36,14 @@ interface SpecDocSheetRepositoryInterface
     public function findAllBySpecDocId(int $specDocId): array;
 
     /**
+     * 作成者IDから全てのシートを取得
+     *
+     * @param int $userId
+     * @return SpecDocSheetDto[]
+     */
+    public function findAllByUserId(int $userId): array;
+
+    /**
      * 新規作成
      *
      * @param \App\Domain\SpecDocSheet\SpecDocSheetDto $dto

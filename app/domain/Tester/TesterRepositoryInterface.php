@@ -14,6 +14,14 @@ interface TesterRepositoryInterface
      */
     public function findAllBySpecDocSheetId(int $specDocSheetId): array;
 
+    /**
+     * テスターIDから全ての取得
+     *
+     * @param int $userId
+     * @return TesterDto[]
+     */
+    public function findAllByUserId(int $userId): array;
+
     public function exists(int $id): bool;
 
     public function store(TesterDto $dto): int;

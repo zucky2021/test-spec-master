@@ -25,6 +25,17 @@ final class SpecDocSheetFindAction
     }
 
     /**
+     * 作成者IDから全てのシートを取得
+     *
+     * @param int $userId
+     * @return SpecDocSheetDto[]
+     */
+    public function findAllByUserId(int $userId): array
+    {
+        return $this->repository->findAllByUserId($userId);
+    }
+
+    /**
      * 仕様書IDからシートを取得
      *
      * @param int $specDocId
