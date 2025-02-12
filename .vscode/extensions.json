@@ -1,0 +1,24 @@
+{
+    "recommendations": [
+        "xdebug.php-debug",
+        "eamodio.gitlens",
+        "yzhang.markdown-all-in-one",
+        "esbenp.prettier-vscode",
+        "britesnow.vscode-toggle-quotes",
+        "shardulm94.trailing-spaces",
+        "wayou.vscode-todo-highlight",
+        "gruntfuggly.todo-tree",
+        "mosapride.zenkaku",
+        "bierner.markdown-mermaid",
+        "vincaslt.highlight-matching-tag",
+        "streetsidesoftware.code-spell-checker",
+        "alefragnani.bookmarks",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "austenc.laravel-blade-spacer",
+        "neilbrayfield.php-docblocker",
+        "bmewburn.vscode-intelephense-client",
+        "sanderronde.phpstan-vscode"
+    ]
+}
