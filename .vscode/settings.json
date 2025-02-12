@@ -5,6 +5,7 @@
     "editor.renderWhitespace": "boundary",
     "editor.autoIndent": "advanced",
     // format: option + Shift + F
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.printWidth": 150,
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",

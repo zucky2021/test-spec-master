@@ -4,7 +4,7 @@
 - [GitHub - Code](https://github.com/kanbaru-github/test-spec-master)
 
 ## ソースレビューはCodeRabbitを使用
-- [公式サイト](https://coderabbit.ai/)
+- [CodeRabbit](https://coderabbit.ai/)
 
 ## コーディング規約は
 - [YAMLファイル](/.coderabbit.yaml)を参照
