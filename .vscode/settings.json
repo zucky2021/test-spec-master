@@ -1,60 +1,18 @@
 {
     "files.insertFinalNewline": true,
-    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
     "editor.insertSpaces": true,
     "editor.renderWhitespace": "boundary",
     "editor.autoIndent": "advanced",
-    // format: option + Shift + F
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "prettier.printWidth": 150,
-    "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.tabSize": 2,
-        "prettier.tabWidth": 2,
-        "editor.insertSpaces": true,
-        "editor.formatOnSave": true,
-        "files.insertFinalNewline": true
-    },
-    "[yaml]": {
-        "editor.insertSpaces": true,
-        "editor.tabSize": 2,
-        "editor.autoIndent": "advanced",
-        "diffEditor.ignoreTrimWhitespace": false
-    },
-    "[css]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[scss]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "gitlens.graph.layout": "editor",
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "prettier.arrowParens": "avoid"
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "prettier.arrowParens": "avoid"
-    },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "prettier.arrowParens": "avoid"
-    },
+    "prettier.arrowParens": "avoid",
     "[php]": {
-        "editor.linkedEditing": true,
-        "editor.formatOnSave": true
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
     },
     "phpstan.enabled": true,
     "phpstan.configFile": "phpstan.neon",
     "phpstan.memoryLimit": "1G",
     "phpstan.checkValidity": false,
     "cSpell.words": ["larastan", "phpstan", "phpunit", "tinyint", "varchar"],
-    "prettier.arrowParens": "avoid",
-    // Shift + command + 7
     "togglequotes.chars": ["\"", "'", "`"]
 }
