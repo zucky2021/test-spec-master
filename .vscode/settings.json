@@ -1,18 +1,20 @@
 {
-    "files.insertFinalNewline": true,
-    "editor.formatOnSave": true,
-    "editor.insertSpaces": true,
-    "editor.renderWhitespace": "boundary",
-    "editor.autoIndent": "advanced",
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "prettier.arrowParens": "avoid",
-    "[php]": {
-        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
-    },
-    "phpstan.enabled": true,
-    "phpstan.configFile": "phpstan.neon",
-    "phpstan.memoryLimit": "1G",
-    "phpstan.checkValidity": false,
-    "cSpell.words": ["larastan", "phpstan", "phpunit", "tinyint", "varchar"],
-    "togglequotes.chars": ["\"", "'", "`"]
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.autoIndent": "advanced",
+  "editor.detectIndentation": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.arrowParens": "avoid",
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    "editor.tabSize": 4
+  },
+  "phpstan.enabled": true,
+  "phpstan.configFile": "phpstan.neon",
+  "phpstan.memoryLimit": "1G",
+  "phpstan.checkValidity": false,
+  "cSpell.words": ["larastan", "phpstan", "phpunit", "tinyint", "varchar"],
+  "togglequotes.chars": ["\"", "'", "`"]
 }
