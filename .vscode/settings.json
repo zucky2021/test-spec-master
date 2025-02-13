@@ -1,4 +1,5 @@
 {
+  // こちらの設定が反映されない場合は.editorconfigファイルを確認
   "files.insertFinalNewline": true,
   "editor.formatOnSave": true,
   "editor.insertSpaces": true,
