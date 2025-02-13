@@ -4,8 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint resources/ --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,scss}\""
+    "lint": "eslint resources/ --fix"
   },
   "devDependencies": {
     "@headlessui/react": "^2.0.0",
