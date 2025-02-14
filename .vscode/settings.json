@@ -9,13 +9,22 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.arrowParens": "avoid",
   "[php]": {
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    "editor.defaultFormatter": "junstyle.php-cs-fixer",
     "editor.tabSize": 4
   },
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "php-cs-fixer.onsave": true,
   "phpstan.enabled": true,
   "phpstan.configFile": "phpstan.neon",
   "phpstan.memoryLimit": "1G",
   "phpstan.checkValidity": false,
-  "cSpell.words": ["larastan", "phpstan", "phpunit", "tinyint", "varchar"],
+  "cSpell.words": [
+    "inertiajs",
+    "larastan",
+    "phpstan",
+    "phpunit",
+    "tinyint",
+    "varchar"
+  ],
   "togglequotes.chars": ["\"", "'", "`"]
 }
