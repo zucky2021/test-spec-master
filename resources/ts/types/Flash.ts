@@ -1,4 +1,4 @@
 export type Flash = {
-    success?: string;
-    error?: string;
-}
+  success?: string;
+  error?: string;
+};

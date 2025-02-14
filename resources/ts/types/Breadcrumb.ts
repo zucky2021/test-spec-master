@@ -1,4 +1,4 @@
 export type Breadcrumb = {
-    name: string;
-    url: string;
-}
+  name: string;
+  url: string;
+};

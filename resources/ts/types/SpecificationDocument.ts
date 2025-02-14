@@ -1,9 +1,9 @@
 export type SpecificationDocument = {
-    id: number;
-    projectId: number;
-    userId: number;
-    title: string;
-    summary: string;
-    updatedAt: string;
-    userName: string|null;
-}
+  id: number;
+  projectId: number;
+  userId: number;
+  title: string;
+  summary: string;
+  updatedAt: string;
+  userName: string | null;
+};
