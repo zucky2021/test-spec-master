@@ -1,27 +1,27 @@
 .breadcrumbs {
-    list-style: none;
-    display: flex;
-    gap: 8px;
-    &__item {
-        &::after {
-            content: ">";
-            margin: 0 8px;
-        }
-
-        &:last-child {
-            a {
-                pointer-events: none;
-                font-weight: bold;
-                color: black;
-            }
-            &::after {
-                content: "";
-            }
-        }
-
-        a {
-            text-decoration: none;
-            color: blue;
-        }
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  &__item {
+    &::after {
+      content: ">";
+      margin: 0 8px;
     }
+
+    &:last-child {
+      a {
+        pointer-events: none;
+        font-weight: bold;
+        color: black;
+      }
+      &::after {
+        content: "";
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: blue;
+    }
+  }
 }
