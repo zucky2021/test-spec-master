@@ -8,4 +8,7 @@ fi
 
 # If we get here, tests passed
 echo "PHPUnit tests passed. Proceeding with the push."
+
+# FIXME:Add E2E test(Playwright)
+
 exit 0

@@ -18,7 +18,7 @@ if [ -n "$PHP_FILES" ]; then
   # PHP CS Fixer
   ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -- $PHP_FILES
   if ! git diff --quiet; then
-    echo "Formatter has made changes. Please stage these changes and commit again."
+    echo "PHP CS Fixer has made changes. Please stage these changes and commit again."
   fi
 
   # Larastan
@@ -41,7 +41,7 @@ if [ -n "$JS_FILES" ]; then
   # Prettierの実行
   npx prettier --write "**/*.{ts,tsx,scss}"
   if ! git diff --quiet; then
-    echo "Formatter has made changes. Please stage these changes and commit again."
+    echo "Prettier has made changes. Please stage these changes and commit again."
   fi
 fi
 
