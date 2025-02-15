@@ -58,7 +58,6 @@ const Index: React.FC<Props> = ({
                   href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
                 >
                   <h3>{specDoc.title}</h3>
-                  <small>{specDoc.summary}</small>
                 </Link>
               </li>
             ))
