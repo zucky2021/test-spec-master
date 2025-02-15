@@ -2,7 +2,7 @@
 
 # 編集したファイルのみを取得
 PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$')
-JS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.(ts|tsx)$')
+JS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.(ts|tsx|scss)$')
 
 # PHPファイルが存在する場合のみPHP関連のチェックを実行
 if [ -n "$PHP_FILES" ]; then
