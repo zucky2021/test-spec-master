@@ -10,54 +10,59 @@ import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
 
 type Props = PageProps & {
-    project: Project;
-    specificationDocuments: SpecificationDocument[];
-    breadcrumbs: Breadcrumb[];
-    flash: Flash;
+  project: Project;
+  specificationDocuments: SpecificationDocument[];
+  breadcrumbs: Breadcrumb[];
+  flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specificationDocuments, breadcrumbs }) => {
-    const { flash } = usePage<Props>().props;
+const Index: React.FC<Props> = ({
+  auth,
+  project,
+  specificationDocuments,
+  breadcrumbs,
+}) => {
+  const { flash } = usePage<Props>().props;
 
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Specification documents
-                </h2>
-            }
-        >
-            <Head title="Specification documents" />
+  return (
+    <AuthenticatedLayout
+      user={auth.user}
+      header={
+        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+          Specification documents
+        </h2>
+      }
+    >
+      <Head title="Specification documents" />
 
-            <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-            <section className="spec-doc-form">
-                <Link href={`/projects/${project.id}/spec-docs/create`}>
-                    Create specification document
+      <section className="spec-doc-form">
+        <Link href={`/projects/${project.id}/spec-docs/create`}>
+          Create specification document
+        </Link>
+
+        {flash.success && <p>{flash.success}</p>}
+
+        <ul>
+          {specificationDocuments.length > 0 ? (
+            specificationDocuments.map((specDoc) => (
+              <li key={specDoc.id}>
+                <Link
+                  href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
+                >
+                  <h3>{specDoc.title}</h3>
+                  <small>{specDoc.summary}</small>
                 </Link>
-
-                {flash.success && <p>{flash.success}</p>}
-
-                <ul>
-                    {specificationDocuments.length > 0 ? (
-                        specificationDocuments.map((specDoc) => (
-                            <li key={specDoc.id}>
-                                <Link
-                                    href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
-                                >
-                                    <h3>{specDoc.title}</h3>
-                                    <small>{specDoc.summary}</small>
-                                </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <li>Specification document does not exist.</li>
-                    )}
-                </ul>
-            </section>
-        </AuthenticatedLayout>
-    );
+              </li>
+            ))
+          ) : (
+            <li>Specification document does not exist.</li>
+          )}
+        </ul>
+      </section>
+    </AuthenticatedLayout>
+  );
 };
 
 export default Index;
