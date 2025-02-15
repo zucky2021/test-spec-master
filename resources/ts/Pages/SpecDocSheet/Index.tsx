@@ -28,9 +28,9 @@ const Index: React.FC<Props> = ({
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        <h1 className="font-semibold text-xl text-gray-800 leading-tight">
           Specification document sheet list
-        </h2>
+        </h1>
       }
     >
       <Head title="Specification document sheet list" />
@@ -38,55 +38,53 @@ const Index: React.FC<Props> = ({
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       <section className="spec-doc-sheet">
-        <Link
-          href={route("specDocs.index", {
-            projectId: specDoc.projectId,
-          })}
-          className="spec-doc-sheet__backBtn"
-        >
-          Back to specification document list
-        </Link>
-
-        <div className="spec-doc-sheet__head">
-          <h3>{specDoc.title}</h3>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
-            {specDoc.summary}
-          </ReactMarkdown>
-          Responsible person: {specDoc.userName}
-        </div>
         {auth.user.id === specDoc.userId && (
           <Link
             href={route("specDocs.edit", {
               projectId: specDoc.projectId,
               specDocId: specDoc.id,
             })}
-            className="spec-doc-sheet__editBtn"
+            className="spec-doc-sheet__edit-btn"
           >
             Edit
           </Link>
         )}
-      </section>
 
-      <ul>
-        {specDocSheets.length > 0 ? (
-          specDocSheets.map((specDocSheet) => (
-            <li key={specDocSheet.id}>
-              <Link
-                href={route("specDocSheets.show", {
-                  projectId: specDoc.projectId,
-                  specDocId: specDoc.id,
-                  specDocSheetId: specDocSheet.id,
-                })}
-              >
-                <h3>{specDocSheet.execEnvName}</h3>
-                <span>{sheetStatuses[specDocSheet.statusId]}</span>
-              </Link>
-            </li>
-          ))
-        ) : (
-          <li>Specification document does not exist.</li>
-        )}
-      </ul>
+        <div className="spec-doc-sheet__head">
+          <h2>{specDoc.title}</h2>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            className="markdown spec-doc-sheet__head-summary"
+          >
+            {specDoc.summary}
+          </ReactMarkdown>
+          <dl>
+            <dt>Responsible person name:</dt>
+            <dd>{specDoc.userName}</dd>
+          </dl>
+        </div>
+
+        <ul className="spec-doc-sheet__list">
+          {specDocSheets.length > 0 ? (
+            specDocSheets.map((specDocSheet) => (
+              <li key={specDocSheet.id} className="spec-doc-sheet__list-item">
+                <Link
+                  href={route("specDocSheets.show", {
+                    projectId: specDoc.projectId,
+                    specDocId: specDoc.id,
+                    specDocSheetId: specDocSheet.id,
+                  })}
+                >
+                  <h3>{specDocSheet.execEnvName}</h3>
+                  <span>{sheetStatuses[specDocSheet.statusId]}</span>
+                </Link>
+              </li>
+            ))
+          ) : (
+            <li>Specification document does not exist.</li>
+          )}
+        </ul>
+      </section>
     </AuthenticatedLayout>
   );
 };

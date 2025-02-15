@@ -2,7 +2,6 @@
 
 # 編集したファイルのみを取得
 PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$')
-JS_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.(ts|tsx|scss)$')
 
 # PHPファイルが存在する場合のみPHP関連のチェックを実行
 if [ -n "$PHP_FILES" ]; then
@@ -29,20 +28,17 @@ if [ -n "$PHP_FILES" ]; then
   fi
 fi
 
-# TypeScript/JavaScriptファイルが存在する場合のみlintを実行
-if [ -n "$JS_FILES" ]; then
-  # ESLintの実行
-  npm run lint
-  if [ $? -ne 0 ]; then
-    echo "ESLint failed. Please fix the errors before committing."
-    exit 1
-  fi
+# ESLintの実行
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "ESLint failed. Please fix the errors before committing."
+  exit 1
+fi
 
-  # Prettierの実行
-  npx prettier --write "**/*.{ts,tsx,scss}"
-  if ! git diff --quiet; then
-    echo "Prettier has made changes. Please stage these changes and commit again."
-  fi
+# Prettierの実行
+npx prettier --write "**/*.{ts,tsx,scss}"
+if ! git diff --quiet; then
+  echo "Prettier has made changes. Please stage these changes and commit again."
 fi
 
 echo "All checks passed. Proceeding with the commit."
