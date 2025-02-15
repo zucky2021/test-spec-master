@@ -1,16 +1,17 @@
 .spec-doc-sheet {
   width: 90%;
   margin: 0 auto;
-  &__backBtn {
-    margin: 1rem;
-  }
-  &__editBtn {
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 1rem;
-    margin: 1rem auto;
-    padding: 1rem 3rem;
+  &__edit-btn {
+    background-color: #7c7c7c;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 1.5rem;
+    margin: 1rem auto 1rem 0;
+    padding: 0.5rem 1rem;
     display: block;
     width: fit-content;
+    &:hover {
+      opacity: .7;
+    }
   }
 }
