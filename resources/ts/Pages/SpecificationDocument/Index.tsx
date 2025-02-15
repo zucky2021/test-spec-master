@@ -37,17 +37,23 @@ const Index: React.FC<Props> = ({
 
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <section className="spec-doc-form">
-        <Link href={`/projects/${project.id}/spec-docs/create`}>
-          Create specification document
+      <section className="specification-document">
+        <Link
+          href={`/projects/${project.id}/spec-docs/create`}
+          className="specification-document__create-btn"
+        >
+          Create
         </Link>
 
         {flash.success && <p>{flash.success}</p>}
 
-        <ul>
+        <ul className="specification-document__list">
           {specificationDocuments.length > 0 ? (
             specificationDocuments.map((specDoc) => (
-              <li key={specDoc.id}>
+              <li
+                key={specDoc.id}
+                className="specification-document__list-item"
+              >
                 <Link
                   href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
                 >
@@ -57,7 +63,9 @@ const Index: React.FC<Props> = ({
               </li>
             ))
           ) : (
-            <li>Specification document does not exist.</li>
+            <li className="specification-document__list-not-exists">
+              Specification document does not exist.
+            </li>
           )}
         </ul>
       </section>
