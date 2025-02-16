@@ -1,15 +1,15 @@
 @mixin button($bg-color) {
-    background-color: $bg-color;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 1.5rem;
-    padding: 0.5rem 1rem;
-    display: block;
-    width: 5rem;
-    text-align: center;
-    &:hover {
-      opacity: 0.7;
-    }
+  background-color: $bg-color;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+  display: block;
+  width: 5rem;
+  text-align: center;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .spec-doc-sheet {
@@ -23,10 +23,10 @@
     margin: 1rem auto;
   }
   &__back-btn {
-    @include button(#7c7c7c)
+    @include button(#7c7c7c);
   }
   &__edit-btn {
-    @include button(#000)
+    @include button(#000);
   }
 
   &__head {
