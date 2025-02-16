@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('{specDocId}')->middleware(ValidateSpecificationDocumentId::class)->group(function () {
                 Route::get('/edit', [SpecificationDocumentController::class, 'edit'])->name('specDocs.edit');
                 Route::put('/update', [SpecificationDocumentController::class, 'update'])->name('specDocs.update');
+                Route::patch('/softDelete', [SpecificationDocumentController::class, 'softDelete'])->name('specDocs.softDelete');
             });
 
             // シート

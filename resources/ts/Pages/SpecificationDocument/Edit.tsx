@@ -2,7 +2,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import { PageProps } from "@/types";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
-import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
@@ -10,6 +9,9 @@ import { ExecutionEnvironment } from "@/types/ExecutionEnvironment";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import SpecDocSheetManager from "./Partials/SpecDocSheetManager";
 import DangerButton from "@/Components/DangerButton";
+import "@scss/pages/specification_document/edit.scss";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { Transition } from "@headlessui/react";
 
 type Props = PageProps & {
   project: Project;
@@ -26,10 +28,11 @@ const Index: React.FC<Props> = ({
   executionEnvironments,
   specDocSheets,
 }) => {
-  const { data, setData, put, processing, errors } = useForm({
-    title: specificationDocument?.title || "",
-    summary: specificationDocument?.summary || "",
-  });
+  const { data, setData, put, patch, processing, errors, recentlySuccessful } =
+    useForm({
+      title: specificationDocument?.title || "",
+      summary: specificationDocument?.summary || "",
+    });
 
   const { flash } = usePage<Props>().props;
 
@@ -43,57 +46,50 @@ const Index: React.FC<Props> = ({
     );
   };
 
-  // const [confirmingSpecDocDeletion, setConfirmingSpecDocDeletion] =
-  //   useState(false);
-  // const confirmSpecDocDeletion = () => {};
-
   /**
-   *
+   * 論理削除
+   * @param e フォームイベント
    */
-  const handleDeleteSpecDoc = () => {
-    // FIXME:テスト仕様書論理削除処理
+  const handleDelete = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (confirm("本当に削除しますか？")) {
+      patch(
+        route("specDocs.softDelete", {
+          projectId: project.id,
+          specDocId: specificationDocument.id,
+        }),
+      );
+    }
   };
 
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-          Edit specification document
-        </h2>
-      }
+      header={<h1>Edit specification document</h1>}
     >
       <Head title="Edit specification document" />
 
-      <section className="spec-doc-form">
-        {flash.error && <p className="spec-doc-form__flash">{flash.error}</p>}
-        {flash.success && (
-          <p className="spec-doc-form__flash">{flash.success}</p>
-        )}
-
+      <section className="spec-doc-edit">
         <Link
           href={route("specDocSheets.index", {
             projectId: project.id,
             specDocId: specificationDocument.id,
           })}
+          className="spec-doc-edit__back-btn"
         >
-          シート一覧へ
+          Back
         </Link>
 
-        <time
-          className="spec-doc-form__updated-at"
-          dateTime={specificationDocument.updatedAt}
-        >
-          Updated at: {specificationDocument.updatedAt}
-        </time>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Title
-            </label>
+        <p className="spec-doc-edit__updated-at">
+          Updated at:
+          <time dateTime={specificationDocument.updatedAt}>
+            {specificationDocument.updatedAt}
+          </time>
+        </p>
+
+        <form onSubmit={handleSubmit} className="spec-doc-edit__form">
+          <fieldset>
+            <label htmlFor="title">Title</label>
             <input
               type="text"
               name="title"
@@ -101,52 +97,53 @@ const Index: React.FC<Props> = ({
               value={data.title}
               onChange={(e) => setData("title", e.target.value)}
               placeholder="EKI-xx"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             />
             {errors.title && (
-              <div className="text-red-500 text-sm">{errors.title}</div>
+              <p className="spec-doc-edit__form-err">{errors.title}</p>
             )}
-          </div>
+          </fieldset>
 
-          <div className="mb-4">
-            <label
-              htmlFor="summary"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Summary
-            </label>
+          <fieldset>
+            <label htmlFor="summary">Summary</label>
             <textarea
               name="summary"
               id="summary"
               value={data.summary}
               onChange={(e) => setData("summary", e.target.value)}
               placeholder="https://backlog.com/ja/"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               rows={5}
             ></textarea>
             {errors.summary && (
-              <div className="text-red-500 text-sm">{errors.summary}</div>
+              <div className="spec-doc-edit__form-err">{errors.summary}</div>
             )}
-          </div>
+          </fieldset>
 
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded ${
-                processing ? "Processing..." : "Create"
-              }`}
-              disabled={processing}
+          {/* FIXME:表示非表示切り替えるトグルスイッチを追加 */}
+
+          <div className="spec-doc-edit__form-btns">
+            <PrimaryButton disabled={processing}>Save</PrimaryButton>
+            <Transition
+              show={recentlySuccessful && !flash.error}
+              enter="transition ease-in-out"
+              enterFrom="opacity-0"
+              leave="transition ease-in-out"
+              leaveTo="opacity-0"
             >
-              {processing ? "Processing..." : "Update"}
-            </button>
-          </div>
+              <p className="text-sm text-gray-600">Saved.</p>
+            </Transition>
 
-          {/* 表示非表示切り替えるトグルスイッチを追加 */}
-          {auth.user.id === specificationDocument.userId && (
-            <DangerButton onClick={handleDeleteSpecDoc}>
-              Delete Account
-            </DangerButton>
-          )}
+            <Transition
+              show={recentlySuccessful && !!flash.error}
+              enter="transition ease-in-out"
+              enterFrom="opacity-0"
+              leave="transition ease-in-out"
+              leaveTo="opacity-0"
+            >
+              <p className="spec-doc-edit__form-flash-err">{flash.error}</p>
+            </Transition>
+
+            <DangerButton onClick={handleDelete}>Delete</DangerButton>
+          </div>
         </form>
       </section>
 

@@ -92,4 +92,13 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
                 'updated_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
             ]);
     }
+
+    public function delete(int $id): void
+    {
+        DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+            ->where('id', $id)
+            ->update([
+                'deleted_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
+            ]);
+    }
 }

@@ -19,6 +19,7 @@
   "phpstan.memoryLimit": "1G",
   "phpstan.checkValidity": false,
   "cSpell.words": [
+    "headlessui",
     "inertiajs",
     "larastan",
     "phpstan",

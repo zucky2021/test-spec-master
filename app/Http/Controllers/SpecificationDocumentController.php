@@ -13,6 +13,7 @@ use App\UseCases\Breadcrumb\BreadcrumbFindAction;
 use App\UseCases\ExecutionEnvironment\ExecutionEnvironmentFindAction;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\SpecDocSheet\SpecDocSheetFindAction;
+use App\UseCases\SpecificationDocument\SpecificationDocumentDeleteAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentFindAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentStoreAction;
 use App\UseCases\SpecificationDocument\SpecificationDocumentUpdateAction;
@@ -198,5 +199,33 @@ class SpecificationDocumentController extends Controller
 
         return redirect()->route('specDocs.edit', ['projectId' => $projectId, 'specDocId' => $specDocId])
             ->with('success', 'Specification document updated success.');
+    }
+
+    /**
+     * 論理削除
+     *
+     * @param Request $request
+     * @param SpecificationDocumentDeleteAction $specificationDocumentDeleteAction
+     * @return RedirectResponse
+     */
+    public function softDelete(
+        Request $request,
+        SpecificationDocumentDeleteAction $specificationDocumentDeleteAction,
+    ): RedirectResponse {
+        /** @var int */
+        $projectId = $request->input('projectId');
+        /** @var int */
+        $specDocId = $request->input('specDocId');
+
+        try {
+            $specificationDocumentDeleteAction->delete($specDocId);
+        } catch (Exception $e) {
+            Log::error('Failed to soft delete specification document: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+
+            return redirect()->back()->with('error', 'Failed to delete.');
+        }
+
+        return redirect()->route('specDocs.index', ['projectId' => $projectId])
+            ->with('success', 'Specification document delete success');
     }
 }

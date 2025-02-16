@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PageProps } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
@@ -8,6 +8,7 @@ import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
+import SlideAlert from "@/Components/SlideAlert";
 
 type Props = PageProps & {
   project: Project;
@@ -23,6 +24,22 @@ const Index: React.FC<Props> = ({
   breadcrumbs,
 }) => {
   const { flash } = usePage<Props>().props;
+  const [isShowAlert, setIsShowAlert] = useState(!!flash.success);
+
+  useEffect(() => {
+    const handleIsShowAlert = () => {
+      setIsShowAlert(true);
+      const timer = setTimeout(() => {
+        setIsShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    };
+
+    if (flash.success) {
+      handleIsShowAlert();
+    }
+  }, [flash.success]);
 
   return (
     <AuthenticatedLayout
@@ -45,7 +62,9 @@ const Index: React.FC<Props> = ({
           Create
         </Link>
 
-        {flash.success && <p>{flash.success}</p>}
+        <SlideAlert isShow={isShowAlert}>
+          <p className="flash-msg">{flash?.success}</p>
+        </SlideAlert>
 
         <ul className="specification-document__list">
           {specificationDocuments.length > 0 ? (

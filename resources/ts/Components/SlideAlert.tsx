@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import "@scss/components/slide_alert.scss";
 
 type Props = {
   isShow: boolean;
