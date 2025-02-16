@@ -1,27 +1,32 @@
 .breadcrumbs {
-  list-style: none;
-  display: flex;
-  gap: 8px;
-  &__item {
-    &::after {
-      content: ">";
-      margin: 0 8px;
-    }
-
-    &:last-child {
-      a {
-        pointer-events: none;
-        font-weight: bold;
-        color: black;
-      }
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+  &__list {
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    &-item {
       &::after {
-        content: "";
+        content: ">";
+        margin: 0 8px;
       }
-    }
 
-    a {
-      text-decoration: none;
-      color: blue;
+      &:last-child {
+        a {
+          pointer-events: none;
+          font-weight: bold;
+          color: black;
+        }
+        &::after {
+          content: "";
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: blue;
+      }
     }
   }
 }

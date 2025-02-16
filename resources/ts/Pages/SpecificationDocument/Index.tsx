@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { PageProps } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
-import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
 import SlideAlert from "@/Components/SlideAlert";
+import "@scss/pages/specification_document/index.scss";
 
 type Props = PageProps & {
   project: Project;

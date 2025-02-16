@@ -9,10 +9,10 @@ type BreadcrumbsProps = {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
   return (
-    <nav area-label="Breadcrumb">
-      <ol className="breadcrumbs">
+    <nav className="breadcrumbs" area-label="Breadcrumb">
+      <ol className="breadcrumbs__list">
         {breadcrumbs.map((breadcrumbs, index) => (
-          <li key={index} className="breadcrumbs__item">
+          <li key={index} className="breadcrumbs__list-item">
             <Link href={breadcrumbs.url}>{breadcrumbs.name}</Link>
           </li>
         ))}
