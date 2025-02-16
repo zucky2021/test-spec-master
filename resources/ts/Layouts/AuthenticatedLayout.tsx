@@ -5,6 +5,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
+import "@scss/components/header.scss";
 
 export default function Authenticated({
   user,
@@ -165,13 +166,7 @@ export default function Authenticated({
         </div>
       </nav>
 
-      {header && (
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            {header}
-          </div>
-        </header>
-      )}
+      {header && <header>{header}</header>}
 
       <main>{children}</main>
     </div>

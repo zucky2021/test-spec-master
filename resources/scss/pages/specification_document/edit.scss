@@ -1,5 +1,3 @@
-@use "../../components/_header.scss";
-
 .spec-doc-edit {
   &__back-btn {
     display: block;
@@ -44,7 +42,8 @@
       text-align: center;
       display: block;
     }
-    input, textarea {
+    input,
+    textarea {
       margin: 0.5rem auto 1rem;
       display: block;
       width: 100%;

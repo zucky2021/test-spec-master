@@ -1,13 +1,13 @@
 .slide-alert {
   display: block;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   padding: 1rem;
   border: 1px solid #666;
   position: fixed;
   color: #000;
   font-size: 1.2rem;
   font-family: serif;
-  box-shadow: 0 1px 3px rgba($color: #666, $alpha: .5);
+  box-shadow: 0 1px 3px rgba($color: #666, $alpha: 0.5);
   top: -10%;
   opacity: 0;
   transition:

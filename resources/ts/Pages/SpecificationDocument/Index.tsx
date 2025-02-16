@@ -39,16 +39,12 @@ const Index: React.FC<Props> = ({
     if (flash.success) {
       handleIsShowAlert();
     }
-  }, [flash.success]);
+  }, []);
 
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-          Specification documents
-        </h2>
-      }
+      header={<h1>Specification documents</h1>}
     >
       <Head title="Specification documents" />
 
