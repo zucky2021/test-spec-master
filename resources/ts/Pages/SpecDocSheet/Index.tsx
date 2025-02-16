@@ -5,10 +5,10 @@ import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
-import "@scss/pages/spec_doc_sheet/index.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { Breadcrumb } from "@/types/Breadcrumb";
 import Breadcrumbs from "@/Components/Breadcrumbs";
+import "@scss/pages/spec_doc_sheet/index.scss";
 
 type Props = PageProps & {
   specDoc: SpecificationDocument;
@@ -27,28 +27,35 @@ const Index: React.FC<Props> = ({
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={
-        <h1 className="font-semibold text-xl text-gray-800 leading-tight">
-          Specification document sheet list
-        </h1>
-      }
+      header={<h1>Specification document sheets</h1>}
     >
-      <Head title="Specification document sheet list" />
+      <Head title="Specification document sheets" />
 
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       <section className="spec-doc-sheet">
-        {auth.user.id === specDoc.userId && (
+        <div className="spec-doc-sheet__btn-row">
           <Link
-            href={route("specDocs.edit", {
+            href={route("specDocs.index", {
               projectId: specDoc.projectId,
-              specDocId: specDoc.id,
             })}
-            className="spec-doc-sheet__edit-btn"
+            className="spec-doc-sheet__back-btn"
           >
-            Edit
+            Back
           </Link>
-        )}
+
+          {auth.user.id == specDoc.userId && (
+            <Link
+              href={route("specDocs.edit", {
+                projectId: specDoc.projectId,
+                specDocId: specDoc.id,
+              })}
+              className="spec-doc-sheet__edit-btn"
+            >
+              Edit
+            </Link>
+          )}
+        </div>
 
         <div className="spec-doc-sheet__head">
           <h2>{specDoc.title}</h2>
@@ -81,7 +88,9 @@ const Index: React.FC<Props> = ({
               </li>
             ))
           ) : (
-            <li>Specification document does not exist.</li>
+            <li className="spec-doc-sheet__list-not-exists">
+              Specification document does not exist.
+            </li>
           )}
         </ul>
       </section>
