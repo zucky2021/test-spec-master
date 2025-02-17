@@ -36,7 +36,7 @@ const Show: React.FC<Props> = ({
   const [items, setItems] = useState<SpecDocItem[]>(specDocItems);
   const [loading, setLoading] = useState<number | null>(null);
 
-  const toggleStatus = async (index: number, itemId: number) => {
+  const toggleStatus = async (index: number, itemId: number): Promise<void> => {
     setLoading(itemId);
     try {
       const response = await axios.patch<ToggleStatusResponse>(
@@ -57,6 +57,8 @@ const Show: React.FC<Props> = ({
       setLoading(null);
     }
   };
+
+  // FIXME:現状一つのitemが更新される度に再レンダリングされるためmemo化
 
   return (
     <AuthenticatedLayout

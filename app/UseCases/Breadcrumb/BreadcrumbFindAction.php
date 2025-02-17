@@ -27,13 +27,13 @@ final class BreadcrumbFindAction
 
         if (!empty($specDocId)) {
             $arr[] = new BreadcrumbDto(
-                name: 'Spec document sheets',
+                name: 'Specification document sheets',
                 url: route('specDocSheets.index', [$projectId, $specDocId]),
             );
 
             if (!empty($specDocSheetId)) {
                 $arr[] = new BreadcrumbDto(
-                    name: 'Spec doc Sheet',
+                    name: 'Specification document Sheet',
                     url: route('specDocSheets.show', [$projectId, $specDocId, $specDocSheetId]),
                 );
             }

@@ -61,6 +61,12 @@ const Index: React.FC<Props> = ({
           <h2>{specDoc.title}</h2>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
+            remarkRehypeOptions={{ allowDangerousHtml: false }}
+            components={{
+              a: ({ ...props }) => (
+                <a {...props} target="_blank" rel="noopener noreferrer" />
+              ),
+            }}
             className="markdown spec-doc-sheet__head-summary"
           >
             {specDoc.summary}

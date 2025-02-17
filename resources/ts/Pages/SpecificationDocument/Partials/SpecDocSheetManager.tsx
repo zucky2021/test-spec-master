@@ -38,7 +38,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
     (env) => !sheets.some((sheet) => sheet.execEnvId === env.id),
   );
 
-  const handleAddSheet = async (envId: number) => {
+  const handleAddSheet = async (envId: number): Promise<void> => {
     try {
       const response = await axios.post<AddSheetResponse>(
         route("specDocSheets.store", {
@@ -77,11 +77,14 @@ const SpecDocSheetManager: React.FC<Props> = ({
     }
   }, [data.exec_env_id]);
 
-  const handleCopySheet = (sheetId: number) => {
-    console.log(sheetId);
-  };
+  /**
+   * URLをクリップボードにコピー FIXME:他課題で実装
+   * @param sheetId
+   */
+  // const handleCopySheet = (sheetId: number) => {
+  // };
 
-  const handleRemoveSheet = async (sheetId: number) => {
+  const handleRemoveSheet = async (sheetId: number): Promise<void> => {
     try {
       const response = await axios.delete<DeleteSheetResponse>(
         route("specDocSheets.destroy", {
@@ -101,9 +104,9 @@ const SpecDocSheetManager: React.FC<Props> = ({
   const handleDisplayDialog = (
     action: "add" | "copy",
     sheetId: number | null = null,
-  ) => {
+  ): void => {
     if (action === "copy" && sheetId !== null) {
-      handleCopySheet(sheetId);
+      // handleCopySheet(sheetId);
     } else {
       setIsModalOpen(true);
     }

@@ -14,16 +14,20 @@ const Index: React.FC<Props> = ({ auth, projects }) => {
     <AuthenticatedLayout user={auth.user} header={<h1>Projects</h1>}>
       <Head title="Projects" />
 
-      <ul className="project__list">
-        {projects.map((project) => (
-          <li key={project.id} className="project__list-item">
-            <Link href={`/projects/${project.id}/spec-docs`}>
-              <h3>{project.name}</h3>
-              <small>{project.summary}</small>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {projects.length === 0 ? (
+        <p>Projects not exists.</p>
+      ) : (
+        <ul className="project__list">
+          {projects.map((project) => (
+            <li key={project.id} className="project__list-item">
+              <Link href={`/projects/${project.id}/spec-docs`}>
+                <h3>{project.name}</h3>
+                <small>{project.summary}</small>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </AuthenticatedLayout>
   );
 };

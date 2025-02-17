@@ -1,22 +1,17 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import React from "react";
+import "@scss/pages/dashboard.scss";
 
 type Props = PageProps & {
   createdCnt: number;
   executedCnt: number;
 };
 
-export default function Dashboard({ auth, createdCnt, executedCnt }: Props) {
+const Dashboard: React.FC<Props> = ({ auth, createdCnt, executedCnt }) => {
   return (
-    <AuthenticatedLayout
-      user={auth.user}
-      header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-          Dashboard
-        </h2>
-      }
-    >
+    <AuthenticatedLayout user={auth.user} header={<h1>Dashboard</h1>}>
       <Head title="Dashboard" />
 
       <div className="py-12">
@@ -28,14 +23,18 @@ export default function Dashboard({ auth, createdCnt, executedCnt }: Props) {
       </div>
 
       <section className="achievement">
-        <h3>Achievement</h3>
+        <h2>Achievement</h2>
         <p>
-          Created test spec doc sheets: <strong>{createdCnt}</strong>
+          Created test specification document sheets:
+          <strong>{createdCnt}</strong>
         </p>
         <p>
-          Executed test spec doc sheets: <strong>{executedCnt}</strong>
+          Executed test specification document sheets:
+          <strong>{executedCnt}</strong>
         </p>
       </section>
     </AuthenticatedLayout>
   );
-}
+};
+
+export default Dashboard;
