@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { FormEventHandler, ReactElement, useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
