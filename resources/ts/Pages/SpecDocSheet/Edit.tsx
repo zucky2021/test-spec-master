@@ -63,15 +63,14 @@ const Edit: React.FC<Props> = ({
     ]);
   };
 
-  const handleInputChange = useCallback((
-    index: number,
-    field: keyof FormDataItem,
-    value: string,
-  ): void => {
-    const newItems = [...data.items];
-    newItems[index][field] = value;
-    setData("items", newItems);
-  }, [data.items, setData]);
+  const handleInputChange = useCallback(
+    (index: number, field: keyof FormDataItem, value: string): void => {
+      const newItems = [...data.items];
+      newItems[index][field] = value;
+      setData("items", newItems);
+    },
+    [data.items, setData],
+  );
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
