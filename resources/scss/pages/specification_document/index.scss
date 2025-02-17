@@ -1,5 +1,48 @@
+.specification-document {
+  margin: 10px auto;
+  width: 95%;
+  max-width: 1000px;
 
-.spec-doc-sheet {
-    margin: 10px auto;
-    width: 90%;
+  &__create-btn {
+    background-color: #0dff00;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    box-shadow: 0px 3px 1px rgba($color: #0a6f05, $alpha: 0.5);
+    font-weight: bold;
+    margin: 1rem 0 2rem auto;
+    display: block;
+    width: fit-content;
+    &:hover {
+      filter: blur(1px);
+    }
+  }
+
+  &__list {
+    &-item {
+      border: 1px solid #333;
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+      box-shadow: 1px 1px 1px rgba($color: #000, $alpha: 0.5);
+
+      a {
+        padding: 0.5rem;
+        display: block;
+        &:hover {
+          filter: opacity(0.5);
+        }
+      }
+
+      h3 {
+        font-weight: bold;
+      }
+    }
+
+    &-not-exists {
+      text-align: center;
+      font-family: serif;
+      font-weight: bold;
+      font-size: 1.6rem;
+    }
+  }
 }

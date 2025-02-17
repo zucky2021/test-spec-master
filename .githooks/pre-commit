@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# 編集したファイルのみを取得
+PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$')
+
+# PHPファイルが存在する場合のみPHP関連のチェックを実行
+if [ -n "$PHP_FILES" ]; then
+  # PHP構文チェック（一括実行）
+  if ! php -l $PHP_FILES > /dev/null 2>&1; then
+    echo "Syntax errors found. Please fix them before committing."
+    php -l $PHP_FILES
+    exit 1
+  fi
+
+  # PHP CS Fixer
+  ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -- $PHP_FILES
+  if ! git diff --quiet; then
+    echo "PHP CS Fixer has made changes. Please stage these changes and commit again."
+  fi
+
+  # Larastan
+  ./vendor/bin/phpstan analyse --level=max --memory-limit=1G $PHP_FILES
+  if [ $? -ne 0 ]; then
+    echo "Larastan has found errors. Please fix them before committing."
+    exit 1
+  fi
+fi
+
+# ESLintの実行
+if npm run lint; then
+  echo "ESLint failed. Please fix the errors before committing."
+  exit 1
+fi
+
+# Prettierの実行
+npx prettier --write "**/*.{ts,tsx,scss}"
+if ! git diff --quiet; then
+  echo "Prettier has made changes. Please stage these changes and commit again."
+fi
+
+echo "All checks passed. Proceeding with the commit."
+exit 0

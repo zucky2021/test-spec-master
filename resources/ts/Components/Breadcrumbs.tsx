@@ -4,21 +4,21 @@ import React from "react";
 import "@scss/components/breadcrumbs.scss";
 
 type BreadcrumbsProps = {
-    breadcrumbs: Breadcrumb[];
+  breadcrumbs: Breadcrumb[];
 };
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
-    return (
-        <nav area-label="Breadcrumb">
-            <ol className="breadcrumbs">
-                {breadcrumbs.map((breadcrumbs, index) => (
-                    <li key={index} className="breadcrumbs__item">
-                        <Link href={breadcrumbs.url}>{breadcrumbs.name}</Link>
-                    </li>
-                ))}
-            </ol>
-        </nav>
-    );
+  return (
+    <nav className="breadcrumbs" aria-label="パンくずリスト">
+      <ol className="breadcrumbs__list">
+        {breadcrumbs.map((breadcrumb, index) => (
+          <li key={index} className="breadcrumbs__list-item">
+            <Link href={breadcrumb.url}>{breadcrumb.name}</Link>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
 };
 
 export default Breadcrumbs;

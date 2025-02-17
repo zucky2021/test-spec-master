@@ -23,17 +23,17 @@ final class BreadcrumbFindAction
 
         $arr[] = new BreadcrumbDto(name: 'Project', url: route('projects.index'));
 
-        $arr[] = new BreadcrumbDto(name: 'Specification document list', url: route('specDocs.index', $projectId));
+        $arr[] = new BreadcrumbDto(name: 'Specification documents', url: route('specDocs.index', $projectId));
 
         if (!empty($specDocId)) {
             $arr[] = new BreadcrumbDto(
-                name: 'Spec doc sheet list',
+                name: 'Specification document sheets',
                 url: route('specDocSheets.index', [$projectId, $specDocId]),
             );
 
             if (!empty($specDocSheetId)) {
                 $arr[] = new BreadcrumbDto(
-                    name: 'Spec doc Sheet',
+                    name: 'Specification document Sheet',
                     url: route('specDocSheets.show', [$projectId, $specDocId, $specDocSheetId]),
                 );
             }

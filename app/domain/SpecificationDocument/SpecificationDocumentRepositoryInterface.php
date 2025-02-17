@@ -48,4 +48,12 @@ interface SpecificationDocumentRepositoryInterface
      * @return void
      */
     public function update(SpecificationDocumentDto $dto): void;
+
+    /**
+     * 論理削除
+     *
+     * @param integer $id 仕様書ID
+     * @return void
+     */
+    public function delete(int $id): void;
 }

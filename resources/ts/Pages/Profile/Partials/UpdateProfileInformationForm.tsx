@@ -9,143 +9,139 @@ import { PageProps } from "@/types";
 import { Department } from "@/types/Department";
 
 const UpdateProfileInformation = ({
-    mustVerifyEmail,
-    status,
-    className = "",
-    departments,
+  mustVerifyEmail,
+  status,
+  className = "",
+  departments,
 }: {
-    mustVerifyEmail: boolean;
-    status?: string;
-    className?: string;
-    departments: Department[];
+  mustVerifyEmail: boolean;
+  status?: string;
+  className?: string;
+  departments: Department[];
 }) => {
-    const user = usePage<PageProps>().props.auth.user;
+  const user = usePage<PageProps>().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            departmentId: user.department_id,
-            name: user.name,
-            email: user.email,
-        });
+  const { data, setData, patch, errors, processing, recentlySuccessful } =
+    useForm({
+      departmentId: user.department_id,
+      name: user.name,
+      email: user.email,
+    });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+  const submit: FormEventHandler = (e) => {
+    e.preventDefault();
 
-        patch(route("profile.update"));
-    };
+    patch(route("profile.update"));
+  };
 
-    return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
-                </h2>
+  return (
+    <section className={className}>
+      <header>
+        <h2 className="text-lg font-medium text-gray-900">
+          Profile Information
+        </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
+        <p className="mt-1 text-sm text-gray-600">
+          Update your account's profile information and email address.
+        </p>
+      </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                <div className="mt-4">
-                    <InputLabel htmlFor="department_id" value="Department" />
+      <form onSubmit={submit} className="mt-6 space-y-6">
+        <div className="mt-4">
+          <InputLabel htmlFor="department_id" value="Department" />
 
-                    <select
-                        id="department_id"
-                        name="department_id"
-                        value={user.department_id}
-                        onChange={(e) =>
-                            setData(
-                                "departmentId",
-                                e.target.value ? Number(e.target.value) : ""
-                            )
-                        }
-                    >
-                        <option value="">select</option>
-                        {departments.map((department) => (
-                            <option key={department.id} value={department.id}>
-                                {department.name}
-                            </option>
-                        ))}
-                    </select>
+          <select
+            id="department_id"
+            name="department_id"
+            value={user.department_id}
+            onChange={(e) =>
+              setData(
+                "departmentId",
+                e.target.value ? Number(e.target.value) : "",
+              )
+            }
+          >
+            <option value="">select</option>
+            {departments.map((department) => (
+              <option key={department.id} value={department.id}>
+                {department.name}
+              </option>
+            ))}
+          </select>
 
-                    <InputError
-                        message={errors.departmentId}
-                        className="mt-2"
-                    />
-                </div>
+          <InputError message={errors.departmentId} className="mt-2" />
+        </div>
 
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
+        <div>
+          <InputLabel htmlFor="name" value="Name" />
 
-                    <TextInput
-                        id="name"
-                        className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData("name", e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="name"
-                    />
+          <TextInput
+            id="name"
+            className="mt-1 block w-full"
+            value={data.name}
+            onChange={(e) => setData("name", e.target.value)}
+            required
+            isFocused
+            autoComplete="name"
+          />
 
-                    <InputError className="mt-2" message={errors.name} />
-                </div>
+          <InputError className="mt-2" message={errors.name} />
+        </div>
 
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
+        <div>
+          <InputLabel htmlFor="email" value="Email" />
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
+          <TextInput
+            id="email"
+            type="email"
+            className="mt-1 block w-full"
+            value={data.email}
+            onChange={(e) => setData("email", e.target.value)}
+            required
+            autoComplete="username"
+          />
 
-                    <InputError className="mt-2" message={errors.email} />
-                </div>
+          <InputError className="mt-2" message={errors.email} />
+        </div>
 
-                {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
-                        <p className="text-sm mt-2 text-gray-800">
-                            Your email address is unverified.
-                            <Link
-                                href={route("verification.send")}
-                                method="post"
-                                as="button"
-                                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Click here to re-send the verification email.
-                            </Link>
-                        </p>
+        {mustVerifyEmail && user.email_verified_at === null && (
+          <div>
+            <p className="text-sm mt-2 text-gray-800">
+              Your email address is unverified.
+              <Link
+                href={route("verification.send")}
+                method="post"
+                as="button"
+                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Click here to re-send the verification email.
+              </Link>
+            </p>
 
-                        {status === "verification-link-sent" && (
-                            <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your
-                                email address.
-                            </div>
-                        )}
-                    </div>
-                )}
+            {status === "verification-link-sent" && (
+              <div className="mt-2 font-medium text-sm text-green-600">
+                A new verification link has been sent to your email address.
+              </div>
+            )}
+          </div>
+        )}
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+        <div className="flex items-center gap-4">
+          <PrimaryButton disabled={processing}>Save</PrimaryButton>
 
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600">Saved.</p>
-                    </Transition>
-                </div>
-            </form>
-        </section>
-    );
+          <Transition
+            show={recentlySuccessful}
+            enter="transition ease-in-out"
+            enterFrom="opacity-0"
+            leave="transition ease-in-out"
+            leaveTo="opacity-0"
+          >
+            <p className="text-sm text-gray-600">Saved.</p>
+          </Transition>
+        </div>
+      </form>
+    </section>
+  );
 };
 
 export default UpdateProfileInformation;

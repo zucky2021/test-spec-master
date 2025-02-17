@@ -21,13 +21,13 @@ final class UserEntity
         ?int $departmentId,
         Name $name,
         Email $email,
-        string $password
+        string $password,
     ) {
-        $this->id = $id;
+        $this->id           = $id;
         $this->departmentId = $departmentId;
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
+        $this->name         = $name;
+        $this->email        = $email;
+        $this->password     = $password;
     }
 
     public function getId(): ?int

@@ -1,63 +1,90 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PageProps } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
-import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
+import SlideAlert from "@/Components/SlideAlert";
+import "@scss/pages/specification_document/index.scss";
 
 type Props = PageProps & {
-    project: Project;
-    specificationDocuments: SpecificationDocument[];
-    breadcrumbs: Breadcrumb[];
-    flash: Flash;
+  project: Project;
+  specificationDocuments: SpecificationDocument[];
+  breadcrumbs: Breadcrumb[];
+  flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project, specificationDocuments, breadcrumbs }) => {
-    const { flash } = usePage<Props>().props;
+const Index: React.FC<Props> = ({
+  auth,
+  project,
+  specificationDocuments,
+  breadcrumbs,
+}) => {
+  const { flash } = usePage<Props>().props;
+  const [isShowAlert, setIsShowAlert] = useState(!!flash.success);
 
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Specification documents
-                </h2>
-            }
+  useEffect(() => {
+    const handleIsShowAlert = () => {
+      setIsShowAlert(true);
+      const timer = setTimeout(() => {
+        setIsShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    };
+
+    if (flash.success) {
+      handleIsShowAlert();
+    }
+  }, []);
+
+  return (
+    <AuthenticatedLayout
+      user={auth.user}
+      header={<h1>Specification documents</h1>}
+    >
+      <Head title="Specification documents" />
+
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+
+      <section className="specification-document">
+        <Link
+          href={`/projects/${project.id}/spec-docs/create`}
+          className="specification-document__create-btn"
         >
-            <Head title="Specification documents" />
+          Create
+        </Link>
 
-            <Breadcrumbs breadcrumbs={breadcrumbs} />
+        <SlideAlert isShow={isShowAlert}>
+          <p className="flash-msg">{flash?.success}</p>
+        </SlideAlert>
 
-            <section className="spec-doc-form">
-                <Link href={`/projects/${project.id}/spec-docs/create`}>
-                    Create specification document
+        <ul className="specification-document__list">
+          {specificationDocuments.length > 0 ? (
+            specificationDocuments.map((specDoc) => (
+              <li
+                key={specDoc.id}
+                className="specification-document__list-item"
+              >
+                <Link
+                  href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
+                >
+                  <h3>{specDoc.title}</h3>
                 </Link>
-
-                {flash.success && <p>{flash.success}</p>}
-
-                <ul>
-                    {specificationDocuments.length > 0 ? (
-                        specificationDocuments.map((specDoc) => (
-                            <li key={specDoc.id}>
-                                <Link
-                                    href={`/projects/${specDoc.projectId}/spec-docs/${specDoc.id}/sheets`}
-                                >
-                                    <h3>{specDoc.title}</h3>
-                                    <small>{specDoc.summary}</small>
-                                </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <li>Specification document does not exist.</li>
-                    )}
-                </ul>
-            </section>
-        </AuthenticatedLayout>
-    );
+              </li>
+            ))
+          ) : (
+            <li className="specification-document__list-not-exists">
+              Specification document does not exist.
+            </li>
+          )}
+        </ul>
+      </section>
+    </AuthenticatedLayout>
+  );
 };
 
 export default Index;

@@ -9,8 +9,7 @@ reviews:
   path_instructions:
     - path: "**/*.{ts,tsx,scss,php}"
       instructions: |
-        "Use 4 spaces for indentation.
-        Follow the Boy Scout Rule: Leave the code cleaner than you found it.
+        "Follow the Boy Scout Rule: Leave the code cleaner than you found it.
         Follow YAGNI (You Aren't Gonna Need It): Don't implement functionality until it's needed.
         Follow DRY (Don't Repeat Yourself): Avoid duplicating code by extracting reusable logic into functions.
         Follow KISS (Keep It Simple, Stupid): Write simple, straightforward code.
@@ -20,27 +19,40 @@ reviews:
         Avoid using deprecated or obsolete features as listed on MDN: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features."
     - path: "**/*.{ts,tsx,js}"
       instructions: |
-        "Ensure compliance with the Google JavaScript Style Guide and highlight any deviations.
+        "Use 2 spaces for indentation.
+        Ensure compliance with the Google JavaScript Style Guide and highlight any deviations.
         Follow React best practices when writing code.
         Use camelCase for property names and apply PropTypes where necessary.
-        Follow the official React guidelines for hook usage.
-        Avoid inline styles.
         Use 'let' or 'const' instead of 'var'. Highlight any usage of 'var'.
     - path: "**/*.tsx"
       instructions: |
-        "Use semantic HTML elements such as <header>, <footer>, <article>, and <section> to improve the structure and accessibility of the code."
+        "Evaluate whether the test code adheres to best practices for the testing framework in use.
+        Ensure that test descriptions are detailed enough to clarify the purpose of each test.
+        Use appropriate assertions and matchers.
+        Follow the official React guidelines for hook usage.
+        Avoid inline styles.
+        Implement performance optimizations such as memoization and render optimization where appropriate.
+        Use React.memo() for functional components and PureComponent for class components to prevent unnecessary re-renders.
+        Implement code splitting and lazy loading for better performance.
+        Be cautious of potential security vulnerabilities, especially cross-site scripting (XSS).
+        Sanitize user inputs and avoid using dangerouslySetInnerHTML."
     - path: "**/*.scss"
       instructions: |
-        "Use BEM naming conventions for CSS selectors, and use kebab-case (lowercase and hyphens) for word separators.
+        "Use 2 spaces for indentation.
+        Use BEM naming conventions for CSS selectors, and use kebab-case (lowercase and hyphens) for word separators.
         Use lowercase for color codes."
     - path: "**/*.php"
       instructions: |
-        "Write code in compliance with PSR-12.
+        "Use 4 spaces for indentation.
+        Write code in compliance with PSR-12.
         Avoid using 'DateTime'. Use 'DateTimeImmutable' instead for better maintainability."
-    - path: "tests/**/*"
+    - path: "tests/*"
       instructions: |
-        "Evaluate whether the test code adheres to Mocha's best practices.
-        Ensure that test descriptions are detailed enough to clarify the purpose of each test."
+        "Evaluate whether the test code adheres to best practices for the testing framework in use.
+        Ensure that test descriptions are detailed enough to clarify the purpose of each test.
+        Use appropriate assertions and matchers.
+        Implement test coverage for critical paths and edge cases.
+        Keep tests independent and avoid shared state between tests."
   auto_review:
     enabled: true
     ignore_title_keywords:
