@@ -63,7 +63,7 @@ const Edit: React.FC<Props> = ({
     ]);
   };
 
-  const handleInputChange = (
+  const handleInputChange = useCallback((
     index: number,
     field: keyof FormDataItem,
     value: string,
@@ -71,7 +71,7 @@ const Edit: React.FC<Props> = ({
     const newItems = [...data.items];
     newItems[index][field] = value;
     setData("items", newItems);
-  };
+  }, [data.items, setData]);
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -168,7 +168,6 @@ const Edit: React.FC<Props> = ({
           className="spec-doc-sheet-edit__preview-link"
         >
           Preview
-          <img src="/img/icon-new-window.png" />
         </a>
 
         <button className="spec-doc-item-edit__share-btn" onClick={handleShare}>
