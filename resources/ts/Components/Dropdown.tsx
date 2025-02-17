@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   Dispatch,
   SetStateAction,
+  ReactElement,
 } from "react";
 import { Link, InertiaLinkProps } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
@@ -19,10 +20,10 @@ const DropDownContext = createContext<{
   toggleOpen: () => {},
 });
 
-const Dropdown = ({ children }: PropsWithChildren) => {
+const Dropdown = ({ children }: PropsWithChildren): ReactElement => {
   const [open, setOpen] = useState(false);
 
-  const toggleOpen = () => {
+  const toggleOpen = (): void => {
     setOpen((previousState) => !previousState);
   };
 
@@ -33,7 +34,7 @@ const Dropdown = ({ children }: PropsWithChildren) => {
   );
 };
 
-const Trigger = ({ children }: PropsWithChildren) => {
+const Trigger = ({ children }: PropsWithChildren): ReactElement => {
   const { open, setOpen, toggleOpen } = useContext(DropDownContext);
 
   return (
@@ -59,7 +60,7 @@ const Content = ({
   align?: "left" | "right";
   width?: "48";
   contentClasses?: string;
-}>) => {
+}>): ReactElement => {
   const { open, setOpen } = useContext(DropDownContext);
 
   let alignmentClasses = "origin-top";
@@ -106,7 +107,7 @@ const DropdownLink = ({
   className = "",
   children,
   ...props
-}: InertiaLinkProps) => {
+}: InertiaLinkProps): ReactElement => {
   return (
     <Link
       {...props}

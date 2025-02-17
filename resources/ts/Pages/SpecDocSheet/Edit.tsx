@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { FormEventHandler, useState } from "react";
+import React, { FormEventHandler, ReactElement, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
@@ -51,7 +51,7 @@ const Edit: React.FC<Props> = ({
 
   const formErrors = errors as FormErrors;
 
-  const handleAddRow = () => {
+  const handleAddRow = (): void => {
     setData("items", [
       ...data.items,
       { targetArea: "", checkDetail: "", remark: "" },
@@ -62,7 +62,7 @@ const Edit: React.FC<Props> = ({
     index: number,
     field: keyof FormDataItem,
     value: string,
-  ) => {
+  ): void => {
     const newItems = [...data.items];
     newItems[index][field] = value;
     setData("items", newItems);
@@ -89,7 +89,7 @@ const Edit: React.FC<Props> = ({
     specDocSheetId: specDocSheet.id,
   });
 
-  const handleShare = () => {
+  const handleShare = (): void => {
     navigator.clipboard
       .writeText(execUrl)
       .then(() => {
