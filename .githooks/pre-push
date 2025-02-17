@@ -2,7 +2,7 @@
 
 # Run PHPUnit tests
 if ! vendor/bin/sail phpunit; then
-    echo "PHPUn.it tests failed. Push aborted."
+    echo "PHPUnit tests failed. Push aborted."
     exit 1
 fi
 

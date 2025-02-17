@@ -9,8 +9,7 @@ reviews:
   path_instructions:
     - path: "**/*.{ts,tsx,scss,php}"
       instructions: |
-        "Use 4 spaces for indentation.
-        Follow the Boy Scout Rule: Leave the code cleaner than you found it.
+        "Follow the Boy Scout Rule: Leave the code cleaner than you found it.
         Follow YAGNI (You Aren't Gonna Need It): Don't implement functionality until it's needed.
         Follow DRY (Don't Repeat Yourself): Avoid duplicating code by extracting reusable logic into functions.
         Follow KISS (Keep It Simple, Stupid): Write simple, straightforward code.
@@ -20,7 +19,8 @@ reviews:
         Avoid using deprecated or obsolete features as listed on MDN: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features."
     - path: "**/*.{ts,tsx,js}"
       instructions: |
-        "Ensure compliance with the Google JavaScript Style Guide and highlight any deviations.
+        "Use 2 spaces for indentation.
+        Ensure compliance with the Google JavaScript Style Guide and highlight any deviations.
         Follow React best practices when writing code.
         Use camelCase for property names and apply PropTypes where necessary.
         Use 'let' or 'const' instead of 'var'. Highlight any usage of 'var'.
@@ -38,11 +38,13 @@ reviews:
         Sanitize user inputs and avoid using dangerouslySetInnerHTML."
     - path: "**/*.scss"
       instructions: |
-        "Use BEM naming conventions for CSS selectors, and use kebab-case (lowercase and hyphens) for word separators.
+        "Use 2 spaces for indentation.
+        Use BEM naming conventions for CSS selectors, and use kebab-case (lowercase and hyphens) for word separators.
         Use lowercase for color codes."
     - path: "**/*.php"
       instructions: |
-        "Write code in compliance with PSR-12.
+        "Use 4 spaces for indentation.
+        Write code in compliance with PSR-12.
         Avoid using 'DateTime'. Use 'DateTimeImmutable' instead for better maintainability."
     - path: "tests/*"
       instructions: |

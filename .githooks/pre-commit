@@ -5,14 +5,12 @@ PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.php$')
 
 # PHPファイルが存在する場合のみPHP関連のチェックを実行
 if [ -n "$PHP_FILES" ]; then
-  # PHP構文チェック
-  for FILE in $PHP_FILES; do
-    php -l $FILE
-    if [ $? -ne 0 ]; then
-      echo "Syntax error found in $FILE. Please fix it before committing."
-      exit 1
-    fi
-  done
+  # PHP構文チェック（一括実行）
+  if ! php -l $PHP_FILES > /dev/null 2>&1; then
+    echo "Syntax errors found. Please fix them before committing."
+    php -l $PHP_FILES
+    exit 1
+  fi
 
   # PHP CS Fixer
   ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -- $PHP_FILES
@@ -29,8 +27,7 @@ if [ -n "$PHP_FILES" ]; then
 fi
 
 # ESLintの実行
-npm run lint
-if [ $? -ne 0 ]; then
+if npm run lint; then
   echo "ESLint failed. Please fix the errors before committing."
   exit 1
 fi
