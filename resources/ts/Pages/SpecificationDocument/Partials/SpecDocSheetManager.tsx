@@ -29,7 +29,7 @@ const SpecDocSheetManager: React.FC<Props> = ({
   const [sheets, setSheets] = useState(specDocSheets);
   const [selectedEnvId, setSelectedEnvId] = useState(0);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     if (selectedEnvId !== 0) {
       handleAddSheet(selectedEnvId);
@@ -129,7 +129,11 @@ const SpecDocSheetManager: React.FC<Props> = ({
       </ul>
 
       <form onSubmit={handleSubmit} className="exec-env-edit__form">
-        <select onChange={(e) => setSelectedEnvId(Number(e.target.value))}>
+        <label htmlFor="envSelect">実行環境を選択</label>
+        <select
+          id="envSelect"
+          onChange={(e) => setSelectedEnvId(Number(e.target.value))}
+        >
           <option value="0">選択してください</option>
           {availableEnvironments.map((env) => (
             <option key={env.id} value={env.id}>
