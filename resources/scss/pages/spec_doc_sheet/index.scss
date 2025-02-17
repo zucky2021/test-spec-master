@@ -37,6 +37,13 @@
     h2 {
       font-size: 1.6rem;
       font-weight: bold;
+      text-align: center;
+    }
+
+    &-summary {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba($color: #000000, $alpha: 0.3);
     }
 
     dl {

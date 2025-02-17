@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useForm } from "@inertiajs/react";
+import React, { useState } from "react";
+import { Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import { ExecutionEnvironment } from "@/types/ExecutionEnvironment";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
-import Modal from "@/Components/Modal";
-import Dropdown from "../../../Components/Dropdown";
 import axios from "axios";
+import "@scss/pages/specification_document/partials/env.scss";
 
 type Props = {
   specificationDocument: SpecificationDocument;
@@ -28,11 +27,14 @@ const SpecDocSheetManager: React.FC<Props> = ({
   specDocSheets,
 }) => {
   const [sheets, setSheets] = useState(specDocSheets);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEnvId, setSelectedEnvId] = useState(0);
 
-  const { data, setData } = useForm({
-    exec_env_id: 0,
-  });
+  const handleSubmit = (e: React.FormEvent): void => {
+    e.preventDefault();
+    if (selectedEnvId !== 0) {
+      handleAddSheet(selectedEnvId);
+    }
+  };
 
   const availableEnvironments = executionEnvironments.filter(
     (env) => !sheets.some((sheet) => sheet.execEnvId === env.id),
@@ -45,12 +47,12 @@ const SpecDocSheetManager: React.FC<Props> = ({
           projectId: specificationDocument.projectId,
           specDocId: specificationDocument.id,
         }),
-        data,
+        { exec_env_id: envId },
       );
-      const { message, newSpecDocSheetId } = response.data;
+      const { newSpecDocSheetId } = response.data;
 
-      const execEnv = executionEnvironments.find((env) => env.id === envId);
-      const execEnvName = execEnv ? execEnv.name : "";
+      const newExecEnv = executionEnvironments.find((env) => env.id === envId);
+      const newExecEnvName = newExecEnv ? newExecEnv.name : "";
 
       if (newSpecDocSheetId) {
         const newSheet: SpecDocSheet = {
@@ -59,34 +61,20 @@ const SpecDocSheetManager: React.FC<Props> = ({
           execEnvId: envId,
           statusId: 0,
           updatedAt: "",
-          execEnvName: execEnvName,
+          execEnvName: newExecEnvName,
         };
         setSheets([...sheets, newSheet]);
       }
-      alert(message);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsModalOpen(false);
     }
   };
 
-  useEffect(() => {
-    if (data.exec_env_id !== 0) {
-      handleAddSheet(data.exec_env_id);
-    }
-  }, [data.exec_env_id]);
-
-  /**
-   * URLをクリップボードにコピー FIXME:他課題で実装
-   * @param sheetId
-   */
-  // const handleCopySheet = (sheetId: number) => {
-  // };
-
   const handleRemoveSheet = async (sheetId: number): Promise<void> => {
+    if (!confirm("本当に削除しますか？")) return;
+
     try {
-      const response = await axios.delete<DeleteSheetResponse>(
+      await axios.delete<DeleteSheetResponse>(
         route("specDocSheets.destroy", {
           projectId: specificationDocument.projectId,
           specDocId: specificationDocument.id,
@@ -95,95 +83,69 @@ const SpecDocSheetManager: React.FC<Props> = ({
       );
 
       setSheets(sheets.filter((sheet) => sheet.id !== sheetId));
-      alert(response.data.message);
     } catch (error) {
       console.error("Failed to delete sheet: ", error);
     }
   };
 
-  const handleDisplayDialog = (
-    action: "add" | "copy",
-    sheetId: number | null = null,
-  ): void => {
-    if (action === "copy" && sheetId !== null) {
-      // handleCopySheet(sheetId);
-    } else {
-      setIsModalOpen(true);
-    }
-  };
-
   return (
-    <section className="exec-env-form">
-      <ul>
+    <section className="exec-env-edit">
+      <h2>Edit execute environments</h2>
+
+      <ul className="exec-env-edit__list">
         {sheets.map((sheet) => (
-          <li key={sheet.execEnvId}>
+          <li key={sheet.execEnvId} className="exec-env-edit__list-item">
             {sheet.execEnvName}
 
-            <Dropdown>
-              <Dropdown.Trigger>
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                  </svg>
-                </button>
-              </Dropdown.Trigger>
-              <Dropdown.Content>
-                <Link
-                  href={route("specDocSheets.edit", {
-                    projectId: specificationDocument.projectId,
-                    specDocId: specificationDocument.id,
-                    specDocSheetId: sheet.id,
-                  })}
-                  className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
-                >
-                  Edit
-                </Link>
-                <button
-                  className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
-                  // onClick={() => setEditing(true)}
-                >
-                  Edit env
-                </button>
-                <button
-                  className="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
-                  onClick={() => handleRemoveSheet(sheet.id)}
-                >
-                  Delete
-                </button>
-              </Dropdown.Content>
-            </Dropdown>
+            <div className="exec-env-edit__list-links">
+              <Link
+                href={route("specDocSheets.edit", {
+                  projectId: specificationDocument.projectId,
+                  specDocId: specificationDocument.id,
+                  specDocSheetId: sheet.id,
+                })}
+                className="exec-env-edit__list-edit-btn"
+              >
+                Edit
+              </Link>
+
+              {/* FIXME:複製処理実装
+              <button
+                className="exec-env-edit__list-copy-btn"
+                onClick={handleCopySheet}
+              >
+                Copy
+              </button> */}
+
+              <button
+                className="exec-env-edit__list-delete-btn"
+                onClick={() => handleRemoveSheet(sheet.id)}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
 
-      <button onClick={() => handleDisplayDialog("add")}>
-        Add execute environment
-      </button>
+      <form onSubmit={handleSubmit} className="exec-env-edit__form">
+        <label htmlFor="envSelect">実行環境を選択</label>
+        <select
+          id="envSelect"
+          onChange={(e) => setSelectedEnvId(Number(e.target.value))}
+        >
+          <option value="0">選択してください</option>
+          {availableEnvironments.map((env) => (
+            <option key={env.id} value={env.id}>
+              {env.name}
+            </option>
+          ))}
+        </select>
 
-      <Modal
-        show={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        maxWidth="md"
-      >
-        <form>
-          <ul>
-            {availableEnvironments.map((env) => (
-              <li
-                key={env.id}
-                onClick={() => setData("exec_env_id", env.id)}
-                className="cursor-pointer"
-              >
-                {env.name}
-              </li>
-            ))}
-          </ul>
-        </form>
-      </Modal>
+        <button aria-label="シートを追加" type="submit">
+          Add
+        </button>
+      </form>
     </section>
   );
 };

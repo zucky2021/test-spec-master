@@ -3,6 +3,9 @@
 ## バージョン管理(Repository)
 - [GitHub - Code](https://github.com/zucky2021/test-spec-master)
 
+## ワークフロ-
+[GitHub Flow](https://www.kagoya.jp/howto/it-glossary/develop/githubflow/)を採用
+
 ## ソースレビューはCodeRabbitを使用
 - [CodeRabbit](https://coderabbit.ai/)
 
