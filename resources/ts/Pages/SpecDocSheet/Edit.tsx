@@ -1,5 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { FormEventHandler, useState } from "react";
+import React, {
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
@@ -89,19 +94,23 @@ const Edit: React.FC<Props> = ({
     specDocSheetId: specDocSheet.id,
   });
 
-  const handleShare = (): void => {
-    navigator.clipboard
-      .writeText(execUrl)
-      .then(() => {
-        setIsShowAlert(true);
-        setTimeout(() => {
-          setIsShowAlert(false);
-        }, 5000);
-      })
-      .catch((error) => {
-        console.error("Failed to copy the URL: ", error);
-      });
-  };
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(execUrl);
+      setIsShowAlert(true);
+      const timer = setTimeout(() => {
+        setIsShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    } catch (error) {
+      console.error("Failed to copy the URL: ", error);
+    }
+  }, [execUrl]);
+
+  useEffect(() => {
+    handleShare();
+  }, [handleShare]);
 
   return (
     <AuthenticatedLayout
