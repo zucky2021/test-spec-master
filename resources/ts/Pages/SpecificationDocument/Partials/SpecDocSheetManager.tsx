@@ -129,7 +129,6 @@ const SpecDocSheetManager: React.FC<Props> = ({
       </ul>
 
       <form onSubmit={handleSubmit} className="exec-env-edit__form">
-        <label htmlFor="envSelect">実行環境を選択</label>
         <select
           id="envSelect"
           onChange={(e) => setSelectedEnvId(Number(e.target.value))}

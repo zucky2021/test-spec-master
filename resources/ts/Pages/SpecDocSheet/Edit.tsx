@@ -10,7 +10,6 @@ import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
-import "@scss/pages/spec_doc_item/edit.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import Dropdown from "@/Components/Dropdown";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -19,6 +18,7 @@ import { SpecDocItem } from "@/types/SpecDocItem";
 import InputError from "@/Components/InputError";
 import { Flash } from "@/types/Flash";
 import SlideAlert from "@/Components/SlideAlert";
+import "@scss/pages/spec_doc_item/edit.scss";
 
 type Props = PageProps & {
   specDoc: SpecificationDocument;
@@ -107,35 +107,26 @@ const Edit: React.FC<Props> = ({
     }
   }, [execUrl]);
 
-  useEffect(() => {
-    handleShare();
-  }, [handleShare]);
-
   return (
-    <AuthenticatedLayout
-      user={auth.user}
-      header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-          Specification document sheet
-        </h2>
-      }
-    >
-      <Head title="Specification document sheet" />
+    <AuthenticatedLayout user={auth.user} header={<h1>Edit items</h1>}>
+      <Head title="Edit items" />
 
-      <section className="spec-doc-item-edit">
+      <section className="edit-item">
         <Link
           href={route("specDocs.edit", {
             projectId: specDoc.projectId,
             specDocId: specDoc.id,
           })}
-          className="back-link"
+          className="edit-item__back"
         >
-          Back to specification document edit page
+          Back
         </Link>
 
-        <section className="spec-doc-item-edit__description">
-          <h3>{specDoc.title}</h3>
-          <h4>{specDocSheet.execEnvName}</h4>
+        <section className="edit-item__description">
+          <h2>{specDoc.title}</h2>
+          <h3>
+            Environment: <span>{specDocSheet.execEnvName}</span>
+          </h3>
           <details>
             <summary>Summary</summary>
             <ReactMarkdown
@@ -152,53 +143,65 @@ const Edit: React.FC<Props> = ({
               {specDoc.summary}
             </ReactMarkdown>
           </details>
-          <p>
-            Updated at: <time>{specDocSheet.updatedAt}</time>
-          </p>
         </section>
 
-        <a
-          href={route("specDocSheets.preview", {
-            projectId: specDoc.projectId,
-            specDocId: specDoc.id,
-            specDocSheetId: specDocSheet.id,
-          })}
-          target="_blank"
-          className="spec-doc-sheet-edit__preview-link"
-        >
-          Preview
-        </a>
+        <div className="edit-item__utility">
+          <p className="edit-item__utility-updated-at">
+            Updated at: <time>{specDocSheet.updatedAt}</time>
+          </p>
 
-        <button className="spec-doc-item-edit__share-btn" onClick={handleShare}>
-          Share
-        </button>
+          <div className="edit-item__utility-row">
+            <a
+              href={route("specDocSheets.preview", {
+                projectId: specDoc.projectId,
+                specDocId: specDoc.id,
+                specDocSheetId: specDocSheet.id,
+              })}
+              target="_blank"
+              className="edit-item__utility-preview"
+            >
+              Preview
+            </a>
 
-        <SlideAlert isShow={isShowAlert}>
-          <h4>URL copied to clipboard!</h4>
-          <p>{execUrl}</p>
-        </SlideAlert>
+            <button className="edit-item__utility-share" onClick={handleShare}>
+              Share
+            </button>
+            <SlideAlert isShow={isShowAlert}>
+              <h4>URL copied to clipboard!</h4>
+              <p>{execUrl}</p>
+            </SlideAlert>
+          </div>
+        </div>
+      </section>
 
-        <form onSubmit={handleSubmit}>
-          {flash.error && (
-            <div className="spec-doc-item-edit__alert-error">{flash.error}</div>
-          )}
+      <form onSubmit={handleSubmit}>
+        {flash.error && (
+          <div className="spec-doc-item-edit__alert-error">{flash.error}</div>
+        )}
 
-          <ul className="spec-doc-item-edit__inputList">
-            <li>
-              <div>Target area</div>
-              <div>Check detail</div>
-              <div>Remark</div>
-              <div></div>
-            </li>
+        <table className="edit-item__inputs">
+          <caption>Edit item form</caption>
+          <thead className="edit-item__inputs-head">
+            <tr>
+              <th>Target area</th>
+              <th>Check detail</th>
+              <th>Remark</th>
+              <th className="action-col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
             {data.items.map((item, index) => (
-              <li key={index}>
-                <div>
+              <tr key={index}>
+                <td>
+                  {/* TODO:textareaの高さを可変にする(可能であれば列単位で) */}
                   <textarea
                     name={`items[${index}].targetArea`}
                     value={item.targetArea}
                     onChange={(e) =>
                       handleInputChange(index, "targetArea", e.target.value)
                     }
+                    rows={5}
+                    placeholder="対象箇所"
                   />
                   <InputError
                     message={
@@ -207,14 +210,16 @@ const Edit: React.FC<Props> = ({
                       ]
                     }
                   />
-                </div>
-                <div>
+                </td>
+                <td>
                   <textarea
                     name={`items[${index}].checkDetail`}
                     value={item.checkDetail}
                     onChange={(e) =>
                       handleInputChange(index, "checkDetail", e.target.value)
                     }
+                    rows={5}
+                    placeholder="期待値"
                   />
                   <InputError
                     message={
@@ -223,14 +228,16 @@ const Edit: React.FC<Props> = ({
                       ]
                     }
                   />
-                </div>
-                <div>
+                </td>
+                <td>
                   <textarea
                     name={`items[${index}].remark`}
                     value={item.remark}
                     onChange={(e) =>
                       handleInputChange(index, "remark", e.target.value)
                     }
+                    rows={5}
+                    placeholder="備考"
                   />
                   <InputError
                     message={
@@ -239,62 +246,53 @@ const Edit: React.FC<Props> = ({
                       ]
                     }
                   />
-                </div>
-                <div>
-                  <Dropdown>
-                    <Dropdown.Trigger>
-                      <button type="button">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 text-gray-400"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                      </button>
-                    </Dropdown.Trigger>
-                    <Dropdown.Content>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newItems = data.items.filter(
-                            (_, i) => i !== index,
-                          );
-                          setData("items", newItems);
-                        }}
-                      >
-                        Delete
-                      </button>
-                      <div>Copy</div>
-                    </Dropdown.Content>
-                  </Dropdown>
-                </div>
-              </li>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      const newItems = data.items.filter((_, i) => i !== index);
+                      setData("items", newItems);
+                    }}
+                    className="w-16 p-2 rounded-lg my-2 mx-auto bg-red-600 block"
+                  >
+                    Delete
+                  </button>
+                  {/* FIXME:func copy record */}
+                  <button className="w-16 p-2 rounded-lg my-2 mx-auto bg-gray-400 block">
+                    Copy
+                  </button>
+                </td>
+              </tr>
             ))}
-          </ul>
-          <div className="mt-4">
-            <button type="button" onClick={handleAddRow} className="mt-4">
-              Add
-            </button>
-          </div>
-
-          <div className="flex items-center gap-4 mt-4">
-            <PrimaryButton disabled={processing}>Save</PrimaryButton>
-            {flash.success && (
-              <Transition
-                show={recentlySuccessful}
-                enter="transition ease-in-out"
-                enterFrom="opacity-0"
-                leave="transition ease-in-out"
-                leaveTo="opacity-0"
+          </tbody>
+          <tfoot>
+            <td colSpan={4}>
+              <button
+                type="button"
+                onClick={handleAddRow}
+                className="edit-item__inputs-add"
               >
-                <p className="text-sm text-gray-600">{flash.success}</p>
-              </Transition>
-            )}
-          </div>
-        </form>
-      </section>
+                Add
+              </button>
+            </td>
+          </tfoot>
+        </table>
+
+        <div className="flex items-center mt-4 mx-auto w-64 justify-between">
+          <PrimaryButton disabled={processing}>Save</PrimaryButton>
+          {flash.success && (
+            <Transition
+              show={recentlySuccessful}
+              enter="transition ease-in-out"
+              enterFrom="opacity-0"
+              leave="transition ease-in-out"
+              leaveTo="opacity-0"
+            >
+              <p className="text-sm text-gray-600">{flash.success}</p>
+            </Transition>
+          )}
+        </div>
+      </form>
     </AuthenticatedLayout>
   );
 };
