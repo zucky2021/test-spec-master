@@ -20,6 +20,7 @@
     "neilbrayfield.php-docblocker",
     "bmewburn.vscode-intelephense-client",
     "sanderronde.phpstan-vscode",
-    "junstyle.php-cs-fixer"
+    "junstyle.php-cs-fixer",
+    "bradlc.vscode-tailwindcss"
   ]
 }
