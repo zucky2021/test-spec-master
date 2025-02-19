@@ -1,17 +1,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, {
-  FormEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FormEventHandler, useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
-import Dropdown from "@/Components/Dropdown";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Transition } from "@headlessui/react";
 import { SpecDocItem } from "@/types/SpecDocItem";
@@ -101,7 +95,7 @@ const Edit: React.FC<Props> = ({
         setIsShowAlert(false);
       }, 5000);
 
-      return () => clearTimeout(timer);
+      return (): void => clearTimeout(timer);
     } catch (error) {
       console.error("Failed to copy the URL: ", error);
     }
