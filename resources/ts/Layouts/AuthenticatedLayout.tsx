@@ -5,7 +5,6 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
-import "@scss/components/header.scss";
 
 export default function Authenticated({
   user,
@@ -166,7 +165,7 @@ export default function Authenticated({
         </div>
       </nav>
 
-      {header && <header>{header}</header>}
+      {header && <header className="shadow-md bg-white p-2">{header}</header>}
 
       <main>{children}</main>
     </div>

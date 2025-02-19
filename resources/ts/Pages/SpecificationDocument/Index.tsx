@@ -44,7 +44,11 @@ const Index: React.FC<Props> = ({
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={<h1>Specification documents</h1>}
+      header={
+        <h1 className="text-xl text-center font-serif font-bold">
+          Specification documents
+        </h1>
+      }
     >
       <Head title="Specification documents" />
 

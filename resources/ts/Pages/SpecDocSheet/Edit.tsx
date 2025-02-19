@@ -102,7 +102,12 @@ const Edit: React.FC<Props> = ({
   }, [execUrl]);
 
   return (
-    <AuthenticatedLayout user={auth.user} header={<h1>Edit items</h1>}>
+    <AuthenticatedLayout
+      user={auth.user}
+      header={
+        <h1 className="text-xl text-center font-serif font-bold">Edit items</h1>
+      }
+    >
       <Head title="Edit items" />
 
       <section className="edit-item">
