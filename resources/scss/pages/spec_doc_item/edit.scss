@@ -132,24 +132,5 @@
       width: 300px;
       display: block;
     }
-
-    &-add {
-      text-align: center;
-      width: 100%;
-      padding: 0.5rem;
-      font-family: serif;
-      font-weight: bold;
-      &:hover {
-        filter: blur(1px);
-      }
-    }
-  }
-
-  &__submit {
-    margin: 0 auto;
-    background-color: #000;
-    color: gray;
-    display: flex;
-    align-items: center;
   }
 }

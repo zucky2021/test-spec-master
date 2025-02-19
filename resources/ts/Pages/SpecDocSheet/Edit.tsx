@@ -253,12 +253,20 @@ const Edit: React.FC<Props> = ({
                       const newItems = data.items.filter((_, i) => i !== index);
                       setData("items", newItems);
                     }}
-                    className="w-16 p-2 rounded-lg my-2 mx-auto bg-red-600 block"
+                    className="w-16 p-2 rounded-lg my-2 mx-auto bg-red-600 text-white block hover:scale-110 transition-transform duration-500"
                   >
                     Delete
                   </button>
-                  {/* FIXME:func copy record */}
-                  <button className="w-16 p-2 rounded-lg my-2 mx-auto bg-gray-400 block">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const newItem = { ...item };
+                      const newItems = [...data.items];
+                      newItems.splice(index + 1, 0, newItem);
+                      setData("items", newItems);
+                    }}
+                    className="w-16 p-2 rounded-lg my-2 mx-auto bg-gray-400 block hover:scale-110 transition-transform duration-500"
+                  >
                     Copy
                   </button>
                 </td>
@@ -266,15 +274,17 @@ const Edit: React.FC<Props> = ({
             ))}
           </tbody>
           <tfoot>
-            <td colSpan={4}>
-              <button
-                type="button"
-                onClick={handleAddRow}
-                className="edit-item__inputs-add"
-              >
-                Add
-              </button>
-            </td>
+            <tr>
+              <td colSpan={4}>
+                <button
+                  type="button"
+                  onClick={handleAddRow}
+                  className="text-center w-full bg-green-500 text-white font-bold font-serif p-2 hover:duration-150"
+                >
+                  Add
+                </button>
+              </td>
+            </tr>
           </tfoot>
         </table>
 
