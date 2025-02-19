@@ -60,7 +60,7 @@ const TesterPartial: React.FC<TesterProps> = ({
     fetchTesters();
   }, []);
 
-  const addTester = async () => {
+  const addTester = async (): Promise<void> => {
     try {
       const response = await axios.post<AddTesterResponse>(
         route("testers.store", {
@@ -81,7 +81,7 @@ const TesterPartial: React.FC<TesterProps> = ({
     }
   };
 
-  const removeTester = async (testerId: number) => {
+  const removeTester = async (testerId: number): Promise<void> => {
     try {
       await axios.delete(
         route("testers.destroy", {

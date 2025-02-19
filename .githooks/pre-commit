@@ -27,7 +27,7 @@ if [ -n "$PHP_FILES" ]; then
 fi
 
 # ESLintの実行
-if npm run lint; then
+if ! npm run lint; then
   echo "ESLint failed. Please fix the errors before committing."
   exit 1
 fi

@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { FormEventHandler } from "react";
+import { FormEventHandler, ReactElement } from "react";
 import { PageProps } from "@/types";
 import { Department } from "@/types/Department";
 
@@ -18,7 +18,7 @@ const UpdateProfileInformation = ({
   status?: string;
   className?: string;
   departments: Department[];
-}) => {
+}): ReactElement => {
   const user = usePage<PageProps>().props.auth.user;
 
   const { data, setData, patch, errors, processing, recentlySuccessful } =

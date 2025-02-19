@@ -1,4 +1,4 @@
-import { useEffect, FormEventHandler } from "react";
+import { useEffect, FormEventHandler, ReactElement } from "react";
 import Checkbox from "@/Components/Checkbox";
 import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
@@ -13,7 +13,7 @@ export default function Login({
 }: {
   status?: string;
   canResetPassword: boolean;
-}) {
+}): ReactElement {
   const { data, setData, post, processing, errors, reset } = useForm({
     email: "",
     password: "",
@@ -21,7 +21,7 @@ export default function Login({
   });
 
   useEffect(() => {
-    return () => {
+    return (): void => {
       reset("password");
     };
   }, []);

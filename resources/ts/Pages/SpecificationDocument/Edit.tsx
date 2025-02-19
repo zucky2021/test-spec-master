@@ -36,7 +36,7 @@ const Index: React.FC<Props> = ({
 
   const { flash } = usePage<Props>().props;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     put(
       route("specDocs.update", {
@@ -50,7 +50,7 @@ const Index: React.FC<Props> = ({
    * 論理削除
    * @param e フォームイベント
    */
-  const handleDelete = (e: React.FormEvent) => {
+  const handleDelete = (e: React.FormEvent): void => {
     e.preventDefault();
     if (confirm("本当に削除しますか？")) {
       patch(

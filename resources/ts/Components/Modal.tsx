@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -11,14 +11,14 @@ export default function Modal({
   show = false,
   maxWidth = "2xl",
   closeable = true,
-  onClose = () => {},
+  onClose = (): void => {},
 }: PropsWithChildren<{
   show: boolean;
   maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl";
   closeable?: boolean;
   onClose: CallableFunction;
-}>) {
-  const close = () => {
+}>): ReactElement {
+  const close = (): void => {
     if (closeable) {
       onClose();
     }

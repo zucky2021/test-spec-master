@@ -19,7 +19,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
 
   const { flash } = usePage<Props>().props;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     post(route("specDocs.store", { projectId: project.id }));
   };

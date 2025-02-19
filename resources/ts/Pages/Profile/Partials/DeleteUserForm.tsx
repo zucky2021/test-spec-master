@@ -1,4 +1,4 @@
-import { useRef, useState, FormEventHandler } from "react";
+import { useRef, useState, FormEventHandler, ReactElement } from "react";
 import DangerButton from "@/Components/DangerButton";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -11,7 +11,7 @@ export default function DeleteUserForm({
   className = "",
 }: {
   className?: string;
-}) {
+}): ReactElement {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
   const passwordInput = useRef<HTMLInputElement>(null);
 
@@ -26,7 +26,7 @@ export default function DeleteUserForm({
     password: "",
   });
 
-  const confirmUserDeletion = () => {
+  const confirmUserDeletion = (): void => {
     setConfirmingUserDeletion(true);
   };
 
@@ -41,7 +41,7 @@ export default function DeleteUserForm({
     });
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setConfirmingUserDeletion(false);
 
     reset();

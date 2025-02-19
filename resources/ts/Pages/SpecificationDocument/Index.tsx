@@ -33,7 +33,7 @@ const Index: React.FC<Props> = ({
         setIsShowAlert(false);
       }, 5000);
 
-      return () => clearTimeout(timer);
+      return (): void => clearTimeout(timer);
     };
 
     if (flash.success) {

@@ -5,6 +5,7 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { Department } from "@/types/Department";
+import { ReactElement } from "react";
 
 export default function Edit({
   auth,
@@ -15,7 +16,7 @@ export default function Edit({
   mustVerifyEmail: boolean;
   status?: string;
   departments: Department[];
-}>) {
+}>): ReactElement {
   return (
     <AuthenticatedLayout
       user={auth.user}
