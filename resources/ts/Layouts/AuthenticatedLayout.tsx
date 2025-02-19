@@ -1,17 +1,16 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import { useState, PropsWithChildren, ReactNode, ReactElement } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
-import "@scss/components/header.scss";
 
 export default function Authenticated({
   user,
   header,
   children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+}: PropsWithChildren<{ user: User; header?: ReactNode }>): ReactElement {
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
 
@@ -166,7 +165,7 @@ export default function Authenticated({
         </div>
       </nav>
 
-      {header && <header>{header}</header>}
+      {header && <header className="shadow-md bg-white p-2">{header}</header>}
 
       <main>{children}</main>
     </div>

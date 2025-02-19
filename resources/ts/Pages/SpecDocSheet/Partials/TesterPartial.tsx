@@ -1,6 +1,6 @@
 import { User } from "@/types";
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 
 type TesterProps = {
   authUser: User;
@@ -24,11 +24,11 @@ type AddTesterResponse = {
   };
 };
 
-const TesterPartial: React.FC<TesterProps> = ({
+const TesterPartial = ({
   authUser,
   specDoc,
   specDocSheetId,
-}) => {
+}: TesterProps): ReactElement => {
   const [testers, setTesters] = useState<Tester[]>([]);
 
   const fetchTesters = useCallback(async () => {
@@ -60,7 +60,7 @@ const TesterPartial: React.FC<TesterProps> = ({
     fetchTesters();
   }, []);
 
-  const addTester = async () => {
+  const addTester = async (): Promise<void> => {
     try {
       const response = await axios.post<AddTesterResponse>(
         route("testers.store", {
@@ -81,7 +81,9 @@ const TesterPartial: React.FC<TesterProps> = ({
     }
   };
 
-  const removeTester = async (testerId: number) => {
+  const removeTester = async (testerId: number): Promise<void> => {
+    if (!confirm("本当に削除しますか？")) return;
+
     try {
       await axios.delete(
         route("testers.destroy", {
@@ -98,15 +100,22 @@ const TesterPartial: React.FC<TesterProps> = ({
   };
 
   return (
-    <section className="tester">
-      <h3>Tester list</h3>
-      <ul className="tester__list">
+    <section className="p-2 rounded-md shadow-md my-2 w-96 mx-auto">
+      <h3 className="text-lg text-center font-bold font-serif">Tester list</h3>
+      <ul className="mx-auto max-w-fit">
         {testers.map((tester) => (
-          <li key={tester.id}>
-            <span>{tester.userName}</span>
-            <time>{tester.createdAt}</time>
+          <li key={tester.id} className="p-2 shadow-md my-1 rounded-md">
+            <span className="font-bold">{tester.userName}</span>
+            <time className="text-green-500 mx-2 text-sm">
+              {tester.createdAt}
+            </time>
             {tester.userId === authUser.id && (
-              <button onClick={() => removeTester(tester.id)}>Remove</button>
+              <button
+                onClick={() => removeTester(tester.id)}
+                className="bg-red-500 text-white rounded-md p-1"
+              >
+                Remove
+              </button>
             )}
           </li>
         ))}

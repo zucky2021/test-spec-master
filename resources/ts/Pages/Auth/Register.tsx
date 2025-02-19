@@ -21,7 +21,7 @@ const Register: React.FC<Props> = ({ departments }) => {
   });
 
   useEffect(() => {
-    return () => {
+    return (): void => {
       reset("password", "password_confirmation");
     };
   }, []);

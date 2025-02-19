@@ -7,6 +7,9 @@
   "editor.autoIndent": "advanced",
   "editor.detectIndentation": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "prettier.arrowParens": "avoid",
   "[php]": {
     "editor.defaultFormatter": "junstyle.php-cs-fixer",

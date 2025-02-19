@@ -36,7 +36,7 @@ const Index: React.FC<Props> = ({
 
   const { flash } = usePage<Props>().props;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     put(
       route("specDocs.update", {
@@ -50,7 +50,7 @@ const Index: React.FC<Props> = ({
    * 論理削除
    * @param e フォームイベント
    */
-  const handleDelete = (e: React.FormEvent) => {
+  const handleDelete = (e: React.FormEvent): void => {
     e.preventDefault();
     if (confirm("本当に削除しますか？")) {
       patch(
@@ -65,7 +65,11 @@ const Index: React.FC<Props> = ({
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={<h1>Edit specification document</h1>}
+      header={
+        <h1 className="text-xl text-center font-serif font-bold">
+          Edit specification document
+        </h1>
+      }
     >
       <Head title="Edit specification document" />
 

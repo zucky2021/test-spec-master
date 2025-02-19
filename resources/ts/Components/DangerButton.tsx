@@ -1,11 +1,11 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ReactElement } from "react";
 
 export default function DangerButton({
   className = "",
   disabled,
   children,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ButtonHTMLAttributes<HTMLButtonElement>): ReactElement {
   return (
     <button
       {...props}

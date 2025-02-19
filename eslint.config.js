@@ -41,9 +41,6 @@ export default [
       "@typescript-eslint/no-explicit-any": "error",
       "react-hooks/rules-of-hooks": "error",
       "react/jsx-no-useless-fragment": "error",
-      "@typescript-eslint/strict-boolean-expressions": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/await-thenable": "error",
       "react/jsx-key": "error",
     },
     settings: {

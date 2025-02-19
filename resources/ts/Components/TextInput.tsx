@@ -18,7 +18,7 @@ export default forwardRef(function TextInput(
   const localRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => localRef.current?.focus(),
+    focus: (): void => localRef.current?.focus(),
   }));
 
   useEffect(() => {

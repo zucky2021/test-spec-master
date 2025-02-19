@@ -1,11 +1,11 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ReactElement } from "react";
 
 export default function PrimaryButton({
   className = "",
   disabled,
   children,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ButtonHTMLAttributes<HTMLButtonElement>): ReactElement {
   return (
     <button
       {...props}

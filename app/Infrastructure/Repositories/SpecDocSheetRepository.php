@@ -76,7 +76,8 @@ final class SpecDocSheetRepository implements SpecDocSheetRepositoryInterface
                 'ee.name as exec_env_name',
                 DB::raw('
                     CASE
-                        WHEN MIN(sdi.status_id) = ' . ItemStatusId::PENDING . ' THEN ' . StatusId::PENDING . '
+                        WHEN MAX(sdi.status_id) IS NULL OR MAX(sdi.status_id) = ' . ItemStatusId::PENDING . ' THEN ' . StatusId::PENDING . '
+                        WHEN MIN(sdi.status_id) = ' . ItemStatusId::PENDING . ' THEN ' . StatusId::IN_PROGRESS . '
                         WHEN MAX(sdi.status_id) = ' . ItemStatusId::NG . ' THEN ' . StatusId::NG . '
                         WHEN MIN(sdi.status_id) = ' . ItemStatusId::OK . ' AND MAX(sdi.status_id) = ' . ItemStatusId::OK . ' THEN ' . StatusId::COMPLETED . '
                         ELSE ' . StatusId::IN_PROGRESS . '

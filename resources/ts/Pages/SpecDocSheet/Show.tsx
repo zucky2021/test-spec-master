@@ -1,17 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React, { useState } from "react";
+import { ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
-import "@scss/pages/spec_doc_item/show.scss";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { SpecDocItem } from "@/types/SpecDocItem";
-import axios from "axios";
 import TesterPartial from "./Partials/TesterPartial";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
+import SheetPartial from "./Partials/SheetPartial";
 
 type Props = PageProps & {
   specDoc: SpecificationDocument;
@@ -21,80 +20,56 @@ type Props = PageProps & {
   breadcrumbs: Breadcrumb[];
 };
 
-type ToggleStatusResponse = {
-  newStatusId: number;
-};
-
-const Show: React.FC<Props> = ({
+const Show = ({
   auth,
   specDoc,
   specDocSheet,
   specDocItems,
   statuses,
   breadcrumbs,
-}) => {
-  const [items, setItems] = useState<SpecDocItem[]>(specDocItems);
-  const [loading, setLoading] = useState<number | null>(null);
-
-  const toggleStatus = async (index: number, itemId: number): Promise<void> => {
-    setLoading(itemId);
-    try {
-      const response = await axios.patch<ToggleStatusResponse>(
-        route("specDocItems.update", {
-          projectId: specDoc.projectId,
-          specDocId: specDoc.id,
-          specDocSheetId: specDocSheet.id,
-          specDocItemId: itemId,
-        }),
-      );
-
-      const updatedItems = [...items];
-      updatedItems[index].statusId = response.data.newStatusId;
-      setItems(updatedItems);
-    } catch (error) {
-      console.error("Failed to toggle status: ", error);
-    } finally {
-      setLoading(null);
-    }
-  };
-
-  // FIXME:現状一つのitemが更新される度に再レンダリングされるためmemo化
-
+}: Props): ReactElement => {
   return (
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        <h1 className="font-semibold text-xl text-gray-800 leading-tight">
           Execute test
-        </h2>
+        </h1>
       }
     >
       <Head title="Execute test" />
 
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <section className="spec-doc-exec">
+      <section className="mx-auto max-w-screen-lg">
         <Link
           href={route("specDocSheets.index", {
             projectId: specDoc.projectId,
             specDocId: specDoc.id,
           })}
-          className="back-link"
+          className="font-serif bg-gray-500 text-white rounded-full w-20 block text-center p-2 my-5 hover:opacity-50"
         >
-          Back to sheet list page
+          Back
         </Link>
 
-        <div className="spec-doc-item-edit__description">
-          <h3>{specDoc.title}</h3>
-          <h4>{specDocSheet.execEnvName}</h4>
-          <details>
-            <summary>Summary</summary>
+        <div className="shadow-md rounded-md p-4 ">
+          <h2 className="text-2xl font-bold">{specDoc.title}</h2>
+          <h3 className="text-xl font-serif my-2">
+            {specDocSheet.execEnvName}
+          </h3>
+          <details className="shadow-md p-2 rounded-md text-lg">
+            <summary className="cursor-pointer hover:opacity-50">
+              Summary
+            </summary>
             <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
               {specDoc.summary}
             </ReactMarkdown>
           </details>
-          <p>
-            Updated at: <time>{specDocSheet.updatedAt}</time>
+          <p className="shadow-md max-w-fit p-2 mx-auto mt-2 rounded-full text-md font-serif">
+            Updated at:
+            <time className="text-green-500 ml-2 text-lg">
+              {specDocSheet.updatedAt}
+            </time>
           </p>
         </div>
 
@@ -103,48 +78,14 @@ const Show: React.FC<Props> = ({
           specDoc={specDoc}
           specDocSheetId={specDocSheet.id}
         />
-
-        <ul className="spec-doc-item-edit__inputList">
-          <li>
-            <div>No.</div>
-            <div>Target area</div>
-            <div>Check detail</div>
-            <div>Remark</div>
-            <div></div>
-          </li>
-          {items.map((item, index) => (
-            <li key={index}>
-              <div>{index + 1}</div>
-              <div>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {item.targetArea}
-                </ReactMarkdown>
-              </div>
-              <div>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {item.checkDetail}
-                </ReactMarkdown>
-              </div>
-              <div>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {item.remark}
-                </ReactMarkdown>
-              </div>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => toggleStatus(index, item.id)}
-                  disabled={loading === item.id}
-                >
-                  {loading === item.id
-                    ? "Updating..."
-                    : statuses[item.statusId]}
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
       </section>
+
+      <SheetPartial
+        specDocItems={specDocItems}
+        specDoc={specDoc}
+        specDocSheet={specDocSheet}
+        statuses={statuses}
+      />
     </AuthenticatedLayout>
   );
 };

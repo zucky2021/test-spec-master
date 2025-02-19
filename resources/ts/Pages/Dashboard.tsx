@@ -11,7 +11,12 @@ type Props = PageProps & {
 
 const Dashboard: React.FC<Props> = ({ auth, createdCnt, executedCnt }) => {
   return (
-    <AuthenticatedLayout user={auth.user} header={<h1>Dashboard</h1>}>
+    <AuthenticatedLayout
+      user={auth.user}
+      header={
+        <h1 className="text-xl text-center font-serif font-bold">Dashboard</h1>
+      }
+    >
       <Head title="Dashboard" />
 
       <div className="py-12">

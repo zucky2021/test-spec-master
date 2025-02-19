@@ -11,7 +11,12 @@ type Props = PageProps & {
 
 const Index: React.FC<Props> = ({ auth, projects }) => {
   return (
-    <AuthenticatedLayout user={auth.user} header={<h1>Projects</h1>}>
+    <AuthenticatedLayout
+      user={auth.user}
+      header={
+        <h1 className="text-xl text-center font-serif font-bold">Projects</h1>
+      }
+    >
       <Head title="Projects" />
 
       {projects.length === 0 ? (

@@ -1,8 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import React from "react";
+import React, { ReactElement } from "react";
 import { PageProps } from "@/types";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import "@scss/pages/specification_document/index.scss";
 import { Project } from "@/types/Project";
 import { Flash } from "@/types/Flash";
 
@@ -11,7 +10,7 @@ type Props = PageProps & {
   flash: Flash;
 };
 
-const Index: React.FC<Props> = ({ auth, project }) => {
+const Index = ({ auth, project }: Props): ReactElement => {
   const { data, setData, post, processing, errors } = useForm({
     title: "",
     summary: "",
@@ -19,7 +18,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
 
   const { flash } = usePage<Props>().props;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     post(route("specDocs.store", { projectId: project.id }));
   };
@@ -28,22 +27,25 @@ const Index: React.FC<Props> = ({ auth, project }) => {
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        <h1 className="text-xl text-center font-serif font-bold">
           Specification documents
-        </h2>
+        </h1>
       }
     >
       <Head title="Create specification document" />
 
-      <section className="spec-doc-form">
-        {flash.error && <p className="spec-doc-form__flash">{flash.error}</p>}
+      <section className="spec-doc-form my-2 mx-auto w-[95%] max-w-screen-lg">
+        {flash.error && (
+          <p className="font-bold text-center my-2">{flash.error}</p>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="title"
               className="block text-sm font-medium text-gray-700"
             >
-              Title
+              Title<span className="ml-1 align-middle text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -52,6 +54,7 @@ const Index: React.FC<Props> = ({ auth, project }) => {
               value={data.title}
               onChange={(e) => setData("title", e.target.value)}
               placeholder="EKI-xx"
+              required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             />
             {errors.title && (
