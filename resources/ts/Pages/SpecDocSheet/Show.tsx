@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PageProps } from "@/types";
@@ -7,10 +7,10 @@ import { Head, Link } from "@inertiajs/react";
 import { SpecDocSheet } from "@/types/SpecDocSheet";
 import { SpecificationDocument } from "@/types/SpecificationDocument";
 import { SpecDocItem } from "@/types/SpecDocItem";
-import axios from "axios";
 import TesterPartial from "./Partials/TesterPartial";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import { Breadcrumb } from "@/types/Breadcrumb";
+import SheetPartial from "./Partials/SheetPartial";
 
 type Props = PageProps & {
   specDoc: SpecificationDocument;
@@ -18,10 +18,6 @@ type Props = PageProps & {
   specDocItems: SpecDocItem[];
   statuses: { [key: number]: string };
   breadcrumbs: Breadcrumb[];
-};
-
-type ToggleStatusResponse = {
-  newStatusId: number;
 };
 
 const Show = ({
@@ -32,33 +28,6 @@ const Show = ({
   statuses,
   breadcrumbs,
 }: Props): ReactElement => {
-  const [items, setItems] = useState<SpecDocItem[]>(specDocItems);
-  const [loading, setLoading] = useState<number | null>(null);
-
-  const toggleStatus = async (index: number, itemId: number): Promise<void> => {
-    setLoading(itemId);
-    try {
-      const response = await axios.patch<ToggleStatusResponse>(
-        route("specDocItems.update", {
-          projectId: specDoc.projectId,
-          specDocId: specDoc.id,
-          specDocSheetId: specDocSheet.id,
-          specDocItemId: itemId,
-        }),
-      );
-
-      const updatedItems = [...items];
-      updatedItems[index].statusId = response.data.newStatusId;
-      setItems(updatedItems);
-    } catch (error) {
-      console.error("Failed to toggle status: ", error);
-    } finally {
-      setLoading(null);
-    }
-  };
-
-  // FIXME:現状一つのitemが更新される度に再レンダリングされるためmemo化
-
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -111,57 +80,12 @@ const Show = ({
         />
       </section>
 
-      <table className="border-black border-2 w-fit max-w-screen-xl overflow-scroll mx-auto">
-        <thead className="bg-gray-400">
-          <tr>
-            <th className="w-10 text-center border-black border">No.</th>
-            <th className="w-80 text-center border-black border">
-              Target area
-            </th>
-            <th className="w-80 text-center border-black border">
-              Check detail
-            </th>
-            <th className="w-48 text-center border-black border">Remark</th>
-            <th className="w-32 text-center border-black border">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item, index) => (
-            <tr key={index}>
-              <td className="border-black border text-center font-bold font-serif">
-                {index + 1}
-              </td>
-              <td className="border-black border p-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
-                  {item.targetArea}
-                </ReactMarkdown>
-              </td>
-              <td className="border-black border p-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
-                  {item.checkDetail}
-                </ReactMarkdown>
-              </td>
-              <td className="border-black border p-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
-                  {item.remark}
-                </ReactMarkdown>
-              </td>
-              <td className="border-black border">
-                <button
-                  type="button"
-                  onClick={() => toggleStatus(index, item.id)}
-                  disabled={loading === item.id}
-                  className="bg-blue-600 text-white p-1 mx-auto block rounded-md hover:opacity-50"
-                >
-                  {loading === item.id
-                    ? "Updating..."
-                    : statuses[item.statusId]}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <SheetPartial
+        specDocItems={specDocItems}
+        specDoc={specDoc}
+        specDocSheet={specDocSheet}
+        statuses={statuses}
+      />
     </AuthenticatedLayout>
   );
 };
