@@ -21,7 +21,6 @@ reviews:
       instructions: |
         "Use 2 spaces for indentation.
         Ensure compliance with the Google JavaScript Style Guide and highlight any deviations.
-        Follow React best practices when writing code.
         Use camelCase for property names and apply PropTypes where necessary.
         Use 'let' or 'const' instead of 'var'. Highlight any usage of 'var'.
     - path: "**/*.tsx"
@@ -30,7 +29,7 @@ reviews:
         Ensure that test descriptions are detailed enough to clarify the purpose of each test.
         Use appropriate assertions and matchers.
         Follow the official React guidelines for hook usage.
-        Avoid inline styles.
+        Avoid inline styles and use Tailwind CSS utility classes instead.
         Implement performance optimizations such as memoization and render optimization where appropriate.
         Use React.memo() for functional components and PureComponent for class components to prevent unnecessary re-renders.
         Implement code splitting and lazy loading for better performance.
