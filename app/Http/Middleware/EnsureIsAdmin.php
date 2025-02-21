@@ -26,9 +26,18 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !isset(auth()->user()->id) || !$this->userFindAction->isAdmin(auth()->user()->id)) {
-            abort(404, 'Invalid user');
+        if (!auth()->check()) {
+            abort(401, '認証が必要です');
         }
+
+        if (!isset(auth()->user()->id)) {
+            abort(500, 'ユーザーIDが見つかりません');
+        }
+
+        if (!$this->userFindAction->isAdmin(auth()->user()->id)) {
+            abort(403, '管理者権限が必要です');
+        }
+
 
         return $next($request);
     }

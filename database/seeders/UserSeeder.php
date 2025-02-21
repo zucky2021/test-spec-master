@@ -20,18 +20,18 @@ class UserSeeder extends Seeder
     {
         $values = [
             [
-                'departmentId' => 1,
-                'name'         => 'Admin',
-                'email'        => 'admin@example.com',
-                'password'     => Hash::make('password'),
-                'isAdmin'      => true,
+                'department_id' => 1,
+                'name'          => 'Admin',
+                'email'         => 'admin@example.com',
+                'password'      => Hash::make('password'),
+                'is_admin'      => true,
             ],
             [
-                'departmentId' => 1,
-                'name'         => 'h.suzuki',
-                'email'        => 'h.suzuki@example.com',
-                'password'     => Hash::make('password'),
-                'isAdmin'      => false,
+                'department_id' => 1,
+                'name'          => 'h.suzuki',
+                'email'         => 'h.suzuki@example.com',
+                'password'      => Hash::make('password'),
+                'is_admin'      => false,
             ],
         ];
 
@@ -39,11 +39,11 @@ class UserSeeder extends Seeder
         foreach ($values as $val) {
             $dto = new UserDto(
                 id: null,
-                departmentId: $val['departmentId'],
+                departmentId: $val['department_id'],
                 name: $val['name'],
                 email: $val['email'],
                 password: $val['password'],
-                isAdmin: $val['isAdmin'],
+                isAdmin: $val['is_admin'],
             );
             $entity       = UserFactory::create($dto);
             $insertData[] = [

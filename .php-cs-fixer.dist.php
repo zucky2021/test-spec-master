@@ -15,6 +15,7 @@ $config = new PhpCsFixer\Config();
 
 return $config
     ->setRiskyAllowed(true)
+    ->setCacheFile(__DIR__ . '/.php-cs-fixer.cache')
     ->setRules([
         '@PSR12' => true,
 
@@ -44,5 +45,18 @@ return $config
         'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'parameters']],
         'trim_array_spaces' => true,
         'unary_operator_spaces' => true,
+        'ordered_class_elements' => [
+            'order' => [
+                'use_trait',
+                'constant_public',
+                'constant_protected',
+                'constant_private',
+                'property_public',
+                'property_protected',
+                'property_private',
+                'construct',
+                'destruct',
+            ],
+        ],
     ])
     ->setFinder($finder);
