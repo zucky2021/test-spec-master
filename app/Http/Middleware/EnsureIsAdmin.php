@@ -26,7 +26,7 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !$this->userFindAction->isAdmin(auth()?->user()->id)) {
+        if (!auth()->check() || !isset(auth()->user()->id) || !$this->userFindAction->isAdmin(auth()->user()->id)) {
             abort(404, 'Invalid user');
         }
 
