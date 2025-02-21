@@ -20,10 +20,18 @@ class UserSeeder extends Seeder
     {
         $values = [
             [
-                'department_id' => 5,
+                'department_id' => 1,
+                'name'          => 'Admin',
+                'email'         => 'admin@example.com',
+                'password'      => Hash::make('password'),
+                'is_admin'      => true,
+            ],
+            [
+                'department_id' => 1,
                 'name'          => 'h.suzuki',
                 'email'         => 'h.suzuki@example.com',
                 'password'      => Hash::make('password'),
+                'is_admin'      => false,
             ],
         ];
 
@@ -35,6 +43,7 @@ class UserSeeder extends Seeder
                 name: $val['name'],
                 email: $val['email'],
                 password: $val['password'],
+                isAdmin: $val['is_admin'],
             );
             $entity       = UserFactory::create($dto);
             $insertData[] = [

@@ -10,24 +10,20 @@ use App\Domain\User\ValueObject\Name;
  */
 final class UserEntity
 {
-    private ?int $id;
-    private ?int $departmentId;
-    private Name $name;
-    private Email $email;
-    private string $password;
-
     public function __construct(
-        ?int $id,
-        ?int $departmentId,
-        Name $name,
-        Email $email,
-        string $password,
+        private ?int $id,
+        private ?int $departmentId,
+        private Name $name,
+        private Email $email,
+        private string $password,
+        private bool $isAdmin,
     ) {
         $this->id           = $id;
         $this->departmentId = $departmentId;
         $this->name         = $name;
         $this->email        = $email;
         $this->password     = $password;
+        $this->isAdmin      = $isAdmin;
     }
 
     public function getId(): ?int
@@ -53,5 +49,10 @@ final class UserEntity
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function getIsAdmin(): bool
+    {
+        return $this->isAdmin;
     }
 }

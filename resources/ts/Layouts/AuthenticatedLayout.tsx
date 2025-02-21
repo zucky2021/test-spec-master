@@ -40,6 +40,15 @@ export default function Authenticated({
                 >
                   Projects
                 </NavLink>
+
+                {user.is_admin && (
+                  <NavLink
+                    href={route("admin.dashboard")}
+                    active={route().current("admin.dashboard")}
+                  >
+                    Admin
+                  </NavLink>
+                )}
               </div>
             </div>
 

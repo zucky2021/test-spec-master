@@ -13,11 +13,13 @@ final class UserDto
         public string $name,
         public string $email,
         public string $password,
+        public bool $isAdmin,
     ) {
         $this->id           = $id;
         $this->departmentId = $departmentId;
         $this->name         = $name;
         $this->email        = $email;
         $this->password     = $password;
+        $this->isAdmin      = $isAdmin;
     }
 }
