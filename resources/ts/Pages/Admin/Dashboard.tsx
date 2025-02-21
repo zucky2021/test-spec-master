@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { ReactElement } from "react";
 
@@ -39,6 +39,27 @@ const Dashboard = ({
           </div>
         </div>
       </div>
+
+      <nav className="p-2 shadow-md mb-10 rounded-md w-fit mx-auto">
+        <ul className="flex items-center">
+          <li>
+            <Link
+              href={route("admin.users")}
+              className="p-2 m-2 shadow-md rounded-sm font-serif text-lg block hover:opacity-50"
+            >
+              Edit users
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={route("admin.projects")}
+              className="p-2 m-2 shadow-md rounded-sm font-serif text-lg block hover:opacity-50"
+            >
+              Edit projects
+            </Link>
+          </li>
+        </ul>
+      </nav>
 
       <div className="mx-auto w-[95%] max-w-screen-lg grid gap-6 lg:grid-cols-2 lg:gap-8">
         <a
