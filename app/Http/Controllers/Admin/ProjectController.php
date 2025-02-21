@@ -18,6 +18,6 @@ class ProjectController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('');
+        return Inertia::render('Admin/Project/Index');
     }
 }

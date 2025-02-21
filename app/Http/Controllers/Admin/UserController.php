@@ -15,6 +15,6 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('');
+        return Inertia::render('Admin/User/Index');
     }
 }
