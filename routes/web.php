@@ -76,14 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
-
-    // 管理者関連
-    // Route::prefix('admin')->group(function () {
-    //     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
-    //     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    //     Route::get('/projects/edit', [AdminController::class, 'editProjects'])->name('admin.projects.edit');
-    //     Route::get('/exec-env/edit', [AdminController::class, 'editExecEnv'])->name('admin.execEnv.edit');
-    // });
 });
 
+require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';

@@ -18,6 +18,7 @@ final class UserFactory
             new Name($dto->name),
             new Email($dto->email),
             $dto->password,
+            $dto->isAdmin,
         );
     }
 }
