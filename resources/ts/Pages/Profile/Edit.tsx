@@ -21,9 +21,9 @@ export default function Edit({
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        <h1 className="font-semibold text-xl text-gray-800 leading-tight text-center">
           Profile
-        </h2>
+        </h1>
       }
     >
       <Head title="Profile" />
