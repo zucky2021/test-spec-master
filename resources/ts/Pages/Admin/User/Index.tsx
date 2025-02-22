@@ -14,7 +14,7 @@ const Index = ({ auth }: PageProps): ReactElement => {
     >
       <Head title="Users" />
 
-      <UsersPartial />
+      <UsersPartial loginUserId={auth.user.id} />
     </AuthenticatedLayout>
   );
 };
