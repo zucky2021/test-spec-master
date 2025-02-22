@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 import { ReactElement } from "react";
+import UsersPartial from "./Partial/UsersPartial";
 
 const Index = ({ auth }: PageProps): ReactElement => {
   return (
@@ -12,6 +13,8 @@ const Index = ({ auth }: PageProps): ReactElement => {
       }
     >
       <Head title="Users" />
+
+      <UsersPartial />
     </AuthenticatedLayout>
   );
 };

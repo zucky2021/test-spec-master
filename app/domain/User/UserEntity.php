@@ -55,4 +55,20 @@ final class UserEntity
     {
         return $this->isAdmin;
     }
+
+    /**
+     * プリミティブ型の配列に変換
+     *
+     * @return array<string, int|null|string|bool>
+     */
+    public function toArray(): array
+    {
+        return [
+            'id'           => $this->id,
+            'departmentId' => $this->departmentId,
+            'name'         => $this->name->value(),
+            'email'        => $this->email->value(),
+            'isAdmin'      => $this->isAdmin,
+        ];
+    }
 }
