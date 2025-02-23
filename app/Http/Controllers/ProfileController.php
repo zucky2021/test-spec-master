@@ -23,7 +23,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status'          => session('status'),
-            'departments'     => $$departmentFindAction->findAll(),
+            'departments'     => $departmentFindAction->findAll(),
         ]);
     }
 
