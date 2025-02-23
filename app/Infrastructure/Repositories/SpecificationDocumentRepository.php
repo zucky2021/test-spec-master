@@ -18,7 +18,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
     public function findById(int $id): SpecificationDocumentDto
     {
         /** @var stdClass */
-        $model = DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME . ' as sd')
+        $model = DB::table(self::TABLE_NAME . ' as sd')
             ->leftJoin(UserRepositoryInterface::TABLE_NAME . ' as u', 'sd.user_id', '=', 'u.id')
             ->where('sd.id', $id)
             ->select('sd.*', 'u.name as user_name')
@@ -37,7 +37,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
     public function findAllByProjectId(int $projectId): array
     {
         /** @var SpecificationDocumentDto[] */
-        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->where('project_id', $projectId)
             ->whereNull('deleted_at')
             ->get()
@@ -58,7 +58,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
 
     public function exists(int $specDocId): bool
     {
-        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->where('id', $specDocId)
             ->exists();
     }
@@ -69,7 +69,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
 
         $now = (new DateTimeImmutable())->format('Y-m-d H:i:s');
 
-        return DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        return DB::table(self::TABLE_NAME)
             ->insertGetId([
                 'project_id' => $entity->getProjectId(),
                 'user_id'    => $entity->getUserId(),
@@ -84,7 +84,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
     {
         $entity = SpecificationDocumentFactory::create($dto);
 
-        DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        DB::table(self::TABLE_NAME)
             ->where('id', $entity->getId())
             ->update([
                 'title'      => $entity->getTitle()->value(),
@@ -95,7 +95,7 @@ final class SpecificationDocumentRepository implements SpecificationDocumentRepo
 
     public function delete(int $id): void
     {
-        DB::table(SpecificationDocumentRepositoryInterface::TABLE_NAME)
+        DB::table(self::TABLE_NAME)
             ->where('id', $id)
             ->update([
                 'deleted_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
