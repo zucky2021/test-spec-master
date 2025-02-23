@@ -1,13 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Project } from "@/types/Project";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { ReactElement, useEffect, useState } from "react";
 import Create from "./Partial/Create";
 import Modal from "@/Components/Modal";
 import { Department } from "@/types/Department";
 import { Flash } from "@/types/Flash";
 import SlideAlert from "@/Components/SlideAlert";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import Edit from "./Partial/Edit";
 
 type Props = PageProps & {
   projects: Project[];
@@ -16,8 +19,10 @@ type Props = PageProps & {
 };
 
 const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
-  const [showCreateModel, setShowCreateModel] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [isShowAlert, setIsShowAlert] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProject, setEditProject] = useState<Project | null>(null);
 
   useEffect(() => {
     const handleIsShowAlert = () => {
@@ -33,6 +38,24 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
       handleIsShowAlert();
     }
   }, []);
+
+  const handleEdit = (project: Project): void => {
+    setEditProject(project);
+    setShowEditModal(true);
+  };
+
+  const { delete: destroy, processing } = useForm();
+  const handleDelete = (id: number): void => {
+    if (!confirm("本当に削除しますか？")) return;
+
+    console.log(id);
+
+    destroy(
+      route("admin.projects.destroy", {
+        projectId: id,
+      }),
+    );
+  };
 
   return (
     <AuthenticatedLayout
@@ -57,7 +80,7 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
           Back
         </Link>
         <button
-          onClick={() => setShowCreateModel(true)}
+          onClick={() => setShowCreateModal(true)}
           className="p-2 w-24 bg-green-500 text-white text-center text-lg rounded-3xl hover:opacity-50"
         >
           Create
@@ -69,24 +92,65 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
           {projects?.map((project) => (
             <li
               key={project.id}
-              className="shadow-sm rounded-sm my-2 p-2 font-bold"
+              className="shadow-sm rounded-sm my-2 p-2 font-bold flex justify-between"
             >
-              <Link
-                href={route("admin.projects.edit", { projectId: project.id })}
-              >
-                {project.name}
-              </Link>
+              <details>
+                <summary className="cursor-pointer hover:opacity-50">
+                  {project.name}
+                </summary>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  className="markdown"
+                  components={{
+                    a: ({ href, children }) => (
+                      <a href={href} target="_blank">
+                        {children}
+                      </a>
+                    ),
+                  }}
+                >
+                  {project.summary}
+                </ReactMarkdown>
+              </details>
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    handleEdit(project);
+                  }}
+                  className="bg-blue-500 text-white p-1 min-w-14 h-fit block rounded-sm hover:opacity-50"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    handleDelete(project.id);
+                  }}
+                  className={`bg-red-500 text-white ml-2 p-1 min-w-14 h-fit block rounded-sm hover:opacity-50 ${processing ? "pointer-events-none" : ""}`}
+                >
+                  {processing ? "Processing" : "Delete"}
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <Modal show={showCreateModel} onClose={() => setShowCreateModel(false)}>
+      <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)}>
         <Create
           departments={departments}
-          onClose={() => setShowCreateModel(false)}
+          onClose={() => setShowCreateModal(false)}
         />
       </Modal>
+
+      {editProject && (
+        <Modal show={showEditModal} onClose={() => setShowEditModal(false)}>
+          <Edit
+            departments={departments}
+            onClose={() => setShowEditModal(false)}
+            project={editProject}
+          />
+        </Modal>
+      )}
     </AuthenticatedLayout>
   );
 };

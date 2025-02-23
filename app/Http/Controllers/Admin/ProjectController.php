@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProjectStoreRequest;
 use App\Http\Requests\Admin\ProjectUpdateRequest;
 use App\UseCases\Department\DepartmentFindAction;
+use App\UseCases\Project\ProjectDeleteAction;
 use App\UseCases\Project\ProjectFindAction;
 use App\UseCases\Project\ProjectStoreAction;
 use App\UseCases\Project\ProjectUpdateAction;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -92,5 +94,23 @@ class ProjectController extends Controller
         }
 
         return redirect()->back()->with('success', 'Updated project');
+    }
+
+    public function destroy(
+        Request $request,
+        ProjectDeleteAction $projectDeleteAction,
+    ): RedirectResponse {
+        /** @var int */
+        $projectId = $request->input('projectId');
+
+        try {
+            $projectDeleteAction->delete($projectId);
+        } catch (Exception $e) {
+            Log::error('Failed to create project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+
+            return redirect()->back()->with('error', 'Failed to delete project');
+        }
+
+        return redirect()->back()->with('success', 'Delete project');
     }
 }

@@ -86,4 +86,15 @@ final class ProjectRepository implements ProjectRepositoryInterface
                 'updated_at'    => $now,
             ]);
     }
+
+    public function delete(int $id): void
+    {
+        $now = (new DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        DB::table(self::TABLE_NAME)
+            ->where('id', $id)
+            ->update([
+                'deleted_at' => $now,
+            ]);
+    }
 }

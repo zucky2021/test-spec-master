@@ -41,4 +41,12 @@ interface ProjectRepositoryInterface
      * @return void
      */
     public function update(ProjectDto $dto): void;
+
+    /**
+     * 論理削除
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function delete(int $id): void;
 }
