@@ -25,4 +25,12 @@ interface ProjectRepositoryInterface
      * @return bool
      */
     public function exists(int $projectId): bool;
+
+    /**
+     * 新規作成
+     *
+     * @param ProjectDto $dto
+     * @return integer insert PK
+     */
+    public function store(ProjectDto $dto): int;
 }

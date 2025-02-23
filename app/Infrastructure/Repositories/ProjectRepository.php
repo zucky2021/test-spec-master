@@ -3,7 +3,9 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\Project\ProjectDto;
+use App\Domain\Project\ProjectFactory;
 use App\Domain\Project\ProjectRepositoryInterface;
+use DateTimeImmutable;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
@@ -53,5 +55,20 @@ final class ProjectRepository implements ProjectRepositoryInterface
         return DB::table(self::TABLE_NAME)
             ->where('id', $projectId)
             ->exists();
+    }
+
+    public function store(ProjectDto $dto): int
+    {
+        $entity = ProjectFactory::create($dto);
+        $now    = (new DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        return DB::table(self::TABLE_NAME)
+            ->insertGetId([
+                'department_id' => $entity->getDepartmentId(),
+                'name'          => $entity->getName()->value(),
+                'summary'       => $entity->getSummary()->value(),
+                'created_at'    => $now,
+                'updated_at'    => $now,
+            ]);
     }
 }
