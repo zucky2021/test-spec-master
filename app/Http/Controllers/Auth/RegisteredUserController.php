@@ -24,13 +24,8 @@ class RegisteredUserController extends Controller
      */
     public function create(DepartmentFindAction $departmentFindAction): Response
     {
-        $departmentsEntities = $departmentFindAction->findAll();
-        $departments         = array_map(function ($department) {
-            return $department->toArray();
-        }, $departmentsEntities);
-
         return Inertia::render('Auth/Register', [
-            'departments' => $departments,
+            'departments' => $departmentFindAction->findAll(),
         ]);
     }
 
