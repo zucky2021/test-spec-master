@@ -12,7 +12,7 @@ interface DepartmentRepositoryInterface
     /**
      * 全ての部署を取得
      *
-     * @return DepartmentEntity[]
+     * @return DepartmentDto[]
      */
     public function findAll(): array;
 }
