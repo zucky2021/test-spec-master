@@ -71,4 +71,19 @@ final class ProjectRepository implements ProjectRepositoryInterface
                 'updated_at'    => $now,
             ]);
     }
+
+    public function update(ProjectDto $dto): void
+    {
+        $entity = ProjectFactory::create($dto);
+        $now    = (new DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        DB::table(self::TABLE_NAME)
+            ->where('id', $entity->getId())
+            ->update([
+                'department_id' => $entity->getDepartmentId(),
+                'name'          => $entity->getName()->value(),
+                'summary'       => $entity->getSummary()->value(),
+                'updated_at'    => $now,
+            ]);
+    }
 }

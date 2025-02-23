@@ -6,7 +6,7 @@ use App\Domain\Project\ValueObject\Name;
 use App\Domain\Project\ValueObject\Summary;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProjectStoreRequest extends FormRequest
+class ProjectUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,7 @@ class ProjectStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id'           => 'required|integer',
             'departmentId' => 'required|integer',
             'name'         => 'required|string|max:' . Name::MAX_LEN,
             'summary'      => 'required|string|max:' . Summary::MAX_LEN,

@@ -33,4 +33,12 @@ interface ProjectRepositoryInterface
      * @return integer insert PK
      */
     public function store(ProjectDto $dto): int;
+
+    /**
+     * 更新
+     *
+     * @param ProjectDto $dto
+     * @return void
+     */
+    public function update(ProjectDto $dto): void;
 }

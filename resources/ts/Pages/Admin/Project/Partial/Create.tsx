@@ -25,8 +25,6 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
     summary: "",
   });
 
-  console.log(data);
-
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     post(route("admin.projects.store", data), {
