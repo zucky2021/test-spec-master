@@ -43,13 +43,10 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
     );
   };
 
-  console.log(project);
-  console.log(data);
-
   return (
     <section className="p02">
       <h3 className="font-serif font-bold text-center text-3xl my-4">
-        Create project
+        Edit project
       </h3>
       <form onSubmit={handleSubmit}>
         <fieldset className="mb-4 text-center">
@@ -60,9 +57,11 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
             id="department"
             name="departmentId"
             required
+            aria-required="true"
             value={data.departmentId}
             className="text-center w-fit rounded-sm font-serif"
             onChange={(e) => setData("departmentId", Number(e.target.value))}
+            aria-invalid={errors.departmentId ? "true" : "false"}
           >
             <option value="">選択してください</option>
             {departments?.map((department) => (
@@ -83,10 +82,12 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
             id="name"
             name="name"
             required
+            aria-required="true"
             placeholder="ProjectQ"
             className="w-72 rounded-sm"
             value={data.name}
             onChange={(e) => setData("name", e.target.value)}
+            aria-invalid={errors.name ? "true" : "false"}
           />
           <InputError message={errors.name} />
         </fieldset>
@@ -99,11 +100,13 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
             id="summary"
             name="summary"
             required
+            aria-required="true"
             rows={5}
             placeholder="[React](https://ja.react.dev/)"
             className="rounded-sm w-[90%]"
             value={data.summary}
             onChange={(e) => setData("summary", e.target.value)}
+            aria-invalid={errors.summary ? "true" : "false"}
           />
           <InputError message={errors.summary} />
         </fieldset>
@@ -111,8 +114,17 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
         <button
           type="submit"
           className="bg-black text-white font-bold font-serif text-xl py-2 px-4 rounded-sm my-4 mx-auto block cursor-pointer hover:opacity-50"
+          disabled={processing}
+          aria-disabled={processing}
         >
-          {processing ? "Processing" : "Update"}
+          {processing ? (
+            <>
+              <span className="inline-block animate-spin mr-2">↻</span>
+              Processing
+            </>
+          ) : (
+            "Update"
+          )}
         </button>
       </form>
     </section>

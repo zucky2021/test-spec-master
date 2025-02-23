@@ -48,10 +48,12 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
             id="department"
             name="departmentId"
             required
+            aria-required="true"
+            aria-invalid={errors.departmentId ? "true" : "false"}
             className="text-center w-fit rounded-sm font-serif"
             onChange={(e) => setData("departmentId", Number(e.target.value))}
           >
-            <option value="">選択してください</option>
+            <option value="">Please select</option>
             {departments?.map((department) => (
               <option key={department.id} value={department.id}>
                 {department.name}
@@ -70,9 +72,11 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
             id="name"
             name="name"
             required
+            aria-required="true"
             placeholder="ProjectQ"
             className="w-72 rounded-sm"
             onChange={(e) => setData("name", e.target.value)}
+            aria-invalid={errors.name ? "true" : "false"}
           />
           <InputError message={errors.name} />
         </fieldset>
@@ -85,10 +89,12 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
             id="summary"
             name="summary"
             required
+            aria-required="true"
             rows={5}
             placeholder="[React](https://ja.react.dev/)"
             className="rounded-sm w-[90%]"
             onChange={(e) => setData("summary", e.target.value)}
+            aria-invalid={errors.summary ? "true" : "false"}
           />
           <InputError message={errors.summary} />
         </fieldset>
@@ -96,8 +102,17 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
         <button
           type="submit"
           className="bg-black text-white font-bold font-serif text-xl py-2 px-4 rounded-sm my-4 mx-auto block cursor-pointer hover:opacity-50"
+          disabled={processing}
+          aria-disabled={processing}
         >
-          {processing ? "Processing" : "Save"}
+          {processing ? (
+            <>
+              <span className="inline-block animate-spin mr-2">↻</span>
+              Processing
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </form>
     </section>

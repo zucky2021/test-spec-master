@@ -125,9 +125,18 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
                   onClick={() => {
                     handleDelete(project.id);
                   }}
-                  className={`bg-red-500 text-white ml-2 p-1 min-w-14 h-fit block rounded-sm hover:opacity-50 ${processing ? "pointer-events-none" : ""}`}
+                  className={`bg-red-500 text-white ml-2 p-1 min-w-14 h-fit block rounded-sm hover:opacity-50 ${processing ? "opacity-50" : ""}`}
+                  disabled={processing}
+                  aria-busy={processing}
                 >
-                  {processing ? "Processing" : "Delete"}
+                  {processing ? (
+                    <>
+                      <span className="inline-block animate-spin mr-2">↻</span>
+                      Processing
+                    </>
+                  ) : (
+                    "Delete"
+                  )}
                 </button>
               </div>
             </li>

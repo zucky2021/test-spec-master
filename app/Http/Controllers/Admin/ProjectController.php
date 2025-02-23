@@ -36,6 +36,13 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * 新規登録
+     *
+     * @param ProjectStoreRequest $request
+     * @param ProjectStoreAction $projectStoreAction
+     * @return RedirectResponse
+     */
     public function store(
         ProjectStoreRequest $request,
         ProjectStoreAction $projectStoreAction,
@@ -65,6 +72,13 @@ class ProjectController extends Controller
         return redirect()->back()->with('success', 'Created project');
     }
 
+    /**
+     * 更新
+     *
+     * @param ProjectUpdateRequest $request
+     * @param ProjectUpdateAction $projectUpdateAction
+     * @return RedirectResponse
+     */
     public function update(
         ProjectUpdateRequest $request,
         ProjectUpdateAction $projectUpdateAction,
@@ -88,7 +102,7 @@ class ProjectController extends Controller
         try {
             $projectUpdateAction->update($dto);
         } catch (Exception $e) {
-            Log::error('Failed to create project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+            Log::error('Failed to update project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
             return redirect()->back()->with('error', 'Failed to update project');
         }
@@ -96,6 +110,13 @@ class ProjectController extends Controller
         return redirect()->back()->with('success', 'Updated project');
     }
 
+    /**
+     * 削除
+     *
+     * @param Request $request
+     * @param ProjectDeleteAction $projectDeleteAction
+     * @return RedirectResponse
+     */
     public function destroy(
         Request $request,
         ProjectDeleteAction $projectDeleteAction,
@@ -106,7 +127,7 @@ class ProjectController extends Controller
         try {
             $projectDeleteAction->delete($projectId);
         } catch (Exception $e) {
-            Log::error('Failed to create project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+            Log::error('Failed to delete project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
             return redirect()->back()->with('error', 'Failed to delete project');
         }

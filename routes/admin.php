@@ -18,7 +18,6 @@ Route::prefix('admin')->middleware(['auth', 'verified', EnsureIsAdmin::class])->
 
     Route::prefix('projects')->name('.projects')->group(function () {
         Route::get('/', [ProjectController::class, 'index'])->name('');
-        Route::get('/create', [ProjectController::class, 'create'])->name('.create');
         Route::post('/', [ProjectController::class, 'store'])->name('.store');
         Route::middleware(ValidateProjectId::class)->group(function () {
             Route::patch('/update/{projectId}', [ProjectController::class, 'update'])->name('.update');
