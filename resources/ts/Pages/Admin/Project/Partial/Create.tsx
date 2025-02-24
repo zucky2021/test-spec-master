@@ -107,7 +107,12 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
         >
           {processing ? (
             <>
-              <span className="inline-block animate-spin mr-2">↻</span>
+              <span
+                className="inline-block animate-spin mr-2"
+                aria-label="読み込み中"
+              >
+                ↻
+              </span>
               Processing
             </>
           ) : (
