@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Domain\Department\DepartmentRepositoryInterface;
 use App\Domain\Project\ProjectRepositoryInterface;
 use App\Domain\Project\ValueObject\Name;
 use App\Domain\Project\ValueObject\Summary;
@@ -26,7 +27,7 @@ class ProjectUpdateRequest extends FormRequest
     {
         return [
             'id'           => 'required|integer|exists:' . ProjectRepositoryInterface::TABLE_NAME . ',id,deleted_at,NULL',
-            'departmentId' => 'required|integer',
+            'departmentId' => 'required|integer|exists:' . DepartmentRepositoryInterface::TABLE_NAME . ',id,deleted_at,NULL',
             'name'         => 'required|string|max:' . Name::MAX_LEN,
             'summary'      => 'required|string|max:' . Summary::MAX_LEN,
         ];

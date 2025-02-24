@@ -48,8 +48,6 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
   const handleDelete = (id: number): void => {
     if (!confirm("本当に削除しますか？")) return;
 
-    console.log(id);
-
     destroy(
       route("admin.projects.destroy", {
         projectId: id,
@@ -103,7 +101,7 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
                   className="markdown"
                   components={{
                     a: ({ href, children }) => (
-                      <a href={href} target="_blank">
+                      <a href={href} target="_blank" rel="noopener noreferrer">
                         {children}
                       </a>
                     ),
