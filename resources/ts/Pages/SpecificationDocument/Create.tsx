@@ -86,7 +86,7 @@ const Index = ({ auth, project }: Props): ReactElement => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded {processing ? 'Processing...' : 'Create'}`}
+              className={`bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded ${processing ? "opacity-50" : ""}`}
               disabled={processing}
             >
               {processing ? "Processing..." : "Create"}

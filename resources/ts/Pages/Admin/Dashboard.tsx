@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 type Props = PageProps & {
   phpVersion: string;
@@ -334,7 +334,10 @@ const Dashboard = ({
       </div>
 
       <footer className="py-16 text-center text-sm text-black dark:text-white/70">
-        Laravel v{laravelVersion} (PHP v{phpVersion})
+        <p>
+          Laravel v{laravelVersion} (PHP v{phpVersion})
+        </p>
+        <p>React version: v{React.version}</p>
       </footer>
     </AuthenticatedLayout>
   );

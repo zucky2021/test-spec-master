@@ -17,48 +17,18 @@ class ProjectSeeder extends Seeder
         $values = [
             [
                 'department_id' => 1,
-                'name'          => '風俗じゃぱん',
-                'summary'       => '集客',
+                'name'          => 'ProjectA',
+                'summary'       => '# 求人',
             ],
             [
                 'department_id' => 2,
-                'name'          => 'デリヘルじゃぱん',
-                'summary'       => '集客',
+                'name'          => 'ProjectB',
+                'summary'       => '# 集客',
             ],
             [
                 'department_id' => 3,
-                'name'          => 'バニラ',
-                'summary'       => '求人',
-            ],
-            [
-                'department_id' => 4,
-                'name'          => 'ショコラ',
-                'summary'       => '求人',
-            ],
-            [
-                'department_id' => 5,
-                'name'          => '駅ちか',
-                'summary'       => '集客',
-            ],
-            [
-                'department_id' => 5,
-                'name'          => 'ココア',
-                'summary'       => '求人',
-            ],
-            [
-                'department_id' => 5,
-                'name'          => 'リラクジョブ',
-                'summary'       => 'メンズエステ求人',
-            ],
-            [
-                'department_id' => 5,
-                'name'          => 'ホスト',
-                'summary'       => '求人',
-            ],
-            [
-                'department_id' => 6,
-                'name'          => 'FANNE',
-                'summary'       => 'SNS',
+                'name'          => 'ProjectC',
+                'summary'       => '# SNS',
             ],
         ];
 

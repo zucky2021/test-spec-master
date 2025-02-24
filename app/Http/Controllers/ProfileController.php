@@ -20,15 +20,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request, DepartmentFindAction $departmentFindAction): Response
     {
-        $departmentEntities = $departmentFindAction->findAll();
-        $departments        = array_map(function ($entity) {
-            return $entity->toArray();
-        }, $departmentEntities);
-
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status'          => session('status'),
-            'departments'     => $departments,
+            'departments'     => $departmentFindAction->findAll(),
         ]);
     }
 

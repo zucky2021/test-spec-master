@@ -2,7 +2,7 @@
 
 namespace App\UseCases\Department;
 
-use App\Domain\Department\DepartmentEntity;
+use App\Domain\Department\DepartmentDto;
 use App\Domain\Department\DepartmentRepositoryInterface;
 
 /**
@@ -20,7 +20,7 @@ final class DepartmentFindAction
     /**
      * 部署を全て取得
      *
-     * @return DepartmentEntity[]
+     * @return DepartmentDto[]
      */
     public function findAll(): array
     {
