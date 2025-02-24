@@ -37,7 +37,7 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
     if (flash.error) {
       handleIsShowAlert();
     }
-  }, []);
+  }, [flash.error]);
 
   const handleEdit = (project: Project): void => {
     setEditProject(project);
