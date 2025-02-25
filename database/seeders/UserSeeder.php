@@ -28,8 +28,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'department_id' => 1,
-                'name'          => 'h.suzuki',
-                'email'         => 'h.suzuki@example.com',
+                'name'          => 'Not admin',
+                'email'         => 'not.admin@example.com',
                 'password'      => Hash::make('password'),
                 'is_admin'      => false,
             ],
@@ -52,6 +52,7 @@ class UserSeeder extends Seeder
                 'name'          => $entity->getName()->value(),
                 'email'         => $entity->getEmail()->value(),
                 'password'      => $entity->getPassword(),
+                'is_admin'      => $entity->getIsAdmin(),
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ];
