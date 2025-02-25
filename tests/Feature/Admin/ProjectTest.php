@@ -10,6 +10,9 @@ use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * 管理者プロジェクト結合テスト
+ */
 class ProjectTest extends TestCase
 {
     use RefreshDatabase;
