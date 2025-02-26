@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run PHPUnit tests
-if ! vendor/bin/sail artisan phpunit; then
+if ! vendor/bin/sail artisan test; then
     echo "PHPUnit tests failed. Push aborted."
     exit 1
 fi
