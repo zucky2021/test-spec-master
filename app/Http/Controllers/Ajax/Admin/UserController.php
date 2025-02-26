@@ -31,9 +31,9 @@ final class UserController extends Controller
     public function update(Request $request, UserUpdateAction $userUpdateAction): JsonResponse
     {
         /** @var int */
-        $userId = $request->input('user_id');
+        $userId = $request->input('userId');
         /** @var bool */
-        $newIsAdmin = $request->input('is_admin');
+        $newIsAdmin = $request->input('isAdmin');
 
         try {
             $userUpdateAction->updateIsAdmin($userId, $newIsAdmin);
