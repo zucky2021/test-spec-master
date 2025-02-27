@@ -9,6 +9,4 @@ fi
 # If we get here, tests passed
 echo "PHPUnit tests passed. Proceeding with the push."
 
-# FIXME:Add E2E test(既に導入済みのselenium?)
-
 exit 0

@@ -104,7 +104,7 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             Log::error('Failed to update project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
-            return back()->withErrors(['error', 'Failed to update project']);
+            return back()->withErrors(['error' => 'Failed to update project']);
         }
 
         return redirect()->back()->with('success', 'Updated project');
@@ -129,7 +129,7 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             Log::error('Failed to delete project: ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
 
-            return back()->withErrors(['error', 'Failed to delete project']);
+            return back()->withErrors(['error' => 'Failed to delete project']);
         }
 
         return redirect()->back()->with('success', 'Delete project');

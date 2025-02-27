@@ -52,6 +52,11 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
       route("admin.projects.destroy", {
         projectId: id,
       }),
+      {
+        onError: (error) => {
+          console.error(error);
+        },
+      },
     );
   };
 
