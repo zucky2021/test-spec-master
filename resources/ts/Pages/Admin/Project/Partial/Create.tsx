@@ -31,6 +31,9 @@ const Create = ({ departments, onClose }: Props): ReactElement => {
       onSuccess: () => {
         onClose();
       },
+      onError: (errors) => {
+        console.error(errors);
+      },
     });
   };
 

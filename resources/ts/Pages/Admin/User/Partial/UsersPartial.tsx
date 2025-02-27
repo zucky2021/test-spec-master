@@ -1,4 +1,4 @@
-import { User } from "@/types/user";
+import { User } from "@/types/User";
 import axios from "axios";
 import { ReactElement, useCallback, useEffect, useState } from "react";
 
@@ -39,9 +39,12 @@ const UsersPartial = ({ loginUserId }: Props): ReactElement => {
   const toggleAdmin = useCallback(
     async (id: number, isAdmin: boolean): Promise<void> => {
       try {
-        await axios.patch(route("admin.users.update.ajax", { user_id: id }), {
-          is_admin: !isAdmin,
-        });
+        await axios.patch(
+          route("admin.users.update.ajax", {
+            userId: id,
+            isAdmin: !isAdmin,
+          }),
+        );
 
         setUsers(
           users.map((user) =>

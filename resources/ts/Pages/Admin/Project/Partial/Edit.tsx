@@ -39,6 +39,9 @@ const Edit = ({ departments, onClose, project }: Props): ReactElement => {
         onSuccess: () => {
           onClose();
         },
+        onError: (errors) => {
+          console.error(errors);
+        },
       },
     );
   };

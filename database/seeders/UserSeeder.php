@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
     {
         $values = [
             [
+                'id'            => 1,
                 'department_id' => 1,
                 'name'          => 'Admin',
                 'email'         => 'admin@example.com',
@@ -27,9 +28,10 @@ class UserSeeder extends Seeder
                 'is_admin'      => true,
             ],
             [
+                'id'            => 2,
                 'department_id' => 1,
-                'name'          => 'h.suzuki',
-                'email'         => 'h.suzuki@example.com',
+                'name'          => 'Not admin',
+                'email'         => 'not.admin@example.com',
                 'password'      => Hash::make('password'),
                 'is_admin'      => false,
             ],
@@ -38,7 +40,7 @@ class UserSeeder extends Seeder
         $insertData = [];
         foreach ($values as $val) {
             $dto = new UserDto(
-                id: null,
+                id: $val['id'],
                 departmentId: $val['department_id'],
                 name: $val['name'],
                 email: $val['email'],
@@ -52,6 +54,7 @@ class UserSeeder extends Seeder
                 'name'          => $entity->getName()->value(),
                 'email'         => $entity->getEmail()->value(),
                 'password'      => $entity->getPassword(),
+                'is_admin'      => $entity->getIsAdmin(),
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ];

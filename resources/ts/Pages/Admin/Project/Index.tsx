@@ -34,10 +34,10 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
       return (): void => clearTimeout(timer);
     };
 
-    if (flash.error) {
+    if (flash.success) {
       handleIsShowAlert();
     }
-  }, [flash.error]);
+  }, [flash.success]);
 
   const handleEdit = (project: Project): void => {
     setEditProject(project);
@@ -52,6 +52,11 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
       route("admin.projects.destroy", {
         projectId: id,
       }),
+      {
+        onError: (error) => {
+          console.error(error);
+        },
+      },
     );
   };
 
@@ -67,7 +72,7 @@ const Index = ({ auth, projects, departments, flash }: Props): ReactElement => {
       <Head title="Admin projects" />
 
       <SlideAlert isShow={isShowAlert}>
-        <p className="text-red-500">{flash.error}</p>
+        <p className="text-green-500">{flash.success}</p>
       </SlideAlert>
 
       <div className="flex items-center justify-between w-[95%] max-w-lg mx-auto mb-4">
